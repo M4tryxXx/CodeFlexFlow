@@ -1,0 +1,91 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADDOW_DATABASE_URL")
+}
+
+model Qualification {
+  id            String   @id @default(cuid())
+  userId        String
+  name          String
+  qualification String
+  city          String?
+  description   String?
+  from          String?
+  to            String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @default(now())
+  image         String?
+  User          User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Qualification_userId_fkey")
+}
+
+model Experience {
+  id           String    @id @default(cuid())
+  userId       String
+  experience   String
+  company      String
+  from         String
+  to           String?
+  description  String?
+  stillWorking String    @default("false")
+  image        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime? @default(now())
+  User         User      @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Experience_userId_fkey")
+}
+
+model Invites {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  userId    String
+  invite    String   @unique
+  User      User     @relation(fields: [userId], references: [id])
+
+  @@index([userId], map: "Invites_userId_fkey")
+}
+
+model User {
+  id                 String          @id @default(cuid())
+  email              String          @unique
+  firstName          String?
+  lastName           String?
+  username           String          @unique
+  password           String
+  role               String          @default("user")
+  resetToken         String?         @unique
+  resetTokenExpiry   DateTime?
+  verified           Boolean         @default(false)
+  verifiedAt         Int?
+  verifiyToken       String?         @unique
+  verifiyTokenExpiry Int?
+  mobile             String?
+  avatar             String?
+  address            String?
+  city               String?
+  state              String?
+  country            String?
+  zip                String?
+  address2           String?
+  bio                String?
+  website            String?
+  linkedin           String?
+  twitter            String?
+  facebook           String?
+  instagram          String?
+  github             String?
+  dateOfBirth        String?
+  createdAt          DateTime?       @default(now())
+  updatedAt          DateTime?       @default(now())
+  lastLogin          DateTime?
+  Experience         Experience[]
+  Invites            Invites[]
+  Qualifications     Qualification[]
+}
