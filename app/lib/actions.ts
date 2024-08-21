@@ -16,9 +16,12 @@ import {
   updateExperience,
   deleteQualificationById,
   deleteExperienceById,
+  getQualificationById,
+  getExperienceById,
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
+import { user } from "@nextui-org/react";
 
 export const redirectUser = async () => {
   return redirect("/home");
@@ -66,7 +69,7 @@ export async function registerUser(data: object | any) {
   data.password = hashedPassword;
 
   const response = await registerUserDb(data);
-  console.log(response);
+  //console.log(response);
   if (response) {
     await sendWelcomeEmail(email, username);
     revalidatePath("/home/admin/users");
@@ -108,7 +111,7 @@ export const updateUserPassword = async (data: any) => {
   const { password } = data;
   const hashedPassword = await bcrypt.hash(data.password, 10);
   data.password = hashedPassword;
-  data.resetToken= cuid2();
+  data.resetToken = cuid2();
   const response = await updateUser(data);
   if (response) {
     redirect("/login");
@@ -190,4 +193,23 @@ export const sendPasswordChangeLink = async (email: string) => {
   }
   await sendResetPasswordEmail(email, token, user.username);
   redirect("/login");
+};
+
+export const userData = async () => {
+  const currentSession = await auth();
+  let userEmail: any;
+  if (currentSession && currentSession.user) {
+    userEmail = currentSession.user.email;
+  }
+  const currentUser = await findUserByEmail(userEmail);
+  if (!currentUser) {
+    throw new Error("User not found");
+  }
+  const userExperience = await getExperienceById(currentUser.id);
+  const userQualification = await getQualificationById(currentUser.id);
+  return {
+    user: currentUser,
+    experience: userExperience,
+    qualifications: userQualification,
+  };
 };

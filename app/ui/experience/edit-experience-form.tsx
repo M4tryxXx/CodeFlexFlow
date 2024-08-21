@@ -17,7 +17,7 @@ import { editQualification } from "@/app/lib/actions";
 export default function EditExperienceForm({ id }: any) {
   const { exprienceId } = id;
   const [company, setCompany] = useState("");
-  const [experience, setExperience] = useState("");
+  const [title, setTitle] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [description, setDescription] = useState("");
@@ -27,7 +27,7 @@ export default function EditExperienceForm({ id }: any) {
     e.preventDefault();
     await editDataUserSide({
       editExperience: "true",
-      experience: experience,
+      title: title,
       company: company,
       from: from,
       to: to,
@@ -72,16 +72,16 @@ export default function EditExperienceForm({ id }: any) {
 
           <div className="mb-4">
             <label
-              htmlFor="experience"
+              htmlFor="title"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
               Postul Ocupat
             </label>
             <div className="relative">
               <input
-                id="experience"
-                name="experience"
-                onChange={(e) => setExperience(e.target.value)}
+                id="title"
+                name="title"
+                onChange={(e) => setTitle(e.target.value)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 placeholder="Postul Ocupat..."
               />

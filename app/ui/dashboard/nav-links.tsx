@@ -32,12 +32,12 @@ const links = [
   },
   {
     name: "Profile",
-    href: "/home/profile",
+    href: "/home/dashboard/profile",
     icon: UserIcon,
   },
   {
     name: "My CV",
-    href: "/home/profile/my-cv",
+    href: "/home/dashboard/profile/my-cv",
     icon: ClipboardDocumentIcon,
   },
 ];

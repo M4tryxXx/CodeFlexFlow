@@ -4,7 +4,7 @@ import { findUserByEmail, getUsers } from "./myDb";
 
 
 const currentSession = await auth();
-console.log(currentSession);
+//console.log(currentSession);
 let userEmail: any;
 if (currentSession && currentSession.user) {
   userEmail = currentSession.user.email;

@@ -28,7 +28,7 @@ model Qualification {
 model Experience {
   id           String    @id @default(cuid())
   userId       String
-  experience   String
+  title        String
   company      String
   from         String
   to           String?

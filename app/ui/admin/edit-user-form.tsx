@@ -1,3 +1,32 @@
+//write me a form that will look exactly like this one but include the following fields: email              String          @unique
+// firstName          String?
+// lastName           String?
+// username           String          @unique
+// password           String
+// role               String          @default("user")
+// resetToken         String?         @unique
+// resetTokenExpiry   DateTime?
+// verified           Boolean         @default(false)
+// verifiedAt         Int?
+// verifiyToken       String?         @unique
+// verifiyTokenExpiry Int?
+// mobile             String?
+// avatar             String?
+// address            String?
+// city               String?
+// state              String?
+// country            String?
+// zip                String?
+// address2           String?
+// bio                String?
+// website            String?
+// linkedin           String?
+// twitter            String?
+// facebook           String?
+// instagram          String?
+// github             String?
+// dateOfBirth        String?
+
 "use client";
 import Link from "next/link";
 import {
@@ -37,7 +66,7 @@ export default function EditUserForm({ user }: any) {
   };
   return (
     <>
-      <div className="relative my-5 bg-sky-200 rounded-md border">
+      <div className="relative my-5 mx-6 bg-sky-200 rounded-md border">
         <InformationCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2  peer-focus:text-gray-900 dark:text-sky-300" />
         <div className="rounded-md border border-blue-300 py-2 pl-10 text-sm outline-2 font-medium dark:bg-blue-950 dark:border-sky-500">
           Verificati cu atentie detaliile!

@@ -15,7 +15,7 @@ import { addDataUserSide } from "@/app/lib/client-actions";
 
 export default function AddExperienceForm({ id }: { id: string }) {
   const [company, setCompany] = useState("");
-  const [experience, setExperience] = useState("");
+  const [title, setTitle] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [description, setDescription] = useState("");
@@ -24,7 +24,7 @@ export default function AddExperienceForm({ id }: { id: string }) {
     e.preventDefault();
     await addDataUserSide({
       company: company,
-      experience: experience,
+      title: title,
       from: from,
       to: to,
       description: description,
@@ -64,16 +64,16 @@ export default function AddExperienceForm({ id }: { id: string }) {
 
           <div className="mb-4">
             <label
-              htmlFor="experience"
+              htmlFor="title"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
               Postul Ocupat
             </label>
             <div className="relative">
               <input
-                id="experience"
-                name="experience"
-                onChange={(e) => setExperience(e.target.value)}
+                id="title"
+                name="title"
+                onChange={(e) => setTitle(e.target.value)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 placeholder="Postul Ocupat..."
               />

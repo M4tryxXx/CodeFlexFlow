@@ -47,7 +47,7 @@ export const editQualificationSchema = z.object({
 
 export const addExperienceSchema = z.object({
   userId: z.string(),
-  experience: z.string().min(3),
+  title: z.string().min(3),
   company: z.string().min(3),
   from: z.string(),
   to: z.string().optional(),
@@ -57,7 +57,7 @@ export const addExperienceSchema = z.object({
 
 export const editExperienceSchema = z.object({
   id: z.string(),
-  experience: z.string().optional(),
+  title: z.string().optional(),
   company: z.string().optional(),
   from: z.string().optional(),
   to: z.string().optional(),

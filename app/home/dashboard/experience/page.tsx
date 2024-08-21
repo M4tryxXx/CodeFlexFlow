@@ -50,7 +50,7 @@ export default async function Page() {
               </strong>
             </h3>
             <h3>
-              <strong>{experience.experience}</strong>
+              <strong>{experience.title}</strong>
             </h3>
             <h3>
               <strong>{experience.description}</strong>
