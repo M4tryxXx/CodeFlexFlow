@@ -16,14 +16,20 @@ export default function Motion({ title, subTitle }: any) {
         transition: {
           type: "spring",
           duration: 1.5,
-          delay: 1,
+          delay: 0.4,
         },
       },
     };
   };
 
   return (
-    <motion.div variants={textVariant()}>
+    <motion.div
+      variants={textVariant()}
+      initial="hidden"
+      whileInView="show"
+      className="text-center"
+      style={{ y: -50, opacity: 0 }}
+    >
       <p
         className={`sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider text-center`}
       >

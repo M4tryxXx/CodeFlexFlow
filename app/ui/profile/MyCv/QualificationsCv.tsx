@@ -6,6 +6,7 @@ const {
 } = require("react-vertical-timeline-component");
 import "react-vertical-timeline-component/style.min.css";
 import { DocumentIcon } from "@heroicons/react/24/outline";
+
 export default function QualificationsCv({ user }: any) {
   console.log(user);
   if (user.qualifications.length > 0) {

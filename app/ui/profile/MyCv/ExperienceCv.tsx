@@ -4,9 +4,9 @@ const {
   VerticalTimeline,
   VerticalTimelineElement,
 } = require("react-vertical-timeline-component");
-const { motion } = require("framer-motion");
 import "react-vertical-timeline-component/style.min.css";
 import { DocumentIcon } from "@heroicons/react/24/outline";
+
 export default function ExperienceCv({ user }: any) {
   if (user.experience.length > 0) {
     let experienceElements = user.experience.map((exp: any) => {
