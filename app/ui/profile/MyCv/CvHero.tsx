@@ -27,7 +27,10 @@ const Hero = ({ user }: any) => {
           <p
             className={`text-[#dfd9ff] font-medium lg:text-[30px] sm:text-[26px] xs:text-[20px] text-[16px] lg:leading-[40px] mt-2 text-white-100`}
           >
-            I am a {user.qualifications[0].qualification}
+            I am a{" "}
+            {user.qualifications[0]?.qualification
+              ? user.qualifications[0]?.qualification
+              : "Missing Information"}
           </p>
         </div>
       </div>

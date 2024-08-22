@@ -9,6 +9,7 @@ import { Tooltip } from "@nextui-org/react";
 import { handleDelete } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { verify } from "crypto";
 
 export default function ProfileTable({ user }: any) {
   let dataArr = [];
@@ -18,7 +19,14 @@ export default function ProfileTable({ user }: any) {
     for (let [key, value] of Object.entries(user)) {
       const date = new Date(user.createdAt);
       const formattedDate = date.toLocaleString();
-      if (key === "password" || key === "id") {
+      if (
+        key === "password" ||
+        key === "id" ||
+        key === "resetToken" ||
+        key === "verifyToken" ||
+        key === "resetTokenExpiry" ||
+        key === "verifyTokenExpiry"
+      ) {
         continue;
       }
 

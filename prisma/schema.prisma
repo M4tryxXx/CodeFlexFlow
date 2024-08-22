@@ -64,8 +64,8 @@ model User {
   resetTokenExpiry   DateTime?
   verified           Boolean         @default(false)
   verifiedAt         Int?
-  verifiyToken       String?         @unique
-  verifiyTokenExpiry Int?
+  verifyToken       String?         @unique
+  verifyTokenExpiry Int?
   mobile             String?
   avatar             String?
   address            String?
@@ -81,7 +81,7 @@ model User {
   facebook           String?
   instagram          String?
   github             String?
-  dateOfBirth        String?
+  age                String?
   createdAt          DateTime?       @default(now())
   updatedAt          DateTime?       @default(now())
   lastLogin          DateTime?
