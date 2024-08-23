@@ -84,7 +84,7 @@ export default function InvitationForm({ user }: any) {
             await handleSubmit(e);
           }}
         >
-          {loading ? "Loading ..." : "Send reset link"}
+          {loading ? "Loading ..." : "Send Invitation link"}
           <ArrowRightIcon className="ml-auto h-5 w-5 text-black dark:text-white dark:hover:text-rose-500 hover:text-blue-700 hover:h-7 hover:w-7" />
         </Button>
         <div className="flex flex-row justify-center items-center mt-5">
