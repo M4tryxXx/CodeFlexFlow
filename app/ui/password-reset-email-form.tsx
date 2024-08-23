@@ -2,9 +2,12 @@
 
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 
-import { Button } from "../ui/button";
-import { lusitana } from "../ui/fonts";
-import { AtSymbolIcon } from "@heroicons/react/24/outline";
+import { Button } from "./Button";
+import { lusitana } from "./fonts";
+import {
+  AtSymbolIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/24/outline";
 import { verifyEmailSchema } from "../lib/zod-schemas";
 import { sendPasswordChangeLink } from "../lib/actions";
 import { checkUserEmail } from "../lib/client-actions";
@@ -51,7 +54,7 @@ export default function ResetPasswordForm() {
     }
 
     toast.success(
-      "If an account with the email provided exists you will receive an email with a link where you can reset your password, please allow up to 15 minutes before making another request!",
+      "Email sent successfully! Please check your email for the reset link \n The link will expire after 30 minutes \n If you don't receive the email please check your spam folder!",
       { duration: 8000 }
     );
     setLoading(false);
@@ -94,12 +97,15 @@ export default function ResetPasswordForm() {
           })}
         >
           {loading ? "Loading ..." : "Send reset link"}
-          <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+          <ArrowRightIcon className="ml-auto h-5 w-5 text-black dark:text-white dark:hover:text-rose-500 hover:text-blue-700 hover:h-7 hover:w-7" />
         </Button>
-        <p className="mt-4 text-xs text-gray-500 dark:text-gray-300">
-          If an account with the email provided exists you will receive an email
-          with a link where you can reset your password!
-        </p>
+        <div className="flex flex-row justify-center items-center">
+          <InformationCircleIcon className=" text-lg mr-5 pointer-events-none h-[45px] w-[45px] dark:text-blue-300 dark:peer-focus:text-white text-blue-700" />
+          <p className="mt-4 text-xs text-gray-500 dark:text-gray-300">
+            If an account with the email provided exists you will receive an
+            email with a link where you can reset your password!
+          </p>
+        </div>
       </div>
     </form>
   );

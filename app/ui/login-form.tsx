@@ -10,7 +10,7 @@ import {
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
-import { Button } from "./button";
+import { Button } from "./Button";
 import Link from "next/link";
 import { loginUserSide } from "../lib/client-actions";
 import { useState, useEffect } from "react";
@@ -142,7 +142,7 @@ export default function LoginForm() {
           })}
         >
           {loading ? "Loading..." : "Log in"}
-          <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+          <ArrowRightIcon className="ml-auto h-5 w-5 text-black dark:text-white dark:hover:text-rose-500 hover:text-blue-700 hover:h-7 hover:w-7" />
         </Button>
         <p className="flex justify-center mt-6 font-sans w-full text-sm antialiased font-light leading-normal text-inherit">
           Don't have an account?

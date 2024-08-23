@@ -9,6 +9,7 @@ import { Tooltip } from "@nextui-org/react";
 import { handleDelete } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { formatDateToLocal } from "@/app/lib/utils";
 
 export default function UsersTable(usersData: any) {
   const [loading, setLoading] = useState(false);
@@ -18,8 +19,7 @@ export default function UsersTable(usersData: any) {
 
   if (response && response.length > 0 && typeof response !== "string") {
     data = response.map((user: any) => {
-      const date = new Date(user.createdAt);
-      const formattedDate = date.toLocaleString();
+      const formattedDate = formatDateToLocal(user.createdAt);
 
       dataArr.push(
         <tr

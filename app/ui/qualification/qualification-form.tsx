@@ -11,7 +11,7 @@ import {
   IdentificationIcon,
   MapIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "@/app/ui/button";
+import { Button } from "@/app/ui/Button";
 import { useState } from "react";
 import { addDataUserSide } from "@/app/lib/client-actions";
 import { set } from "zod";

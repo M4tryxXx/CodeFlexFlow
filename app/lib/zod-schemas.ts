@@ -13,6 +13,10 @@ export const verifyUsernameSchema = z.object({
   username: z.string().min(3),
 });
 
+export const verifyInvitationSchema = z.object({
+  Invitation: z.string().min(8).startsWith("CV-"),
+});
+
 export const registerUserSchema = z.object({
   firstName: z.string().optional(),
   lastName: z.string().optional(),

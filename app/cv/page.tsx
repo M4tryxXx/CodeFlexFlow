@@ -1,8 +1,7 @@
-"use server";
 import AcmeLogo from "@/app/ui/acme-logo";
-import RegisterForm from "@/app/ui/Register-form";
+import CvInvitationForm from "../ui/Cv-invite-form";
 
-export default async function Register() {
+export default function ResetPasswordPage() {
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="mt-8 flex grow flex-col md:flex-row gap-4 ">
@@ -12,7 +11,7 @@ export default async function Register() {
               <AcmeLogo />
             </div>
           </div>
-          <RegisterForm />
+          <CvInvitationForm />
         </div>
       </div>
     </main>

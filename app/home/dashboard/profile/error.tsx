@@ -15,10 +15,10 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="flex h-full flex-col items-center justify-center">
+    <main className="flex h-full flex-col items-center justify-center">
       <h2 className="text-center">Something went wrong!</h2>
       <button
-        className="mt-4 rounded-md bg-rose-500 dark:bg-emerald-950 hover:bg-rose-400 dark:hover:bg-emerald-800 dark:hover:shadow-black hover:shadow-black hover:shadow-md dark:hover:shadow-sm px-4 py-2 text-sm text-white transition-color"
+        className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
         onClick={
           // Attempt to recover by trying to re-render the invoices route
           () => reset()
@@ -26,6 +26,6 @@ export default function Error({
       >
         Try again
       </button>
-    </div>
+    </main>
   );
 }

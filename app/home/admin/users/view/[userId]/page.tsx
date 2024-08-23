@@ -1,6 +1,7 @@
 import EditUserForm from "@/app/ui/admin/edit-user-form";
 import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
 import { findUserById } from "@/app/lib/myDb";
+import { formatDateToLocal } from "@/app/lib/utils";
 
 export default async function EditUserPage({
   params,
@@ -26,6 +27,15 @@ export default async function EditUserPage({
       }
       if (value === null) {
         value = "Not Defined";
+      }
+      if (
+        (key === "createdAt" && value !== "Not Defined") ||
+        (key === "updatedAt" && value !== "Not Defined") ||
+        (key === "lastLogin" && value !== "Not Defined") ||
+        (key === "resetTokenExpiry" && value !== "Not Defined") ||
+        (key === "verifyTokenExpiry" && value !== "Not Defined")
+      ) {
+        value = formatDateToLocal(value as string, "en-GB");
       }
       userDetails.push(
         <tr

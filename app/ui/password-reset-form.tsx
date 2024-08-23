@@ -3,7 +3,7 @@ import { lusitana } from "@/app/ui/fonts";
 import Link from "next/link";
 import { AtSymbolIcon, KeyIcon, UserIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
-import { Button } from "../ui/button";
+import { Button } from "./Button";
 import clsx from "clsx";
 import { Spinner } from "@nextui-org/spinner";
 import { updatePassword } from "../lib/client-actions";
@@ -134,7 +134,7 @@ export default function PasswordResetForm({ userId }: any) {
           disabled={isloading}
         >
           {isloading ? "Loading..." : "Update Password"}
-          <ArrowRightIcon className="ml-auto h-5 w-5 text-gray-50" />
+          <ArrowRightIcon className="ml-auto h-5 w-5 text-black dark:text-white dark:hover:text-rose-500 hover:text-blue-700 hover:h-7 hover:w-7" />
         </Button>
         <p className="flex justify-center mt-6 font-sans w-full text-sm antialiased font-light leading-normal text-inherit">
           Remember Password?

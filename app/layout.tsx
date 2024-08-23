@@ -9,9 +9,6 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-  //userScalable: false,
-  // Also supported by less commonly used
-  // interactiveWidget: 'resizes-visual',
 };
 
 export default function RootLayout({
@@ -21,14 +18,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning={true}>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        />
-      </Head>
       <body
-        className={`${lusitana.className} antialiased dark:bg-[url('./images/herobg.png')] dark:bg-cover dark:bg-fixed dark:bg-no-repeat dark:bg-center`}
+        className={`${lusitana.className} antialiased dark:bg-[url('./images/herobg.png')] dark:bg-cover dark:bg-fixed dark:bg-no-repeat dark:bg-center p-0 m-0`}
         suppressHydrationWarning={true}
       >
         <Providers>
