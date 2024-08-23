@@ -10,7 +10,7 @@ import {
   IdentificationIcon,
   StopCircleIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "@/app/ui/Button";
+import { Button } from "../Button";
 import { editDataUserSide } from "@/app/lib/client-actions";
 import { editQualification } from "@/app/lib/actions";
 

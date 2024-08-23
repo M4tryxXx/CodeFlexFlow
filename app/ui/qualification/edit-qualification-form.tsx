@@ -11,7 +11,7 @@ import {
   IdentificationIcon,
   MapIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "@/app/ui/Button";
+import { Button } from "../Button";
 import { editDataUserSide } from "@/app/lib/client-actions";
 
 export default function EditQualificationForm({ id }: any) {
