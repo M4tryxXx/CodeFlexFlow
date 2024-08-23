@@ -129,6 +129,27 @@ export const deleteUserById = async (id: string) => {
   }
 };
 
+export const deleteInviteById = async (id: string) => {
+  await prisma.invites.deleteMany({
+    where: {
+      id: id,
+    },
+  });
+
+  try {
+    await prisma.invites.deleteMany({
+      where: {
+        id: id,
+      },
+    });
+    await prisma.$disconnect();
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return "Something went wrong! ";
+  }
+};
+
 export const updateUser = async (data: any) => {
   const { id } = data;
   try {
@@ -339,6 +360,24 @@ export const getAllInvites = async () => {
     await prisma.$disconnect();
     console.log(err);
     return "Something went wrong!";
+  }
+};
+
+export const getInvitesById = async (id: any) => {
+  try {
+    const result = await prisma.invites.findMany({
+      where: {
+        userId: {
+          equals: id,
+        },
+      },
+    });
+    await prisma.$disconnect();
+    return result;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
   }
 };
 

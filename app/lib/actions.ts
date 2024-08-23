@@ -24,6 +24,8 @@ import {
   getExperienceById,
   getAllInvites,
   createInvitation,
+  getInvitesById,
+  deleteInviteById,
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
@@ -89,6 +91,12 @@ export const handleDelete = async (id: string) => {
   await deleteUserById(id);
   revalidatePath("/home/admin/users");
   redirect("/home/admin/users");
+};
+
+export const handleDeleteInvite = async (id: string) => {
+  await deleteInviteById(id);
+  revalidatePath("/home/dashboard");
+  redirect("/home/dashboard");
 };
 
 export const handleEditUser = async (data: FormData) => {
@@ -201,7 +209,11 @@ export const sendPasswordChangeLink = async (email: string) => {
   redirect("/login");
 };
 
-export const sendInvitationLink = async (user: any, email: String) => {
+export const sendInvitationLink = async (
+  user: any,
+  email: String,
+  name: String
+) => {
   const invitations = await getAllInvites();
   const expiresAt = new Date(Date.now() + 604800000).toISOString();
   const invitation = `CV-${invitations.length + 10000}`;
@@ -210,13 +222,15 @@ export const sendInvitationLink = async (user: any, email: String) => {
     userId: user.id,
     expiresAt: expiresAt,
     destinationEmail: email,
+    destinationName: name,
   };
 
   const response = await createInvitation(data);
   if (!response) {
     return "Something went wrong";
   }
-  await sendInvitationEmail(email, response.id, user);
+  await sendInvitationEmail(email, response, user);
+  revalidatePath("/home/dashboard");
   redirect("/home/dashboard");
 };
 
@@ -232,9 +246,11 @@ export const userData = async () => {
   }
   const userExperience = await getExperienceById(currentUser.id);
   const userQualification = await getQualificationById(currentUser.id);
+  const userInvites = await getInvitesById(currentUser.id);
   return {
     user: currentUser,
     experience: userExperience,
     qualifications: userQualification,
+    Invites: userInvites,
   };
 };

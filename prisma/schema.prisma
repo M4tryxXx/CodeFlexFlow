@@ -48,6 +48,8 @@ model Invites {
   expiresAt        DateTime
   userId           String
   destinationEmail String
+  destinationName  String?
+  opened           Boolean  @default(false)
   User             User     @relation(fields: [userId], references: [id])
 
   @@index([userId], map: "Invites_userId_fkey")

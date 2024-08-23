@@ -8,10 +8,11 @@ import {
   AtSymbolIcon,
   InformationCircleIcon,
   GiftIcon,
+  BuildingOffice2Icon,
+  BuildingOfficeIcon,
 } from "@heroicons/react/24/outline";
 import { verifyEmailSchema } from "../../lib/zod-schemas";
-import { sendPasswordChangeLink, sendInvitationLink } from "../../lib/actions";
-import { checkUserEmail } from "../../lib/client-actions";
+import { sendInvitationLink } from "../../lib/actions";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import clsx from "clsx";
@@ -20,9 +21,15 @@ import "../../ui/css/loadingLogin.css";
 export default function InvitationForm({ user }: any) {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
   const handleSubmit = async (e: any) => {
     setLoading(true);
     e.preventDefault();
+    if (!email || !name) {
+      toast.error("Please fill all fields");
+      setLoading(false);
+      return;
+    }
     const destinationEmail = verifyEmailSchema.safeParse({ email: email });
     if (!destinationEmail.success) {
       let errorMessage = "";
@@ -34,12 +41,13 @@ export default function InvitationForm({ user }: any) {
       setLoading(false);
       return;
     }
-    const response = await sendInvitationLink(user, email);
+    const response = await sendInvitationLink(user, email, name);
     if (response === "Something went wrong") {
       toast.error("Something went wrong");
     }
     toast.success("Invitation successfully sent!");
     setEmail("");
+    setName("");
     setLoading(false);
   };
   return (
@@ -50,29 +58,48 @@ export default function InvitationForm({ user }: any) {
         await handleSubmit(e);
       }}
     >
-      <div className="flex-1 rounded-lg bg-gray-50 dark:bg-gray-800 px-6 pb-4 pt-8">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>
-          Send Invitation With Your CV
-        </h1>
+      <div className="flex-1 rounded-lg bg-gray-50 dark:bg-gray-800 px-6 pb-4 pt-8 max-w-[380px]">
+        <h1 className={`${lusitana.className} mb-3 text-2xl`}>Send Your CV</h1>
         <div className="w-full">
           <div>
             <label
               className="mb-3 mt-5 block text-xs font-medium text-gray-900 dark:text-white"
               htmlFor="email"
             >
-              Email Address
+              Company Email Address
             </label>
             <div className="relative">
               <input
                 className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 id="email"
-                type="text"
+                type="email"
                 name="email"
                 placeholder="Destination email..."
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
               <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-100 dark:peer-focus:text-white" />
+            </div>
+          </div>
+          <div>
+            <label
+              className="mb-3 mt-5 block text-xs font-medium text-gray-900 dark:text-white"
+              htmlFor="name"
+            >
+              Company Name
+            </label>
+            <div className="relative">
+              <input
+                className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                id="name"
+                type="text"
+                name="name"
+                placeholder="Destination Name..."
+                value={name}
+                min={3}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <BuildingOffice2Icon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
           </div>
         </div>
