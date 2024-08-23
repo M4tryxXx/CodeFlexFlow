@@ -10,22 +10,23 @@ import {
   GiftIcon,
 } from "@heroicons/react/24/outline";
 import { verifyEmailSchema } from "../../lib/zod-schemas";
-import { sendPasswordChangeLink } from "../../lib/actions";
+import { sendPasswordChangeLink, sendInvitationLink } from "../../lib/actions";
 import { checkUserEmail } from "../../lib/client-actions";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import clsx from "clsx";
 import "../../ui/css/loadingLogin.css";
 
-export default function InvitationForm() {
+export default function InvitationForm({ user }: any) {
   const [loading, setLoading] = useState(false);
+  const [email, setEmail] = useState("");
   const handleSubmit = async (e: any) => {
     setLoading(true);
     e.preventDefault();
-    const email = verifyEmailSchema.safeParse({ email: e.target.email.value });
-    if (!email.success) {
+    const destinationEmail = verifyEmailSchema.safeParse({ email: email });
+    if (!destinationEmail.success) {
       let errorMessage = "";
-      email.error.errors.forEach((issue: any) => {
+      destinationEmail.error.errors.forEach((issue: any) => {
         errorMessage =
           errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
       });
@@ -33,31 +34,12 @@ export default function InvitationForm() {
       setLoading(false);
       return;
     }
-
-    const response = await checkUserEmail(email.data.email);
-
-    if (!response) {
-      setLoading(false);
-      toast.error("User not found!");
-      return;
+    const response = await sendInvitationLink(user, email);
+    if (response === "Something went wrong") {
+      toast.error("Something went wrong");
     }
-
-    const responseEmail = await sendPasswordChangeLink(email.data.email);
-    if (responseEmail === "Something went wrong") {
-      setLoading(false);
-      toast.error("Something went wrong!");
-      return;
-    }
-    if (responseEmail === "User not found!") {
-      setLoading(false);
-      toast.error("User not found!");
-      return;
-    }
-
-    toast.success(
-      "Email sent successfully! Please check your email for the reset link \n The link will expire after 30 minutes \n If you don't receive the email please check your spam folder!",
-      { duration: 8000 }
-    );
+    toast.success("Invitation successfully sent!");
+    setEmail("");
     setLoading(false);
   };
   return (
@@ -87,6 +69,8 @@ export default function InvitationForm() {
                 type="text"
                 name="email"
                 placeholder="Destination email..."
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -96,15 +80,16 @@ export default function InvitationForm() {
           className={clsx("mt-4 w-full ", {
             "mt-4 w-full  cursor-wait loadingLogin disabled ": loading === true,
           })}
+          onClick={async (e) => {
+            await handleSubmit(e);
+          }}
         >
           {loading ? "Loading ..." : "Send reset link"}
           <ArrowRightIcon className="ml-auto h-5 w-5 text-black dark:text-white dark:hover:text-rose-500 hover:text-blue-700 hover:h-7 hover:w-7" />
         </Button>
-        <div className="flex flex-row justify-center items-center">
-          <InformationCircleIcon className=" text-lg mr-5 pointer-events-none h-[45px] w-[45px] dark:text-blue-300 dark:peer-focus:text-white text-blue-700" />
-          <p className="mt-4 text-xs text-gray-500 dark:text-gray-300">
-            Invitation is valid for 7 days!
-          </p>
+        <div className="flex flex-row justify-center items-center mt-5">
+          <InformationCircleIcon className=" text-lg mr-5 pointer-events-none h-[25px] w-[25px] dark:text-blue-300 dark:peer-focus:text-white text-blue-700" />
+          Invitation is valid for 7 days!
         </div>
       </div>
     </form>

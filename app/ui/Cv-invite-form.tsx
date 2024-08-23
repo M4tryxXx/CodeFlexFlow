@@ -38,32 +38,6 @@ export default function CvInvitationForm() {
       setLoading(false);
       return;
     }
-
-    //const response = await checkUserEmail(invitation.data.email);
-
-    // if (!response) {
-    //   setLoading(false);
-    //   toast.error("User not found!");
-    //   return;
-    // }
-
-    // const responseEmail = await sendPasswordChangeLink(email.data.email);
-    // if (responseEmail === "Something went wrong") {
-    //   setLoading(false);
-    //   toast.error("Something went wrong!");
-    //   return;
-    // }
-    // if (responseEmail === "User not found!") {
-    //   setLoading(false);
-    //   toast.error("User not found!");
-    //   return;
-    // }
-
-    // toast.success(
-    //   "Email sent successfully! Please check your email for the reset link \n The link will expire after 30 minutes \n If you don't receive the email please check your spam folder!",
-    //   { duration: 8000 }
-    // );
-    // setLoading(false);
   };
   return (
     <form

@@ -3,7 +3,11 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
-import { sendWelcomeEmail, sendResetPasswordEmail } from "./mailer";
+import {
+  sendWelcomeEmail,
+  sendResetPasswordEmail,
+  sendInvitationEmail,
+} from "./mailer";
 import { auth } from "auth";
 import { findUserByEmail, getUsers } from "@/app/lib/myDb";
 import {
@@ -18,6 +22,8 @@ import {
   deleteExperienceById,
   getQualificationById,
   getExperienceById,
+  getAllInvites,
+  createInvitation,
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
@@ -193,6 +199,25 @@ export const sendPasswordChangeLink = async (email: string) => {
   }
   await sendResetPasswordEmail(email, token, user.username);
   redirect("/login");
+};
+
+export const sendInvitationLink = async (user: any, email: String) => {
+  const invitations = await getAllInvites();
+  const expiresAt = new Date(Date.now() + 604800000).toISOString();
+  const invitation = `CV-${invitations.length + 10000}`;
+  const data = {
+    id: invitation,
+    userId: user.id,
+    expiresAt: expiresAt,
+    destinationEmail: email,
+  };
+
+  const response = await createInvitation(data);
+  if (!response) {
+    return "Something went wrong";
+  }
+  await sendInvitationEmail(email, response.id, user);
+  redirect("/home/dashboard");
 };
 
 export const userData = async () => {

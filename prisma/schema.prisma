@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADDOW_DATABASE_URL")
 }
 
@@ -43,49 +43,50 @@ model Experience {
 }
 
 model Invites {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  userId    String
-  invite    String   @unique
-  User      User     @relation(fields: [userId], references: [id])
+  id               String   @id
+  createdAt        DateTime @default(now())
+  expiresAt        DateTime
+  userId           String
+  destinationEmail String
+  User             User     @relation(fields: [userId], references: [id])
 
   @@index([userId], map: "Invites_userId_fkey")
 }
 
 model User {
-  id                 String          @id @default(cuid())
-  email              String          @unique
-  firstName          String?
-  lastName           String?
-  username           String          @unique
-  password           String
-  role               String          @default("user")
-  resetToken         String?         @unique
-  resetTokenExpiry   DateTime?
-  verified           Boolean         @default(false)
-  verifiedAt         Int?
+  id                String          @id @default(cuid())
+  email             String          @unique
+  firstName         String?
+  lastName          String?
+  username          String          @unique
+  password          String
+  role              String          @default("user")
+  resetToken        String?         @unique
+  resetTokenExpiry  DateTime?
+  verified          Boolean         @default(false)
+  verifiedAt        Int?
   verifyToken       String?         @unique
   verifyTokenExpiry Int?
-  mobile             String?
-  avatar             String?
-  address            String?
-  city               String?
-  state              String?
-  country            String?
-  zip                String?
-  address2           String?
-  bio                String?
-  website            String?
-  linkedin           String?
-  twitter            String?
-  facebook           String?
-  instagram          String?
-  github             String?
-  age                String?
-  createdAt          DateTime?       @default(now())
-  updatedAt          DateTime?       @default(now())
-  lastLogin          DateTime?
-  Experience         Experience[]
-  Invites            Invites[]
-  Qualifications     Qualification[]
+  mobile            String?
+  avatar            String?
+  address           String?
+  city              String?
+  state             String?
+  country           String?
+  zip               String?
+  address2          String?
+  bio               String?
+  website           String?
+  linkedin          String?
+  twitter           String?
+  facebook          String?
+  instagram         String?
+  github            String?
+  age               String?
+  createdAt         DateTime?       @default(now())
+  updatedAt         DateTime?       @default(now())
+  lastLogin         DateTime?
+  Experience        Experience[]
+  Invites           Invites[]
+  Qualifications    Qualification[]
 }

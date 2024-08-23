@@ -109,6 +109,11 @@ export const deleteUserById = async (id: string) => {
       userId: id,
     },
   });
+  await prisma.invites.deleteMany({
+    where: {
+      userId: id,
+    },
+  });
 
   try {
     await prisma.user.delete({
@@ -308,6 +313,33 @@ export const getAllExperience = async () => {
     await prisma.$disconnect();
     console.log(err);
     return null;
+  }
+};
+
+export const createInvitation = async (data: any) => {
+  try {
+    const response = await prisma.invites.create({
+      data: data,
+    });
+    console.log(data);
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
+export const getAllInvites = async () => {
+  try {
+    const allInvites = await prisma.invites.findMany();
+    await prisma.$disconnect();
+    return allInvites;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return "Something went wrong!";
   }
 };
 

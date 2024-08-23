@@ -40,7 +40,30 @@ export const sendResetPasswordEmail = async (
       to: email, // list of receivers
       subject: "CodeFlexFlow Password Reset Link", // Subject line
       text: "Password Reset Link", // plain text body
-      html: `<h1>Hi ${username}</h1>\n  &nbsp; &nbsp; &nbsp; Someone requested a password reset link, if this was not you we recommend you to change your password as soon as possible and ignore this email, otherwise to reset your password please click on the button below! \n \n  <a href="https://codeflexflow.vercel.app/recovery/${token}" style="text-decoration: none; color: white;"><h2 style="padding: 5px 8px; width: 40%; background-color: darkblue; color: white; border-radius: 8px; text-decoration: none; text-align: center; margin: 5px auto;">Change Password</h2></a> \n  &nbsp; If you dont see the button copy this link and paste it into your browser: \n <b>https://codeflexflow.vercel.app/recovery/${token}</b> \n \n Please note the link will expire after 30 minutes. Thank you. \n <br> &nbsp; &nbsp; Your username is: <b>${username}</b>`, // html body
+      html: `<h1>Hi ${username}</h1>\n  &nbsp; &nbsp; &nbsp; Someone requested a password reset link, if this was not you we recommend you to change your password as soon as possible and ignore this email, otherwise to reset your password please click on the button below! \n \n  <a href="https://codeflexflow.vercel.app/recovery/${token}" style="text-decoration: none; color: white;"><h2 style="padding: 5px 8px; width: 70%; background-color: darkblue; color: white; border-radius: 8px; text-decoration: none; text-align: center; margin: 5px auto;">Change Password</h2></a> \n  &nbsp; If you dont see the button copy this link and paste it into your browser: \n <b>https://codeflexflow.vercel.app/recovery/${token}</b> \n \n Please note the link will expire after 30 minutes. Thank you. \n <br> &nbsp; &nbsp; Your username is: <b>${username}</b>`, // html body
+    },
+    function (error: any, info: any) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    }
+  );
+};
+
+export const sendInvitationEmail = async (
+  email: String,
+  invitation: String,
+  user: {} | any
+) => {
+  const info = await transporter.sendMail(
+    {
+      from: "CodeFlexFlow@gmail.com", // sender address
+      to: email, // list of receivers
+      subject: "CodeFlexFlow CV Invitation Link", // Subject line
+      text: "Invitation", // plain text body
+      html: `<h1>Hi</h1>\n  &nbsp; &nbsp; &nbsp; My name is ${user.firstName} ${user.lastName} and i would like to work for you, please See my CV by clicking the button below!\n \n  <a href="https://codeflexflow.vercel.app/cv/${invitation}" style="text-decoration: none; color: white;"><h2 style="padding: 5px 8px; width: 70%; background-color: darkblue; color: white; border-radius: 8px; text-decoration: none; text-align: center; margin: 5px auto;">View CV</h2></a> \n  &nbsp; If you dont see the button please copy this link and paste it into your browser: \n <b>https://codeflexflow.vercel.app/cv/${invitation}</b> \n \n Please note the link will be valid for 7 days. Thank you. \n <br> &nbsp; &nbsp; Kind regards ${user.firstName} ${user.lastName}!`, // html body
     },
     function (error: any, info: any) {
       if (error) {
