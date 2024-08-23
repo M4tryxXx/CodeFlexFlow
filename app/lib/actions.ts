@@ -9,7 +9,6 @@ import {
   sendInvitationEmail,
 } from "./mailer";
 import { auth } from "auth";
-import { findUserByEmail, getUsers } from "@/app/lib/myDb";
 import {
   registerUserDb,
   deleteUserById,
@@ -24,8 +23,11 @@ import {
   getExperienceById,
   getAllInvites,
   createInvitation,
-  getInvitesById,
+  getInvitesByUserId,
   deleteInviteById,
+  findUserByEmail,
+  getUsers,
+  findUserById,
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
@@ -246,9 +248,22 @@ export const userData = async () => {
   }
   const userExperience = await getExperienceById(currentUser.id);
   const userQualification = await getQualificationById(currentUser.id);
-  const userInvites = await getInvitesById(currentUser.id);
+  const userInvites = await getInvitesByUserId(currentUser.id);
   return {
     user: currentUser,
+    experience: userExperience,
+    qualifications: userQualification,
+    Invites: userInvites,
+  };
+};
+
+export const userDataById = async (id: string) => {
+  const user = await findUserById(id);
+  const userExperience = await getExperienceById(id);
+  const userQualification = await getQualificationById(id);
+  const userInvites = await getInvitesByUserId(id);
+  return {
+    user: user,
     experience: userExperience,
     qualifications: userQualification,
     Invites: userInvites,

@@ -7,7 +7,7 @@ const Hero = ({ user }: any) => {
   console.log(user);
   return (
     <section
-      className="relative w-full h-screen max-auto mt-12"
+      className="relative w-full h-screen max-auto "
       style={{ height: "85vh" }}
     >
       <div

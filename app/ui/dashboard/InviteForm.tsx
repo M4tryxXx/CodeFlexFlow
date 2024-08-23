@@ -4,6 +4,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 
 import { Button } from "../../ui/Button";
 import { lusitana } from "../../ui/fonts";
+import { Input } from "@nextui-org/input";
 import {
   AtSymbolIcon,
   InformationCircleIcon,

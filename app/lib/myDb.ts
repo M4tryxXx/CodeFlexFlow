@@ -363,13 +363,29 @@ export const getAllInvites = async () => {
   }
 };
 
-export const getInvitesById = async (id: any) => {
+export const getInvitesByUserId = async (id: any) => {
   try {
     const result = await prisma.invites.findMany({
       where: {
         userId: {
           equals: id,
         },
+      },
+    });
+    await prisma.$disconnect();
+    return result;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
+export const getInvitesById = async (id: any) => {
+  try {
+    const result = await prisma.invites.findUnique({
+      where: {
+        id: id,
       },
     });
     await prisma.$disconnect();

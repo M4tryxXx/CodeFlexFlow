@@ -1,22 +1,37 @@
+import { getInvitesById } from "@/app/lib/myDb";
+import { userDataById } from "@/app/lib/actions";
+import "react-vertical-timeline-component/style.min.css";
+
+import ExperienceCv from "@/app/ui/profile/MyCv/ExperienceCv";
+import QualificationsCv from "@/app/ui/profile/MyCv/QualificationsCv";
+import { userData } from "@/app/lib/actions";
+import Motion from "@/app/ui/profile/MyCv/Motion";
+import Hero from "@/app/ui/profile/MyCv/CvHero";
+
 export default async function CvPage({
   params,
 }: {
   params: { invitationId: string };
 }) {
   const { invitationId } = params;
+  const invite = await getInvitesById(invitationId);
+  let user: any;
+  if (invite) {
+    user = await userDataById(invite.userId);
+  }
+  console.log(user);
 
   return (
-    <main className="bg-black h-[100vh] w-[100vw] m-0">
-      <div className="rounded-md  p-4 md:p-6">
-        <h1 className="my-3 mx-3">Comming Soon</h1>
-        <div className="flex flex-col">
-          <div className="-m-1.5 overflow-x-auto">
-            <div className="p-1.5 min-w-full inline-block align-middle">
-              <div className="overflow-hidden"></div>
-              {invitationId}
-            </div>
-          </div>
-        </div>
+    <main className="w-[100vw] h-full bg-slate-950 m-0">
+      <div>
+        <Hero user={user} />
+        <Motion title={"Where I Learned?"} subTitle={"My Learning!"} />
+        <div className="m-5"></div>
+        <QualificationsCv user={user} />
+        <div className="m-5"></div>
+        <Motion title={"Where I Worked?"} subTitle={"My Experience!"} />
+        <div className="m-5"></div>
+        <ExperienceCv user={user} />
       </div>
     </main>
   );
