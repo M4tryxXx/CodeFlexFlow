@@ -321,7 +321,6 @@ export const createInvitation = async (data: any) => {
     const response = await prisma.invites.create({
       data: data,
     });
-    console.log(data);
     await prisma.$disconnect();
     return response;
   } catch (err) {
