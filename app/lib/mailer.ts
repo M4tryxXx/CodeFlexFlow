@@ -61,8 +61,8 @@ export const sendInvitationEmail = async (
     {
       from: "CodeFlexFlow@gmail.com", // sender address
       to: email, // list of receivers
-      subject: "CodeFlexFlow Password Reset Link", // Subject line
-      text: "Password Reset Link", // plain text body
+      subject: "CV Invitation Link", // Subject line
+      text: "My Cv Link", // plain text body
       html: `<h1>Hi</h1>\n  &nbsp; &nbsp; &nbsp; My name is ${user.firstName} ${user.lastName} and i would like to work for you, please see my CV by clicking the button below! \n \n  <a href="https://codeflexflow.vercel.app/cv/${invitation}" style="text-decoration: none; color: white;"><h2 style="padding: 5px 8px; width: 70%; background-color: darkblue; color: white; border-radius: 8px; text-decoration: none; text-align: center; margin: 5px auto;">View Cv</h2></a> \n  &nbsp; If you dont see the button copy this link and paste it into your browser: \n <b>https://codeflexflow.vercel.app/cv/${invitation}</b> \n \n Please note the link will expire after 30 minutes. Thank you. \n\n<br> &nbsp; &nbsp;&nbsp; &nbsp; Kind Regards ${user.firstName} ${user.lastName}!`, // html body
     },
     function (error: any, info: any) {
