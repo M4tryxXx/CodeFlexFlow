@@ -26,7 +26,7 @@ export default async function adminPage() {
           {`Invites sent ${invites.length}`}
         </h3>
 
-        <InvitesTable invites={invites} />
+        <InvitesTable invites={invites} role="admin" />
       </div>
       <hr className="w-full border-[2px] border-gray-200 dark:border-emerald-800 rounded-md my-4" />
       <div className="mb-10">
