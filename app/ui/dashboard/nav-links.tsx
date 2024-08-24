@@ -54,7 +54,7 @@ export default function NavLinks() {
             key={link.name}
             content={link.name}
             placement="top"
-            className="md:hidden"
+            className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
           >
             <Link
               key={link.name}

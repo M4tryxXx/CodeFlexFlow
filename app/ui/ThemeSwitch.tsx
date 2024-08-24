@@ -34,10 +34,14 @@ export default function ThemeSwitch() {
 
   if (theme === "dark") {
     return (
-      <Tooltip content="Set Light Mode" placement="top" className="">
+      <Tooltip
+        content="Set Light Mode"
+        placement="top"
+        className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+      >
         <div
           onClick={() => setTheme("light")}
-          className="flex flex-col md:h-7 items-center justify-center rounded-md bg-gray-50 p-3 md:p-2 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 hover:cursor-pointer"
+          className="flex flex-col md:h-7 h-8 items-center justify-center rounded-md bg-gray-50 p-1 md:p-2 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 hover:cursor-pointer"
         >
           <MoonIcon className="w-6 md:hidden" />
           <p className="hidden md:block">Dark</p>
@@ -48,10 +52,14 @@ export default function ThemeSwitch() {
 
   if (theme === "light") {
     return (
-      <Tooltip content="Set Auto Mode" placement="top" className="">
+      <Tooltip
+        content="Set Auto Mode"
+        placement="top"
+        className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+      >
         <div
           onClick={() => setTheme("system")}
-          className="flex flex-col md:h-7 items-center justify-center rounded-md bg-gray-50 p-3 md:p-2 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800  hover:cursor-pointer"
+          className="flex flex-col md:h-7 h-8 items-center justify-center rounded-md bg-gray-50 p-1 md:p-2 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 hover:cursor-pointer"
         >
           <SunIcon className="w-6 md:hidden" />
           <p className="hidden md:block">Light</p>
@@ -61,7 +69,11 @@ export default function ThemeSwitch() {
   }
   if (theme === "system") {
     return (
-      <Tooltip content="Set Dark Mode" placement="top" className="">
+      <Tooltip
+        content="Set Dark Mode"
+        placement="top"
+        className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+      >
         <div
           onClick={() => setTheme("dark")}
           className="flex flex-col md:h-7 h-8 items-center justify-center rounded-md bg-gray-50 p-1 md:p-2 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 hover:cursor-pointer"
