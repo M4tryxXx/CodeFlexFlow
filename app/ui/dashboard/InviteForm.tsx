@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import clsx from "clsx";
 import "../../ui/css/loadingLogin.css";
+import { set } from "zod";
 
 export default function InvitationForm({ user }: any) {
   const [loading, setLoading] = useState(false);
@@ -45,6 +46,8 @@ export default function InvitationForm({ user }: any) {
     const response = await sendInvitationLink(user, email, name);
     if (response === "Something went wrong") {
       toast.error("Something went wrong");
+      setLoading(false);
+      return;
     }
     toast.success("Invitation successfully sent!");
     setEmail("");
