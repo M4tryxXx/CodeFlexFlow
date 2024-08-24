@@ -50,6 +50,7 @@ export default function InvitesTable(invitations: any) {
   if (invites && invites.length > 0) {
     invites.map((invite: any) => {
       const formattedDate = formatDateToLocal(invite.createdAt, "en-GB");
+      const formattedDateOpened = formatDateToLocal(invite.updatedAt, "en-GB");
       infoArr.push(
         <div
           id={invite.id}
@@ -61,12 +62,12 @@ export default function InvitesTable(invitations: any) {
           {role === "admin" ? <p>Invite sent by: {invite.userUserName}</p> : ""}
           <p>Invite sent to:</p>
           <p>{invite.destinationName}</p> <p>at: {invite.destinationEmail}</p>
-          <p>on: {formattedDate}</p>
-          <p>
-            {invite.opened
-              ? "The Cv has been seen by the recipient"
-              : "The Cv has not been seen by the recipient"}
-          </p>
+          <p>Sent: {formattedDate}</p>
+          {invite.opened ? (
+            <p> Opened: {formattedDateOpened}</p>
+          ) : (
+            <p>The Cv has not been seen by the recipient</p>
+          )}
           <p>Invitation Code: {invite.id}</p>
         </div>
       );
@@ -95,8 +96,17 @@ export default function InvitesTable(invitations: any) {
 
           <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
             <Tooltip
-              content={`Invite sent to 
-                 ${invite.destinationName} \n at ${invite.destinationEmail} \n on ${formattedDate} `}
+              content={
+                <>
+                  <p>Sent: {formattedDate}</p>
+                  <br />
+                  {invite.opened ? (
+                    <p>Opened: {formattedDateOpened} </p>
+                  ) : (
+                    <p>Not Opened yet</p>
+                  )}
+                </>
+              }
               className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
             >
               <EyeIcon
@@ -106,7 +116,7 @@ export default function InvitesTable(invitations: any) {
                   if (element) {
                     element.classList.toggle("hidden");
                     element.style.left = e.pageX - 260 + "px";
-                    element.style.top = e.pageY - 250 + "px";
+                    element.style.top = e.pageY - 240 + "px";
                   }
                 }}
               />
