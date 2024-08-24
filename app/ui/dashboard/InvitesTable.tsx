@@ -41,7 +41,7 @@ export default function InvitesTable(invitations: any) {
       infoArr.push(
         <div
           id={invite.id}
-          className="border border-solid border-stone-700 p-3 rounded-md fixed top-5 right-[25%] md:left-[25%] z-50 invite-options bg-white text-black dark:bg-gray-800 dark:text-white hidden drop-shadow-xl"
+          className="border border-solid border-stone-700 p-3 rounded-md fixed top-[35%] right-[15%] md:left-[25%] z-50 invite-options bg-white text-black dark:bg-gray-800 dark:text-white hidden drop-shadow-xl"
         >
           <h3>Invitation info</h3>
           {role === "admin" ? <p>Invite sent by: {invite.userUserName}</p> : ""}

@@ -21,7 +21,7 @@ export default async function CvPage({
   }
 
   return (
-    <main className="w-[100vw] h-full bg-slate-950 m-0">
+    <main className="w-[100vw] h-full bg-[#050816] m-0">
       <div>
         <Hero user={user} />
         <Motion title={"Where I Learned?"} subTitle={"My Learning!"} />
