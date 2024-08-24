@@ -239,6 +239,7 @@ export const sendInvitationLink = async (
     id: invitation,
     userId: user.id,
     expiresAt: expiresAt,
+    userUserName: user.username,
     destinationEmail: email,
     destinationName: name,
   };
@@ -250,6 +251,15 @@ export const sendInvitationLink = async (
   await sendInvitationEmail(email, response, user);
   revalidatePath("/home/dashboard");
   redirect("/home/dashboard");
+};
+
+export const allInvites = async () => {
+  try {
+    const invites = await getAllInvites();
+    return invites;
+  } catch (err) {
+    return "Something went wrong";
+  }
 };
 
 export const userData = async () => {

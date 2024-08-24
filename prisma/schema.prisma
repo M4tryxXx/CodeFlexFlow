@@ -48,6 +48,7 @@ model Invites {
   expiresAt        DateTime
   updatedAt        DateTime?
   userId           String
+  userUserName     String?
   destinationEmail String
   destinationName  String?
   opened           Boolean  @default(false)

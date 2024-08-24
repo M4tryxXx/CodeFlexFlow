@@ -8,10 +8,10 @@ import { handleDeleteInvite } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { formatDateToLocal } from "@/app/lib/utils";
-import { info } from "console";
 
 export default function InvitesTable(invitations: any) {
   const invites = invitations.invites;
+  const role = invitations.role;
   const [loading, setLoading] = useState(false);
   let dataArr: any = [];
   let infoArr: any = [];
@@ -26,7 +26,6 @@ export default function InvitesTable(invitations: any) {
             element[i].classList.add("hidden");
           }
         }
-        console.log("Outside Clicked. ");
       }
     };
 
@@ -45,6 +44,7 @@ export default function InvitesTable(invitations: any) {
           className="border border-solid border-stone-700 p-3 rounded-md fixed top-5 right-[25%] md:left-[25%] z-50 invite-options bg-white text-black dark:bg-gray-800 dark:text-white hidden drop-shadow-xl"
         >
           <h3>Invitation info</h3>
+          {role === "admin" ? <p>Invite sent by: {invite.userUserName}</p> : ""}
           <p>Invite sent to:</p>
           <p>{invite.destinationName}</p> <p>at: {invite.destinationEmail}</p>
           <p>on: {formattedDate}</p>
