@@ -25,7 +25,9 @@ export default function InvitesTable(invitations: any) {
   const handleOutSideClick = (event: MouseEvent) => {
     let className: any;
     if ((event.target as Element).parentElement?.className) {
-      className = splitText((event.target as Element).parentElement?.className);
+      className = splitText(
+        (event.target as Element).parentElement?.className.toString()
+      );
     }
 
     if (!ref.current?.contains(event.target as Node)) {
