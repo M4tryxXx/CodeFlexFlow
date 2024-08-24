@@ -7,13 +7,13 @@ const Hero = ({ user }: any) => {
   console.log(user);
   return (
     <section
-      className="relative w-full h-screen max-auto "
+      className="relative w-full max-h-[800px] min-h-[400px] md:min-h-[700px] mt-1"
       style={{ height: "85vh" }}
     >
       <div
         className={`sm:px-16 px-6 absolute inset-0 top-[120px] max-w-7xl mx-auto flex flex-row items-start gap-5`}
       >
-        <div className="flex flex-col justify-center items-center mt-5">
+        <div className="flex flex-col justify-center items-center md:mt-5">
           <div className="w-5 h-5 rounded-full bg-[#915eff]" />
           <div className="w-1 sm:h-80 h-96 bg-gradient-to-b from-[#915eff]" />
         </div>

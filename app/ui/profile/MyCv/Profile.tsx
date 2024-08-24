@@ -25,7 +25,7 @@ export default function ProfileTable({ user }: any) {
         continue;
       }
       if (key === "createdAt" || key === "updatedAt" || key === "lastLogin") {
-        value = formatDateToLocal(value as string);
+        value = formatDateToLocal(value as string, "en-GB");
       }
 
       dataArr.push(

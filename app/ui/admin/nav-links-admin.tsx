@@ -10,6 +10,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
+import { Tooltip } from "@nextui-org/react";
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -27,44 +28,34 @@ export default function NavLinksAdmin() {
   const pathname = usePathname();
 
   return (
-    <>
+    <div className="flex flex-row gap-1">
       {links.map((link) => {
         const LinkIcon = link.icon;
-        if (link.name === "admin") {
-          return (
+
+        return (
+          <Tooltip
+            key={link.name}
+            content={link.name}
+            placement="top"
+            className="md:hidden"
+          >
             <Link
               key={link.name}
               href={link.href}
               className={clsx(
-                `flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 md:flex-none md:justify-start md:p-2 md:px-3`,
+                `flex flex-col h-8 md:h-7 items-center justify-center rounded-md bg-gray-50 p-1 md:p-2 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 `,
                 {
-                  "bg-rose-200 text-rose-900 dark:text-yellow-300 dark:bg-emerald-800":
+                  "bg-rose-200 text-rose-900 dark:text-yellow-300 dark:bg-emerald-800 underline decoration-rose-900 decoration-2 dark:decoration-yellow-300 underline-offset-4":
                     pathname === link.href,
                 }
               )}
             >
-              <LinkIcon className="w-6" />
+              <LinkIcon className="w-6 md:hidden" />
               <p className="hidden md:block">{link.name}</p>
             </Link>
-          );
-        }
-        return (
-          <Link
-            key={link.name}
-            href={link.href}
-            className={clsx(
-              `flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 md:flex-none md:justify-start md:p-2 md:px-3`,
-              {
-                "bg-rose-200 text-rose-900 dark:text-yellow-300 dark:bg-emerald-800":
-                  pathname === link.href,
-              }
-            )}
-          >
-            <LinkIcon className="w-6" />
-            <p className="hidden md:block">{link.name}</p>
-          </Link>
+          </Tooltip>
         );
       })}
-    </>
+    </div>
   );
 }

@@ -1,84 +1,132 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { DeleteIcon } from "../../ui/admin/table/DeleteIcon";
 import { EyeIcon } from "../../ui/admin/table/EyeIcon";
 import { Tooltip } from "@nextui-org/react";
 import { handleDeleteInvite } from "@/app/lib/actions";
 import toast from "react-hot-toast";
-import {
-  InformationCircleIcon,
-  CheckBadgeIcon,
-  CheckIcon,
-} from "@heroicons/react/24/outline";
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { formatDateToLocal } from "@/app/lib/utils";
+import { info } from "console";
 
 export default function InvitesTable(invitations: any) {
   const invites = invitations.invites;
   const [loading, setLoading] = useState(false);
   let dataArr: any = [];
+  let infoArr: any = [];
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleOutSideClick = (event: MouseEvent) => {
+      if (!ref.current?.contains(event.target as Node)) {
+        const element = document.getElementsByClassName("invite-options");
+        if (element) {
+          for (let i = 0; i < element.length; i++) {
+            element[i].classList.add("hidden");
+          }
+        }
+        console.log("Outside Clicked. ");
+      }
+    };
+
+    window.addEventListener("mousedown", handleOutSideClick);
+    return () => {
+      window.removeEventListener("mousedown", handleOutSideClick);
+    };
+  }, []);
 
   if (invites && invites.length > 0) {
     invites.map((invite: any) => {
-      const formattedDate = formatDateToLocal(invite.createdAt);
+      const formattedDate = formatDateToLocal(invite.createdAt, "en-GB");
+      infoArr.push(
+        <div
+          id={invite.id}
+          className="border border-solid border-stone-700 p-3 rounded-md fixed top-5 right-[25%] md:left-[25%] z-50 invite-options bg-white text-black dark:bg-gray-800 dark:text-white hidden drop-shadow-xl"
+        >
+          <h3>Invitation info</h3>
+          <p>Invite sent to:</p>
+          <p>{invite.destinationName}</p> <p>at: {invite.destinationEmail}</p>
+          <p>on: {formattedDate}</p>
+          <p>
+            {invite.opened
+              ? "The Cv has been seen by the recipient"
+              : "The Cv has not been seen by the recipient"}
+          </p>
+        </div>
+      );
 
       dataArr.push(
-        <tr
-          key={invite.id}
-          className="odd:bg-white even:bg-gray-100 hover:bg-gray-100 dark:odd:bg-transparent dark:even:bg-transparent dark:hover:bg-stone-700 dark:hover:bg-opacity-25"
-        >
-          <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200">
-            {invite.destinationName}
-          </td>
-          <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 ">
-            <Tooltip
-              content={invite.opened ? `Invite Opened` : `Invite Not Opened`}
-              className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
-            >
-              {invite.opened ? (
-                <div className=" border border-green-500 rounded-md bg-green-600 h-[16px] w-[16px]"></div>
-              ) : (
-                <div className=" border border-red-500 rounded-md bg-red-600 h-[16px] w-[16px]"></div>
-              )}
-            </Tooltip>
-          </td>
+        <>
+          <tr
+            key={invite.id}
+            className="odd:bg-white even:bg-gray-100 hover:bg-gray-100 dark:odd:bg-transparent dark:even:bg-transparent dark:hover:bg-stone-700 dark:hover:bg-opacity-25"
+          >
+            <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200">
+              {invite.destinationName}
+            </td>
 
-          <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 ">
-            <Tooltip
-              content={`Invite sent to 
+            <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
+              <Tooltip
+                content={invite.opened ? `Invite Opened` : `Invite Not Opened`}
+                className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+              >
+                {invite.opened ? (
+                  <div className=" border border-green-500 rounded-md bg-green-600 h-[16px] w-[16px]"></div>
+                ) : (
+                  <div className=" border border-red-500 rounded-md bg-red-600 h-[16px] w-[16px]"></div>
+                )}
+              </Tooltip>
+            </td>
+
+            <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
+              <Tooltip
+                content={`Invite sent to 
                  ${invite.destinationName} \n at ${invite.destinationEmail} \n on ${formattedDate} `}
-              className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
-            >
-              <EyeIcon className="m-auto text-green-600" />
-            </Tooltip>
-          </td>
-          <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 ">
-            {/* <form action={handleDelete(user.id)}> */}
-            <Tooltip
-              content={`Delete ${invite.id}`}
-              className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
-            >
-              <DeleteIcon
-                className="text-red-600 m-auto cursor-pointer "
-                onClick={async () => {
-                  setLoading(true);
-                  try {
-                    await handleDeleteInvite(invite.id);
-                  } catch (error) {
+                className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+              >
+                <EyeIcon
+                  className="m-auto text-green-600 hover:cursor-pointer"
+                  onClick={(e: any) => {
+                    const element = document.getElementById(invite.id);
+                    if (element) {
+                      element.classList.toggle("hidden");
+                    }
+                  }}
+                />
+              </Tooltip>
+            </td>
+
+            <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
+              {/* <form action={handleDelete(user.id)}> */}
+              <Tooltip
+                content={`Delete ${invite.id}`}
+                className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+              >
+                <DeleteIcon
+                  className="text-red-600 m-auto cursor-pointer "
+                  onClick={async () => {
+                    setLoading(true);
+                    try {
+                      await handleDeleteInvite(invite.id);
+                    } catch (error) {
+                      setLoading(false);
+                      toast.error(
+                        "An error occurred while deleting the Invite"
+                      );
+                    }
+                    toast.success("Invite deleted successfully", {
+                      duration: 5000,
+                      icon: "👋",
+                    });
                     setLoading(false);
-                    toast.error("An error occurred while deleting the Invite");
-                  }
-                  toast.success("Invite deleted successfully", {
-                    duration: 5000,
-                    icon: "👋",
-                  });
-                  setLoading(false);
-                }}
-              />
-            </Tooltip>
-            {/* </form> */}
-          </td>
-        </tr>
+                  }}
+                />
+              </Tooltip>
+              {/* </form> */}
+            </td>
+          </tr>
+        </>
       );
     });
   }
@@ -97,6 +145,7 @@ export default function InvitesTable(invitations: any) {
         <div className="-m-1.5 overflow-x-auto">
           <div className="p-1.5 min-w-full inline-block align-middle">
             <div className="overflow-hidden">
+              {infoArr ? infoArr : ""}
               <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                 <thead>
                   <tr>

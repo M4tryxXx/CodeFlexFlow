@@ -59,8 +59,10 @@ export default function InvitationForm({ user }: any) {
         await handleSubmit(e);
       }}
     >
-      <div className="flex-1 rounded-lg bg-gray-50 dark:bg-gray-800 px-6 pb-4 pt-8 max-w-[380px]">
-        <h1 className={`${lusitana.className} mb-3 text-2xl`}>Send Your CV</h1>
+      <div className="flex-1  px-6 pb-4 pt-8 max-w-[480px]">
+        <h3 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
+          Send Your CV
+        </h3>
         <div className="w-full">
           <div>
             <label

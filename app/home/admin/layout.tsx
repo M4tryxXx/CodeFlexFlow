@@ -39,11 +39,10 @@ export default async function Layout({
   }
   return (
     <main className={`${myStyles.mainLayout}`}>
-      <div className="w-full flex-none md:w-64">
+      <div className="w-full flex-none">
         <SideNavAdmin />
       </div>
-
-      <div className="flex-grow h-full  flex-col mx-4 my-4 px-3 py-4 dark:bg-indigo-950 dark:bg-opacity-50  bg-gray-50  rounded-md">
+      <div className="flex grow h-full w-[95%] max-w-[1300px] flex-col mx-auto my-4 px-3 py-4 dark:bg-indigo-950 dark:bg-opacity-50  bg-gray-50  rounded-md">
         {children}
       </div>
     </main>
