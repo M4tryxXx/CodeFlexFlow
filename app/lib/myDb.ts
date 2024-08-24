@@ -375,6 +375,39 @@ export const getAllInvites = async () => {
   }
 };
 
+export const inviteSerial = async () => {
+  try {
+    const response = await prisma.inviteId.findUnique({
+      where: {
+        name: "invite",
+      },
+    });
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
+export const updateSerial = async (data: any) => {
+  try {
+    const response = await prisma.inviteId.update({
+      where: {
+        name: "invite",
+      },
+      data: data,
+    });
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
 export const getInvitesByUserId = async (id: any) => {
   try {
     const result = await prisma.invites.findMany({

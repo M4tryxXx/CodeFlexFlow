@@ -29,6 +29,8 @@ import {
   getUsers,
   findUserById,
   updateInvite,
+  inviteSerial,
+  updateSerial,
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
@@ -96,10 +98,15 @@ export const handleDelete = async (id: string) => {
   redirect("/home/admin/users");
 };
 
-export const handleDeleteInvite = async (id: string) => {
+export const handleDeleteInvite = async (id: string, location: string) => {
   await deleteInviteById(id);
-  revalidatePath("/home/dashboard");
-  redirect("/home/dashboard");
+  if (location === "dashboard") {
+    revalidatePath("/home/dashboard");
+    redirect("/home/dashboard");
+  } else {
+    revalidatePath("/home/admin");
+    redirect("/home/admin");
+  }
 };
 
 export const handleEditUser = async (data: FormData) => {
@@ -232,9 +239,9 @@ export const sendInvitationLink = async (
   email: String,
   name: String
 ) => {
-  const invitations = await getAllInvites();
+  const serial = await inviteSerial();
   const expiresAt = new Date(Date.now() + 604800000).toISOString();
-  const invitation = `CV-${invitations.length + 10000}`;
+  const invitation = `CV-${serial?.id ?? +10000}`;
   const data = {
     id: invitation,
     userId: user.id,
@@ -247,6 +254,7 @@ export const sendInvitationLink = async (
   try {
     response = await createInvitation(data);
     await sendInvitationEmail(email, response, user);
+    await updateSerial({ id: serial?.id ?? +1 });
   } catch (error) {
     return "Something went wrong";
   }

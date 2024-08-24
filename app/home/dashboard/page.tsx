@@ -25,7 +25,7 @@ export default async function dashPage() {
             : `You have sent ${user?.Invites?.length} invites`}
         </h3>
 
-        <InvitesTable invites={user.Invites} />
+        <InvitesTable invites={user.Invites} location="dashboard" />
       </div>
     </main>
   );

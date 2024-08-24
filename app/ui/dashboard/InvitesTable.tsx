@@ -12,6 +12,8 @@ import { formatDateToLocal } from "@/app/lib/utils";
 export default function InvitesTable(invitations: any) {
   const invites = invitations.invites;
   const role = invitations.role;
+  const location = invitations.location;
+  console.log(invitations);
   const [loading, setLoading] = useState(false);
   let dataArr: any = [];
   let infoArr: any = [];
@@ -134,7 +136,7 @@ export default function InvitesTable(invitations: any) {
                 onClick={async () => {
                   setLoading(true);
                   try {
-                    await handleDeleteInvite(invite.id);
+                    await handleDeleteInvite(invite.id, location);
                   } catch (error) {
                     setLoading(false);
                     toast.error("An error occurred while deleting the Invite");

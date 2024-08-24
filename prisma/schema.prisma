@@ -94,3 +94,8 @@ model User {
   Invites           Invites[]
   Qualifications    Qualification[]
 }
+
+model inviteId {
+  id        Int   @id
+  name      String @default("invite") @unique
+}
