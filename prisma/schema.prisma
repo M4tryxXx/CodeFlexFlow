@@ -46,6 +46,7 @@ model Invites {
   id               String   @id
   createdAt        DateTime @default(now())
   expiresAt        DateTime
+  updatedAt        DateTime?
   userId           String
   destinationEmail String
   destinationName  String?

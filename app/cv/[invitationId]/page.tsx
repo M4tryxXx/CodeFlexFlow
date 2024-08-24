@@ -1,10 +1,9 @@
 import { getInvitesById } from "@/app/lib/myDb";
-import { userDataById } from "@/app/lib/actions";
+import { userDataById, updateInviteById } from "@/app/lib/actions";
 import "react-vertical-timeline-component/style.min.css";
 
 import ExperienceCv from "@/app/ui/profile/MyCv/ExperienceCv";
 import QualificationsCv from "@/app/ui/profile/MyCv/QualificationsCv";
-import { userData } from "@/app/lib/actions";
 import Motion from "@/app/ui/profile/MyCv/Motion";
 import Hero from "@/app/ui/profile/MyCv/CvHero";
 
@@ -18,8 +17,8 @@ export default async function CvPage({
   let user: any;
   if (invite) {
     user = await userDataById(invite.userId);
+    await updateInviteById(invitationId);
   }
-  console.log(user);
 
   return (
     <main className="w-[100vw] h-full bg-slate-950 m-0">

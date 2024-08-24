@@ -28,6 +28,7 @@ import {
   findUserByEmail,
   getUsers,
   findUserById,
+  updateInvite,
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
@@ -117,6 +118,21 @@ export const editUser = async (data: any) => {
   if (response) {
     revalidatePath("/home/admin/users");
     redirect("/home/admin/users");
+  } else {
+    return "Something went wrong";
+  }
+};
+
+export const updateInviteById = async (id: any) => {
+  const updatedAt = new Date(Date.now()).toISOString();
+  const data = {
+    id: id,
+    updatedAt: updatedAt,
+    opened: true,
+  };
+  const response = await updateInvite(data);
+  if (response) {
+    revalidatePath("/home/dashboard");
   } else {
     return "Something went wrong";
   }

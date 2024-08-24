@@ -75,7 +75,7 @@ export const findUserById = async (id: string) => {
       id: id,
     },
   });
-  prisma.$disconnect();
+  await prisma.$disconnect();
   if (user) {
     return user;
   } else {
@@ -130,12 +130,6 @@ export const deleteUserById = async (id: string) => {
 };
 
 export const deleteInviteById = async (id: string) => {
-  await prisma.invites.deleteMany({
-    where: {
-      id: id,
-    },
-  });
-
   try {
     await prisma.invites.deleteMany({
       where: {
@@ -154,6 +148,24 @@ export const updateUser = async (data: any) => {
   const { id } = data;
   try {
     const response = await prisma.user.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    });
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
+export const updateInvite = async (data: any) => {
+  const { id } = data;
+  try {
+    const response = await prisma.invites.update({
       where: {
         id: id,
       },
