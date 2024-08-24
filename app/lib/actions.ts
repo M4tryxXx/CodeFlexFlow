@@ -243,12 +243,14 @@ export const sendInvitationLink = async (
     destinationEmail: email,
     destinationName: name,
   };
-
-  const response = await createInvitation(data);
-  if (!response) {
+  let response;
+  try {
+    response = await createInvitation(data);
+    await sendInvitationEmail(email, response, user);
+  } catch (error) {
     return "Something went wrong";
   }
-  await sendInvitationEmail(email, response, user);
+
   revalidatePath("/home/dashboard");
   redirect("/home/dashboard");
 };

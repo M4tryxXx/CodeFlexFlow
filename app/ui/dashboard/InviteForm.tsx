@@ -10,7 +10,7 @@ import {
   InformationCircleIcon,
   GiftIcon,
   BuildingOffice2Icon,
-  BuildingOfficeIcon,
+  CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 import { verifyEmailSchema } from "../../lib/zod-schemas";
 import { sendInvitationLink } from "../../lib/actions";
@@ -18,12 +18,12 @@ import toast from "react-hot-toast";
 import { useState } from "react";
 import clsx from "clsx";
 import "../../ui/css/loadingLogin.css";
-import { set } from "zod";
 
 export default function InvitationForm({ user }: any) {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
+  const [invitationInfo, setInvitationInfo] = useState("");
   const handleSubmit = async (e: any) => {
     setLoading(true);
     e.preventDefault();
@@ -49,6 +49,9 @@ export default function InvitationForm({ user }: any) {
       setLoading(false);
       return;
     }
+    setInvitationInfo(
+      "Your CV has been successfully sent, track it from the dashboard"
+    );
     toast.success("Invitation successfully sent!");
     setEmail("");
     setName("");
@@ -124,6 +127,18 @@ export default function InvitationForm({ user }: any) {
           <InformationCircleIcon className=" text-lg mr-5 pointer-events-none h-[25px] w-[25px] dark:text-blue-300 dark:peer-focus:text-white text-blue-700" />
           Invitation is valid for 7 days!
         </div>
+        {invitationInfo && (
+          <div className="flex gap-2 flex-row items-center justify-start mt-5 border-solid border-2 rounded-md py-2 px-3 border-green-700 ">
+            <CheckCircleIcon className=" mr-2 text-lg pointer-events-none md:h-[35px] md:w-[35px] h-[45px] w-[45px] dark:text-green-500 dark:peer-focus:text-white text-blue-700" />
+            <div>{invitationInfo}</div>
+            <button
+              onClick={() => setInvitationInfo("")}
+              className=" p-2 rounded-md bg-rose-300 dark:bg-emerald-900 dark:hover:bg-emerald-700 text-sm font-medium text-black dark:text-white transition-colors hover:bg-rose-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500 active:bg-rose-300 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 shadow-md shadow-black"
+            >
+              OK
+            </button>
+          </div>
+        )}
       </div>
     </form>
   );

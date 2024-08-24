@@ -12,7 +12,7 @@ export default async function dashPage() {
           Your Dashboard
         </h1>
         <hr className="w-full border-[3px] border-gray-200 dark:border-emerald-800 rounded-md my-4" />
-        <div>
+        <div className="w-full">
           <InvitationForm user={user.user} />
         </div>
       </div>
