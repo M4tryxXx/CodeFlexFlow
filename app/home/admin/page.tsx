@@ -31,19 +31,28 @@ export default async function adminPage() {
       <hr className="w-full border-[2px] border-gray-200 dark:border-emerald-800 rounded-md my-4" />
       <div className="mb-10">
         <h3 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
-          {`Users Registered ${users?.length}`}
+          Users Registered
+          <br />
+          <br />
+          {users?.length}
         </h3>
       </div>
       <hr className="w-full border-[2px] border-gray-200 dark:border-emerald-800 rounded-md my-4" />
       <div className="mb-10">
         <h3 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
-          {`Total Experiences added ${experience?.length}`}
+          Total Experiences added
+          <br />
+          <br />
+          {experience?.length}
         </h3>
       </div>
       <hr className="w-full border-[2px] border-gray-200 dark:border-emerald-800 rounded-md my-4" />
       <div className="mb-10">
         <h3 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
-          {`Total Qualifications added ${qualifications?.length}`}
+          Total Qualifications added
+          <br />
+          <br />
+          {qualifications?.length}
         </h3>
       </div>
     </main>
