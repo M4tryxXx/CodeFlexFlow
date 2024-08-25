@@ -23,8 +23,7 @@ export default function LoginForm() {
   const [loading, setLoading] = useState(false);
   const loginFrom = Intl.DateTimeFormat()
     .resolvedOptions()
-    .timeZone.split("/")[1]
-    .toString();
+    .timeZone.split("/")[1];
 
   const loginFunction = async (username: string, password: string) => {
     setLoading(true);
