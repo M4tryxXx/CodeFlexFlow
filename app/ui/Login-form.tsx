@@ -17,18 +17,12 @@ import { useState, useEffect } from "react";
 import "../ui/css/loadingLogin.css";
 
 export default function LoginForm() {
-  const locales = new Date(Date.now()).toISOString();
-  //console.log(locales);
-  const test = new Date(locales).toLocaleString();
-  console.log(test);
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const loginFrom = Intl.DateTimeFormat()
     .resolvedOptions()
     .timeZone.split("/")[1];
-  console.log(loginFrom);
 
   const loginFunction = async (username: string, password: string) => {
     setLoading(true);
