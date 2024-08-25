@@ -70,14 +70,10 @@ export default function LoginForm() {
       }
       return { err };
     }
-
     const locale = new Date().toLocaleString();
     await updateLogin(user.id, {
       lastLogin: new Date(locale).toISOString(),
-      lastLoginFrom: Intl.DateTimeFormat()
-        .resolvedOptions()
-        .timeZone.split("/")[1]
-        .toString(),
+      lastLoginFrom: loginFrom,
     });
   };
 
