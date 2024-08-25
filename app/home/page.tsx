@@ -11,6 +11,13 @@ export default async function HomePage() {
     role = user.role;
   }
   //const user = await findUserById(userIdd);
+  // const userIp = await fetch("https://api.ipify.org?format=json").then((res) =>
+  //   res.json()
+  // );
+  // console.log(userIp);
+
+  const city = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  console.log(city);
 
   return (
     <main className={`${myStyles.main}`}>
@@ -25,6 +32,7 @@ export default async function HomePage() {
           >
             <span>Dashboard</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
+          <h1>{city}</h1>
           {role === "admin" ? (
             <Link
               href="/home/admin"
