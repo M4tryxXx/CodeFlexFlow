@@ -27,6 +27,9 @@ const config: Config = {
           600: "#2F6FEB",
         },
       },
+      animation: {
+        "spin-slow": "spin 1.5s linear infinite",
+      },
     },
     keyframes: {
       shimmer: {

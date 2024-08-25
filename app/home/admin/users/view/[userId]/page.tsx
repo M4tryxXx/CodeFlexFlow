@@ -17,7 +17,6 @@ export default async function EditUserPage({
   ];
   let userDetails: any = [];
   if (user) {
-    let a = 0;
     for (let [key, value] of Object.entries(user)) {
       if (key === "password") {
         continue;
@@ -50,10 +49,6 @@ export default async function EditUserPage({
           </td>
         </tr>
       );
-      a++;
-      if (a === 2) {
-        a = 0;
-      }
     }
 
     data = (

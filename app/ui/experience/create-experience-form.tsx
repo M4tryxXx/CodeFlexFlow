@@ -12,6 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Button } from "../Button";
 import { addDataUserSide } from "@/app/lib/client-actions";
+import { set } from "zod";
 
 export default function AddExperienceForm({ id }: { id: string }) {
   const [company, setCompany] = useState("");
@@ -20,7 +21,9 @@ export default function AddExperienceForm({ id }: { id: string }) {
   const [to, setTo] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = async (e: any) => {
+    setIsLoading(true);
     e.preventDefault();
     await addDataUserSide({
       company: company,
@@ -31,6 +34,7 @@ export default function AddExperienceForm({ id }: { id: string }) {
       stillWorking: status,
       userId: id,
     });
+    setIsLoading(false);
   };
   return (
     <>
@@ -201,6 +205,14 @@ export default function AddExperienceForm({ id }: { id: string }) {
           <Button type="submit">Salveaza Experienta</Button>
         </div>
       </form>
+      {isLoading && (
+        <div className="fixed left-0 top-0 bg-[#250e0e49] dark:bg-[#06093f77] w-[100vw] h-[100vh] ">
+          <div className="bg-[#b76973ab] dark:bg-[#113a27e3] dark:text-yellow-300 md:text-lg md:h-16 h-12 w-[30%] rounded-lg flex flex-row justify-center items-center fixed left-[35%] top-1/2">
+            <div className="inline-block md:h-8 md:w-8 h-5 w-5 animate-spin-slow rounded-full mr-4 md:border-4 border-2 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_3s_linear_infinite] dark:text-yellow-300"></div>
+            Loading...
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -7,6 +7,7 @@ import { userId } from "@/app/lib/actions";
 import { EditIcon } from "../../../ui/admin/table/EditIcon";
 
 export default async function QualificationPage() {
+  let loading = false;
   const userActivId = await userId();
   const qualification = await getQualificationById(userActivId?.id);
   let qualificationContainer: any;

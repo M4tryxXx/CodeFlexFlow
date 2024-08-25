@@ -1,34 +1,31 @@
-// Code: Home -> Dashboard -> Qualification -> Loading
+import { myStyles } from "@/app/styles";
 
-export default async function PageLoader() {
+export default function PageSkeleton() {
   return (
-    <>
-      <h1 className="text-center text-2xl text-gray-500 dark:text-gray-200 opacity-70">
-        Loading Qualifications . . .
-      </h1>
-      <div className="flex flex-wrap justify-center dark:bg- p-3 ">
-        <div className=" opacity-30 flex-grow overflow-auto h-full w-72 flex-col mx-2 my-2    bg-silver border-2 shadow-lg border-stone-800 dark:shadow-black dark:bg-stone-900 rounded-lg max-w-md">
-          <div
-            className="flex justify-center items-center font-bold bg-stone-900 
-          text-emerald-100 w-full shadow-md rounded-t-md h-10  dark:bg-emerald-950"
-          ></div>
-          <div className="py-3 px-4 h-28 hover:bg-rose-100 dark:hover:bg-stone-800 shadow-md"></div>
+    <main className={`${myStyles.main}`}>
+      <div className="flex flex-wrap justify-center dark:bg-transparent p-3">
+        <div className="w-full max-w-md p-4 bg-gray-300 dark:bg-gray-700 rounded-md mb-4">
+          <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
+          <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
+          <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
+          <div className="flex justify-end mt-4">
+            <div className="w-8 h-8 bg-gray-400 dark:bg-gray-600 rounded-full mx-1"></div>
+            <div className="w-8 h-8 bg-gray-400 dark:bg-gray-600 rounded-full mx-1"></div>
+          </div>
         </div>
-        <div className=" opacity-30 flex-grow overflow-auto h-full w-72 flex-col mx-2 my-2    bg-silver border-2 shadow-lg border-stone-800 dark:shadow-black dark:bg-stone-900 rounded-lg max-w-md">
-          <div
-            className="flex justify-center items-center font-bold bg-stone-900 
-          text-emerald-100 w-full shadow-md rounded-t-md h-10  dark:bg-emerald-950"
-          ></div>
-          <div className="py-3 px-4 h-28 hover:bg-rose-100 dark:hover:bg-stone-800 shadow-md"></div>
-        </div>
-        <div className=" opacity-30 flex-grow overflow-auto h-full w-72 flex-col mx-2 my-2    bg-silver border-2 shadow-lg border-stone-800 dark:shadow-black dark:bg-stone-900 rounded-lg max-w-md">
-          <div
-            className="flex justify-center items-center font-bold bg-stone-900 
-          text-emerald-100 w-full shadow-md rounded-t-md h-10  dark:bg-emerald-950"
-          ></div>
-          <div className="py-3 px-4 h-28 hover:bg-rose-100 dark:hover:bg-stone-800 shadow-md"></div>
+        <div className="w-full max-w-md p-4 bg-gray-300 dark:bg-gray-700 rounded-md mb-4">
+          <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
+          <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
+          <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
+          <div className="flex justify-end mt-4">
+            <div className="w-8 h-8 bg-gray-400 dark:bg-gray-600 rounded-full mx-1"></div>
+            <div className="w-8 h-8 bg-gray-400 dark:bg-gray-600 rounded-full mx-1"></div>
+          </div>
         </div>
       </div>
-    </>
+      <div className="mt-6 mr-5 flex justify-end gap-4">
+        <div className="flex h-10 w-32 bg-gray-400 dark:bg-gray-600 rounded-lg"></div>
+      </div>
+    </main>
   );
 }

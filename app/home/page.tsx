@@ -22,6 +22,7 @@ export default async function HomePage() {
           <div className="flex h-20 shrink-0 items-center justify-between rounded-lg   p-2 md:h[30px]">
             <AcmeLogo />
           </div>
+
           <div className="mt-4 flex grow  flex-col md:flex-row gap-4 ">
             <div className="mt-4 justify-around flex flex-row md:flex-col gap-4 w-3/4 h-auto mx-auto md:w-1/5 md:justify-start">
               <Link
@@ -87,6 +88,7 @@ export default async function HomePage() {
       <div className="flex h-20 shrink-0 items-center justify-between rounded-lg   p-2 md:h[30px]">
         <AcmeLogo />
       </div>
+
       <div className="mt-4 flex grow  flex-col md:flex-row gap-4 ">
         <div className="mt-4 justify-around flex flex-row md:flex-col gap-4 w-3/4 h-auto mx-auto md:w-1/5 md:justify-start">
           <Link
