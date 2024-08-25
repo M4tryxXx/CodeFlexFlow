@@ -56,14 +56,14 @@ export const addExperienceSchema = z.object({
   from: z.string(),
   to: z.string().optional(),
   description: z.string().optional(),
-  stillWorking: z.string(),
+  stillWorking: z.string().optional(),
 });
 
 export const editExperienceSchema = z.object({
   id: z.string(),
-  title: z.string().optional(),
-  company: z.string().optional(),
-  from: z.string().optional(),
+  title: z.string(),
+  company: z.string(),
+  from: z.string(),
   to: z.string().optional(),
   description: z.string().optional(),
   stillWorking: z.string().optional(),

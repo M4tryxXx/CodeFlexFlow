@@ -14,7 +14,7 @@ model Qualification {
   name          String
   qualification String
   city          String?
-  description   String?
+  description   String?  @db.Text
   from          String?
   to            String?
   createdAt     DateTime @default(now())
@@ -32,7 +32,7 @@ model Experience {
   company      String
   from         String
   to           String?
-  description  String?
+  description  String?   @db.Text
   stillWorking String    @default("false")
   image        String?
   createdAt    DateTime  @default(now())
@@ -79,7 +79,7 @@ model User {
   country           String?
   zip               String?
   address2          String?
-  bio               String?
+  bio               String?        @db.Text
   website           String?
   linkedin          String?
   twitter           String?
