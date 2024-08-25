@@ -239,11 +239,16 @@ export const sendInvitationLink = async (
   email: String,
   name: String
 ) => {
+  let invitationCode: any;
   const serial = await inviteSerial();
+  console.log(serial);
   const expiresAt = new Date(Date.now() + 604800000).toISOString();
-  const invitation = `CV-${serial?.id ?? +10000}`;
+  if (serial) {
+    invitationCode = `CV-${serial.id + 10000}`;
+  }
+
   const data = {
-    id: invitation,
+    id: invitationCode,
     userId: user.id,
     expiresAt: expiresAt,
     userUserName: user.username,
@@ -254,7 +259,9 @@ export const sendInvitationLink = async (
   try {
     response = await createInvitation(data);
     await sendInvitationEmail(email, response, user);
-    await updateSerial({ id: serial?.id ?? +1 });
+    if (response && serial) {
+      await updateSerial({ id: serial.id + 1 });
+    }
   } catch (error) {
     return "Something went wrong";
   }

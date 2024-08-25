@@ -387,7 +387,7 @@ export const inviteSerial = async () => {
   } catch (err) {
     await prisma.$disconnect();
     console.log(err);
-    return null;
+    throw "Something went wrong!";
   }
 };
 

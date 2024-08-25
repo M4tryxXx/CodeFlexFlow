@@ -1,4 +1,4 @@
-import EditUserForm from "@/app/ui/admin/edit-user-form";
+import EditProfileForm from "@/app/ui/profile/MyCv/EditProfileForm";
 import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
 import { findUserById } from "@/app/lib/myDb";
 import EditUserFormNew from "@/app/ui/admin/new-edit-user-form";
@@ -58,13 +58,13 @@ export default async function EditProfilePage({
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: "Admin", href: "/home/admin" },
+          { label: "Dashboard", href: "/home/dashboard" },
           {
-            label: "Users",
-            href: "/home/admin/users",
+            label: "Profile",
+            href: "/home/dashboard/profile",
           },
           {
-            label: "Edit User",
+            label: "Edit Profile",
             href: ``,
             active: true,
           },
@@ -72,7 +72,7 @@ export default async function EditProfilePage({
       />
 
       <div className="rounded-md bg-gray-50 p-4 md:p-6 dark:bg-gray-800 my-5">
-        <EditUserForm user={user} />
+        <EditProfileForm user={user} />
         <h1 className="my-3 mx-3">{user?.username} Details</h1>
         {data}
       </div>
