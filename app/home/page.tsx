@@ -42,7 +42,7 @@ export default async function HomePage() {
             </Link>
           ) : null}
         </div>
-        <div className="flex items-center justify-center p-6 md:w-4/5 md:px-28 md:py-12">
+        <div className="flex items-start justify-center p-6 md:w-4/5 md:px-28 md:py-12">
           {" "}
           <UserTimezoneClock />
         </div>
