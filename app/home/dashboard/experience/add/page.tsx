@@ -1,10 +1,11 @@
 "use server";
 import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
 import AddExperienceForm from "@/app/ui/experience/create-experience-form";
-import { userId } from "@/app/lib/actions";
+import { userData } from "@/app/lib/actions";
 
 export default async function AddExperience() {
-  const userActivId = await userId();
+  const user = await userData();
+  console.log(user.user.id);
   return (
     <main>
       <Breadcrumbs
@@ -17,7 +18,7 @@ export default async function AddExperience() {
           },
         ]}
       />
-      <AddExperienceForm id={userActivId?.id || ""} />
+      <AddExperienceForm id={user.user?.id || ""} />
     </main>
   );
 }

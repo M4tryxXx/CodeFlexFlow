@@ -13,23 +13,16 @@ export default function InvitesTable(invitations: any) {
   const invites = invitations.invites;
   const role = invitations.role;
   const location = invitations.location;
-  console.log(invitations);
   const [loading, setLoading] = useState(false);
   let dataArr: any = [];
   let infoArr: any = [];
   const ref = useRef<HTMLDivElement>(null);
 
-  const splitText = (text: any) => {
-    const split = text.split(" ");
-    return split;
-  };
-
   const handleOutSideClick = (event: MouseEvent) => {
     let className: any;
     if ((event.target as Element).parentElement?.className) {
-      className = splitText(
-        (event.target as Element).parentElement?.className.toString()
-      );
+      let text = (event.target as Element).parentElement?.className.toString();
+      className = text?.split(" ");
     }
 
     if (!ref.current?.contains(event.target as Node)) {
@@ -60,10 +53,10 @@ export default function InvitesTable(invitations: any) {
           onClick={(e) => e.stopPropagation()}
           className="border border-solid border-stone-700 p-3 rounded-md absolute  z-50 invite-options bg-white text-black dark:bg-gray-800 dark:text-white hidden drop-shadow-xl"
         >
-          <h3 className="text-">Invitation info</h3>
           {role === "admin" ? <p>Invite sent by: {invite.userUserName}</p> : ""}
-          <p>Invite sent to:</p>
-          <p>{invite.destinationName}</p> <p>at: {invite.destinationEmail}</p>
+          <h1 className="text-lg font-semibold">{invite.destinationName}</h1>
+          <hr className="w-full border-[.3mm] border-gray-200 dark:border-emerald-800 rounded-md my-1" />
+          <p>At: {invite.destinationEmail}</p>
           <p>Sent: {formattedDate}</p>
           {invite.opened ? (
             <p> Opened: {formattedDateOpened}</p>
