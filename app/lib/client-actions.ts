@@ -28,6 +28,7 @@ import {
   updateUserPasswordSchema,
 } from "./zod-schemas";
 import { sendWelcomeEmail } from "./mailer";
+import { updateLogin } from "../lib/myDb";
 
 export const editUserSide = async (data: any) => {
   let obj: any = {};
@@ -68,7 +69,11 @@ export const deleteUserSide = async (id: string) => {
   }
 };
 
-export const loginUserSide = async (username: any, password: any) => {
+export const loginUserSide = async (
+  username: any,
+  password: any,
+  loginFrom: any
+) => {
   const credentials: { [key: string]: any } = {
     username: username,
     password: password,
@@ -95,7 +100,10 @@ export const loginUserSide = async (username: any, password: any) => {
       formData.append(key, credentials[key]);
     }
     authenticate(formData);
-    return user.id;
+    await updateLogin(user.id, {
+      lastLogin: new Date(Date.now()).toISOString(),
+      lastLoginFrom: loginFrom,
+    });
   }
 };
 

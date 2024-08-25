@@ -15,15 +15,20 @@ import Link from "next/link";
 import { loginUserSide } from "../lib/client-actions";
 import { useState, useEffect } from "react";
 import "../ui/css/loadingLogin.css";
-import { updateLogin } from "../lib/myDb";
 
 export default function LoginForm() {
+  const locales = new Date(Date.now()).toISOString();
+  //console.log(locales);
+  const test = new Date(locales).toLocaleString();
+  console.log(test);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const loginFrom = Intl.DateTimeFormat()
     .resolvedOptions()
     .timeZone.split("/")[1];
+  console.log(loginFrom);
 
   const loginFunction = async (username: string, password: string) => {
     setLoading(true);
@@ -48,7 +53,7 @@ export default function LoginForm() {
       return;
     }
     try {
-      user = await loginUserSide(username, password);
+      await loginUserSide(username, password, loginFrom);
     } catch (err: any) {
       switch (err) {
         case "Username not found!":
@@ -69,11 +74,6 @@ export default function LoginForm() {
       }
       return { err };
     }
-    const locale = new Date().toLocaleString();
-    await updateLogin(user.id, {
-      lastLogin: new Date(locale).toISOString(),
-      lastLoginFrom: loginFrom,
-    });
   };
 
   const handleSubmit = async (e: any) => {
