@@ -39,7 +39,7 @@ export default async function EditUserPage({
       }
       userDetails.push(
         <tr
-          key={user.id}
+          key={user.id + key}
           className="odd:bg-white even:bg-gray-100 hover:bg-gray-100 dark:odd:bg-transparent dark:even:bg-transparent dark:hover:bg-stone-700 dark:hover:bg-opacity-25"
         >
           <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 ">
