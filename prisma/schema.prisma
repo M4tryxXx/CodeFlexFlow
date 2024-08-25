@@ -90,6 +90,7 @@ model User {
   createdAt         DateTime?       @default(now())
   updatedAt         DateTime?       @default(now())
   lastLogin         DateTime?
+  lastLoginFrom     String?
   Experience        Experience[]
   Invites           Invites[]
   Qualifications    Qualification[]
