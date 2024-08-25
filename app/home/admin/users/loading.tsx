@@ -15,7 +15,7 @@ export default function UsersTableSkeleton() {
             </tr>
           </thead>
           <tbody>
-            {Array.from({ length: 10 }).map((_, index) => (
+            {Array.from({ length: 7 }).map((_, index) => (
               <tr
                 key={index}
                 className="odd:bg-white even:bg-gray-100 hover:bg-gray-100 dark:odd:bg-transparent dark:even:bg-transparent dark:hover:bg-stone-700 dark:hover:bg-opacity-25"
