@@ -4,7 +4,6 @@ import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { findUserByUsername } from "./app/lib/myDb";
-import { updateLogin } from "./app/lib/myDb";
 import { User } from "./app/lib/myDb"; // Import the User type
 
 export const { auth, signIn, signOut } = NextAuth({
@@ -21,14 +20,6 @@ export const { auth, signIn, signOut } = NextAuth({
           if (!user) return null;
           const passwordsMatch = await bcrypt.compare(password, user.password);
           if (passwordsMatch) {
-            const locale = new Date().toLocaleString();
-            await updateLogin(user.id, {
-              lastLogin: new Date(locale).toISOString(),
-              lastLoginFrom: Intl.DateTimeFormat()
-                .resolvedOptions()
-                .timeZone.split("/")[1]
-                .toString(),
-            });
             return user;
           }
         } else {

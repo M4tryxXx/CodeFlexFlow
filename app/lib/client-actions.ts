@@ -95,6 +95,7 @@ export const loginUserSide = async (username: any, password: any) => {
       formData.append(key, credentials[key]);
     }
     authenticate(formData);
+    return user.id;
   }
 };
 
@@ -139,9 +140,8 @@ export const checkUserEmail = async (email: string) => {
   if (checkEmail) {
     return true;
   }
- return false;
+  return false;
 };
-
 
 export const registerFunction = async (data: any) => {
   const passwordElement = document.getElementById("password");
