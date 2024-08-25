@@ -5,7 +5,6 @@ import Link from "next/link";
 import { userId } from "../lib/actions";
 import UserTimezoneClock from "../ui/Language";
 export default async function HomePage({ searchParams }: any) {
-  console.log(searchParams.language);
   const user = (await userId()) || "";
   let role: any;
   if (user) {
@@ -31,11 +30,6 @@ export default async function HomePage({ searchParams }: any) {
   // );
   // console.log(userIp);
 
-  const city = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  let city2: any;
-
-  console.log(city2);
   ("🇷🇴");
 
   return (
