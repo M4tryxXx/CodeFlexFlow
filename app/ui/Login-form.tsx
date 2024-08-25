@@ -72,10 +72,8 @@ export default function LoginForm() {
   };
 
   const handleSubmit = async (e: any) => {
-    setLoading(true);
     e.preventDefault();
     await loginFunction(username, password);
-    setLoading(false);
   };
 
   return (
