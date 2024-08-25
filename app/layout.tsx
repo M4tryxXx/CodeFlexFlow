@@ -11,6 +11,12 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
+export const metadata = {
+  title: "Eugen's Code",
+  description:
+    "Welcome to the next generation of Curicculkm Vitae, Code Flex Flow and more!",
+};
+
 export default function RootLayout({
   children,
 }: {
