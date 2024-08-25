@@ -3,7 +3,7 @@ import { myStyles } from "../styles";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { userId } from "../lib/actions";
-
+import UserTimezoneClock from "../ui/Language";
 export default async function HomePage() {
   const user = (await userId()) || "";
   let role: any;
@@ -32,7 +32,7 @@ export default async function HomePage() {
           >
             <span>Dashboard</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
-          <h1>{city}</h1>
+          <UserTimezoneClock />
           {role === "admin" ? (
             <Link
               href="/home/admin"
