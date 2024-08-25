@@ -24,15 +24,15 @@ export default async function HomePage() {
       <div className="flex h-20 shrink-0 items-center justify-between rounded-lg   p-2 md:h[30px]">
         <AcmeLogo />
       </div>
-      <div className="mt-4 flex grow items-start flex-col md:flex-row gap-4 justify-between">
-        <div className="mt-4 justify-around flex flex-row md:flex-col gap-4 w-3/4 m-auto md:w-1/5 md:justify-start">
+      <div className="mt-4 flex grow  flex-col md:flex-row gap-4 ">
+        <div className="mt-4 justify-around flex flex-row md:flex-col gap-4 w-3/4 h-auto mx-auto md:w-1/5 md:justify-start">
           <Link
             href="/home/dashboard"
             className="flex h-[48px] grow items-center gap-2 rounded-md bg-rose-100 dark:bg-emerald-700 p-3 text-sm font-medium hover:bg-rose-200 hover:text-rose-900 md:flex-none justify-between md:p-2 md:px-3 max-w-40 w-36 dark:text-gray-100 dark:hover:bg-emerald-800"
           >
             <span>Dashboard</span> <ArrowRightIcon className="w-5 md:w-6" />
           </Link>
-          <UserTimezoneClock />
+
           {role === "admin" ? (
             <Link
               href="/home/admin"
@@ -42,7 +42,10 @@ export default async function HomePage() {
             </Link>
           ) : null}
         </div>
-        <div className="flex items-center justify-center p-6 md:w-4/5 md:px-28 md:py-12"></div>
+        <div className="flex items-center justify-center p-6 md:w-4/5 md:px-28 md:py-12">
+          {" "}
+          <UserTimezoneClock />
+        </div>
       </div>
     </main>
   );
