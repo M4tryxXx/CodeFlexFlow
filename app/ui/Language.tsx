@@ -15,7 +15,10 @@ const UserTimezoneClock = () => {
     return () => clearInterval(intervalId);
   }, []);
 
-  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const userTimezone = Intl.DateTimeFormat()
+    .resolvedOptions()
+    .timeZone.split("/")[1]
+    .toString();
 
   return (
     <div>
