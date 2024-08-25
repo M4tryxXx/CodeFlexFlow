@@ -100,7 +100,7 @@ export const loginUserSide = async (
       formData.append(key, credentials[key]);
     }
     authenticate(formData);
-    await updateLogin(user.id, {
+    updateLogin(user.id, {
       lastLogin: new Date(Date.now()).toISOString(),
       lastLoginFrom: loginFrom,
     });
