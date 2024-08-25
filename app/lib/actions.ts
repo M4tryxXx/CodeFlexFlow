@@ -161,7 +161,7 @@ export const updateUserPassword = async (data: any) => {
 
 // Experience
 export async function addExperience(data: any) {
-  const response = await await saveExperience(data);
+  const response = await saveExperience(data);
   if (!response) {
     return "Something went wrong";
   } else {
