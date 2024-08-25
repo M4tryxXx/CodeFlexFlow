@@ -3,29 +3,21 @@
  */
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { user } from "@nextui-org/react";
 
 const UserTimezoneClock = () => {
-  const [currentTime, setCurrentTime] = useState(new Date());
-
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
+  const router = useRouter();
 
   const userTimezone = Intl.DateTimeFormat()
     .resolvedOptions()
     .timeZone.split("/")[1]
     .toString();
+  useEffect(() => {
+    router.push(`?language=${userTimezone}`);
+  }, []);
 
-  return (
-    <div>
-      <h2>Current Time in Your Timezone ({userTimezone}):</h2>
-      <p>{currentTime.toLocaleTimeString()}</p>
-    </div>
-  );
+  return "";
 };
 
 export default UserTimezoneClock;

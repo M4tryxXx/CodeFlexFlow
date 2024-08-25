@@ -4,12 +4,27 @@ import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { userId } from "../lib/actions";
 import UserTimezoneClock from "../ui/Language";
-export default async function HomePage() {
+export default async function HomePage({ searchParams }: any) {
+  console.log(searchParams.language);
   const user = (await userId()) || "";
   let role: any;
   if (user) {
     role = user.role;
   }
+  let country: any;
+
+  switch (searchParams.language) {
+    case "Bucharest":
+      country = "🇷🇴";
+      break;
+    case "London":
+      country = "🇬🇧";
+      break;
+    default:
+      country = "🌍";
+      break;
+  }
+
   //const user = await findUserById(userIdd);
   // const userIp = await fetch("https://api.ipify.org?format=json").then((res) =>
   //   res.json()
@@ -17,7 +32,11 @@ export default async function HomePage() {
   // console.log(userIp);
 
   const city = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  console.log(city);
+
+  let city2: any;
+
+  console.log(city2);
+  ("🇷🇴");
 
   return (
     <main className={`${myStyles.main}`}>
@@ -45,6 +64,7 @@ export default async function HomePage() {
         <div className="flex items-start justify-center p-6 md:w-4/5 md:px-28 md:py-12">
           {" "}
           <UserTimezoneClock />
+          {country}
         </div>
       </div>
     </main>
