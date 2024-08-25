@@ -1,7 +1,11 @@
 import SideNav from "@/app/ui/dashboard/sidenav";
 import { myStyles } from "@/app/styles";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <main className={`${myStyles.mainLayout}`}>
       <div className="w-full flex-none">

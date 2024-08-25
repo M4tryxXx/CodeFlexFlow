@@ -3,7 +3,7 @@ import { myStyles } from "@/app/styles";
 import { userId } from "@/app/lib/actions";
 import Link from "next/link";
 import { redirectUser } from "@/app/lib/actions";
-export default async function Layout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;

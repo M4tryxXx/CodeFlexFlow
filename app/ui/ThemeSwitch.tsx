@@ -19,7 +19,7 @@ export default function ThemeSwitch() {
 
   if (!mounted)
     return (
-      <div className=" flex flex-col md:h-[68px] items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 md:flex-none md:p-2 md:px-3 ">
+      <div className="flex flex-col md:h-7 h-8 items-center justify-center rounded-md bg-gray-50 p-1 md:p-2 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 hover:cursor-pointer">
         <Image
           src="data:image/svg+xml;base64,PHN2ZyBzdHJva2U9IiNGRkZGRkYiIGZpbGw9IiNGRkZGRkYiIHN0cm9rZS13aWR0aD0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBoZWlnaHQ9IjIwMHB4IiB3aWR0aD0iMjAwcHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHJlY3Qgd2lkdGg9IjIwIiBoZWlnaHQ9IjIwIiB4PSIyIiB5PSIyIiBmaWxsPSJub25lIiBzdHJva2Utd2lkdGg9IjIiIHJ4PSIyIj48L3JlY3Q+PC9zdmc+Cg=="
           width={20}
@@ -35,7 +35,7 @@ export default function ThemeSwitch() {
   if (theme === "dark") {
     return (
       <Tooltip
-        content="Set Light Mode"
+        content="Set Theme Light Mode"
         placement="top"
         className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
       >
@@ -53,7 +53,7 @@ export default function ThemeSwitch() {
   if (theme === "light") {
     return (
       <Tooltip
-        content="Set Auto Mode"
+        content="Set Theme Auto Mode"
         placement="top"
         className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
       >
@@ -70,7 +70,7 @@ export default function ThemeSwitch() {
   if (theme === "system") {
     return (
       <Tooltip
-        content="Set Dark Mode"
+        content="Set Theme Dark Mode"
         placement="top"
         className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
       >

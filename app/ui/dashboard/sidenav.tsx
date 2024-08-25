@@ -4,6 +4,7 @@ import AcmeLogo from "@/app/ui/acme-logo";
 import { PowerIcon, CommandLineIcon } from "@heroicons/react/24/outline";
 import { signOut } from "@/auth";
 import { lusitana } from "@/app/ui/fonts";
+import { Tooltip } from "@nextui-org/react";
 import ThemeSwitch from "../ThemeSwitch";
 
 export default function SideNav() {
@@ -19,19 +20,28 @@ export default function SideNav() {
       </Link>
       <div className="flex flex-row justify-between">
         <NavLinks />
-        <form
-          action={async () => {
-            "use server";
-            await signOut();
-          }}
-        >
-          <button className="flex flex-col h-8 md:h-7 items-center justify-center rounded-md bg-gray-50 p-1 md:p-2 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800">
-            <PowerIcon className="w-6" />
-            <div className={` ${lusitana.className} hidden md:block`}>
-              Sign Out
-            </div>
-          </button>
-        </form>
+        <div className="flex flex-row gap-1">
+          <ThemeSwitch />
+          <form
+            action={async () => {
+              "use server";
+              await signOut();
+            }}
+          >
+            <Tooltip
+              content="Log Out"
+              placement="top"
+              className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+            >
+              <button className="flex flex-col h-8 md:h-7 items-center justify-center rounded-md bg-gray-50 p-1 md:p-2 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800">
+                <PowerIcon className="w-6" />
+                <div className={` ${lusitana.className} hidden md:block`}>
+                  Sign Out
+                </div>
+              </button>
+            </Tooltip>
+          </form>
+        </div>
       </div>
     </div>
   );

@@ -73,8 +73,6 @@ export default function NavLinks() {
           </Tooltip>
         );
       })}
-
-      <ThemeSwitch />
     </div>
   );
 }
