@@ -14,7 +14,7 @@ import { Button } from "./Button";
 import Link from "next/link";
 import { loginUserSide } from "../lib/client-actions";
 import { useState, useEffect } from "react";
-import "../ui/css/loadingLogin.css";
+import "../ui/css/loadingSpinner.css";
 import { getUserLocation } from "../lib/client-actions";
 
 export default function LoginForm() {
@@ -149,7 +149,7 @@ export default function LoginForm() {
             </div>
             <Button
               className={clsx("mt-4 w-full ", {
-                "mt-4 w-full  cursor-wait loadingLogin disabled ":
+                "mt-4 w-full  cursor-wait loadingSpinner disabled ":
                   loading === true,
               })}
             >
@@ -256,7 +256,7 @@ export default function LoginForm() {
           </div>
           <Button
             className={clsx("mt-4 w-full ", {
-              "mt-4 w-full  cursor-wait loadingLogin disabled ":
+              "mt-4 w-full  cursor-wait loadingSpinner disabled ":
                 loading === true,
             })}
           >

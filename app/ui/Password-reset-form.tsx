@@ -8,7 +8,7 @@ import clsx from "clsx";
 import { updatePassword } from "../lib/client-actions";
 import { getUserLocation } from "../lib/client-actions";
 import { useState } from "react";
-import "../css/loadingLogin.css";
+import "../ui/css/loadingSpinner.css";
 
 export default function PasswordResetForm({ userId }: any) {
   const userLocation = "Bucharest"; //getUserLocation();
@@ -126,7 +126,7 @@ export default function PasswordResetForm({ userId }: any) {
             </div>
             <Button
               className={clsx("mt-4 w-full ", {
-                "mt-4 w-full  cursor-wait loadingLogin disabled aria-disabled":
+                "mt-4 w-full  cursor-wait loadingSpinner disabled aria-disabled":
                   isloading === true,
               })}
               disabled={isloading}
@@ -248,7 +248,7 @@ export default function PasswordResetForm({ userId }: any) {
           </div>
           <Button
             className={clsx("mt-4 w-full ", {
-              "mt-4 w-full  cursor-wait loadingLogin disabled aria-disabled":
+              "mt-4 w-full  cursor-wait loadingSpinner disabled aria-disabled":
                 isloading === true,
             })}
             disabled={isloading}

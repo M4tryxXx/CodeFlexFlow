@@ -3,7 +3,7 @@ const shimmer =
 import AcmeLogo from "@/app/ui/acme-logo";
 import { myStyles } from "../../styles";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import "../css/loadingLogin.css";
+import "../../ui/css/loadingSpinner.css";
 
 export default function LoadingUsers() {
   return (

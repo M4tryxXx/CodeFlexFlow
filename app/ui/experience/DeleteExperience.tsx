@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { deleteExperience } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import { DeleteIcon } from "../admin/table/DeleteIcon";
-import "../css/loadingLogin.css";
+import "../css/loadingSpinner.css";
 
 export default function DeleteExperience({ id }: { id: any }) {
   const [loading, setLoading] = useState(false);

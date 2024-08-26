@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { deleteQualification } from "@/app/lib/actions";
 import { DeleteIcon } from "../admin/table/DeleteIcon";
 import toast from "react-hot-toast";
-import "../css/loadingLogin.css";
+import "../css/loadingSpinner.css";
 
 export default function DeleteQualification({ id }: { id: any }) {
   const [loading, setLoading] = useState(false);
