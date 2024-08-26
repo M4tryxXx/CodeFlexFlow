@@ -16,7 +16,6 @@ export default function Card({ title, description, delay, index }: any) {
       className="bg-tertiary p-5 rounded-2xl w-[360px] "
     >
       <motion.div
-        ref={ref}
         variants={fadeIn("up", "spring", delay, 0.75)}
         initial="hidden"
         whileInView= "show"
