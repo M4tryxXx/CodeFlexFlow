@@ -157,6 +157,15 @@ export const registerFunction = async (data: any) => {
   const emailElement = document.getElementById("email");
   const confirmPasswordElement = document.getElementById("password2");
   const { username, password, email, confirmPassword } = data;
+  if (email.length < 5) {
+    if (emailElement) {
+      emailElement.style.border = "solid 2px red";
+    }
+    toast.error("Email field must contain at least 5 charcaters!", {
+      duration: 5000,
+    });
+    return;
+  }
   if (username.length < 3) {
     if (usernameElement) {
       usernameElement.style.border = "solid 2px red";
@@ -173,15 +182,7 @@ export const registerFunction = async (data: any) => {
     });
     return "Password must contain at least 8 characters!";
   }
-  if (email.length < 5) {
-    if (emailElement) {
-      emailElement.style.border = "solid 2px red";
-    }
-    toast.error("Email field must contain at least 5 charcaters!", {
-      duration: 5000,
-    });
-    return;
-  }
+
   if (password !== confirmPassword) {
     if (confirmPasswordElement && passwordElement) {
       confirmPasswordElement.style.border = "solid 2px red";
@@ -362,4 +363,11 @@ export const updatePassword = async (data: any) => {
   toast.success("Update successful, You can log in now!", {
     duration: 5000,
   });
+};
+
+export const getUserLocation = () => {
+  const response = Intl.DateTimeFormat()
+    .resolvedOptions()
+    .timeZone.split("/")[1];
+  return response;
 };
