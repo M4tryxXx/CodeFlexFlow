@@ -20,13 +20,13 @@ export default function Card({ title, date, description, delay, index }: any) {
         whileInView="show"
       >
         <div className="dark:bg-[#151030] bg-stone-100 rounded-[20px] flex justify-evenly items-center flex-col">
-          <div className=" bg-rose-200 w-full b">
+          <div className=" bg-rose-200 dark:bg-emerald-900 w-full rounded-t-[20px] text-center py-3">
             <h1 className="text-2xl font-bold">{title}</h1>
           </div>
-          <hr className="my-4 border-[.3mm] border-gray-500 w-full" />
-          <div className="  w-full ">
-            <h1 className="text-2xl font-bold">{date}</h1>
+          <div className=" text-center  w-full mt-4">
+            <h1 className="text-lg font-bold">2005 September - 2007 June</h1>
           </div>
+          <hr className="mt-4 border-[.3mm] border-gray-500 w-[90%]" />
           <div className=" py-6 px-4 w-full ">
             <p className="text-gray-700 dark:text-gray-300 indent-6">
               {description}
