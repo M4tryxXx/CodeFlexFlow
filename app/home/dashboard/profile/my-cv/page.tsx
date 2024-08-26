@@ -8,7 +8,7 @@ import Hero from "@/app/ui/profile/MyCv/CvHero";
 
 export default async function MyCvPage() {
   const user = await userData();
-  //console.log(user);
+  ////console.log(user);
   return (
     <div>
       <h1>My CV</h1>

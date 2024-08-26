@@ -3,7 +3,7 @@
 const { motion } = require("framer-motion");
 
 export default function Motion({ title, subTitle }: any) {
-  //console.log(title);
+  ////console.log(title);
   const textVariant = () => {
     return {
       hidden: {

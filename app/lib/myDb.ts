@@ -13,7 +13,7 @@ export const getUsers = async () => {
     await prisma.$disconnect();
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return "Something went wrong!";
   }
 };
@@ -29,7 +29,7 @@ export const findUserResetToken = async (token: String | any) => {
     return user;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -44,7 +44,7 @@ export const findUserByEmail = async (email: String | any) => {
     return user;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -65,7 +65,7 @@ export const findUserByUsername = async (username: String | any) => {
     }
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
   }
 };
 
@@ -88,12 +88,12 @@ export const registerUserDb = async (data: any) => {
     const response = await prisma.user.create({
       data: data,
     });
-    console.log(data);
+    //console.log(data);
     await prisma.$disconnect();
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -124,7 +124,7 @@ export const deleteUserById = async (id: string) => {
     await prisma.$disconnect();
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return "Something went wrong! ";
   }
 };
@@ -139,7 +139,7 @@ export const deleteInviteById = async (id: string) => {
     await prisma.$disconnect();
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return "Something went wrong! ";
   }
 };
@@ -157,7 +157,7 @@ export const updateUser = async (data: any) => {
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -175,7 +175,7 @@ export const updateInvite = async (data: any) => {
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -191,7 +191,7 @@ export const updateLogin = async (id: string, data: any) => {
     await prisma.$disconnect();
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -209,7 +209,7 @@ export const getQualificationById = async (id: any) => {
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -223,7 +223,7 @@ export const saveQualification = async (data: any) => {
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -241,7 +241,7 @@ export const updateQualification = async (data: any) => {
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -272,7 +272,7 @@ export const deleteExperienceById = async (id: string) => {
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -284,7 +284,7 @@ export const getAllQualifications = async () => {
     return data;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -298,7 +298,7 @@ export const saveExperience = async (data: any) => {
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -316,7 +316,7 @@ export const updateExperience = async (data: any) => {
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -334,7 +334,7 @@ export const getExperienceById = async (id: any) => {
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -346,7 +346,7 @@ export const getAllExperience = async () => {
     return data;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -360,7 +360,7 @@ export const createInvitation = async (data: any) => {
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -372,7 +372,7 @@ export const getAllInvites = async () => {
     return allInvites;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return "Something went wrong!";
   }
 };
@@ -388,7 +388,7 @@ export const inviteSerial = async () => {
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     throw "Something went wrong!";
   }
 };
@@ -405,7 +405,7 @@ export const updateSerial = async (data: any) => {
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -423,7 +423,7 @@ export const getInvitesByUserId = async (id: any) => {
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };
@@ -439,7 +439,7 @@ export const getInvitesById = async (id: any) => {
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    //console.log(err);
     return null;
   }
 };

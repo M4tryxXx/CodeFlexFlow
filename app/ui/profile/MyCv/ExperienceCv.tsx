@@ -11,7 +11,7 @@ export default function ExperienceCv({ user }: any) {
   if (user.experience.length > 0) {
     let experienceElements = user.experience.map((exp: any) => {
       const fromFormatted = new Date(exp.from);
-      console.log(fromFormatted);
+      //console.log(fromFormatted);
       const toFormatted = new Date(exp.to);
       const months = [
         "January",
@@ -31,7 +31,7 @@ export default function ExperienceCv({ user }: any) {
       const toYear = toFormatted.getFullYear();
       const monthFrom = months[fromFormatted.getMonth()];
       const monthTo = months[toFormatted.getMonth()];
-      //console.log(exp);
+      ////console.log(exp);
       return (
         <>
           <VerticalTimelineElement

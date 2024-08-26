@@ -21,9 +21,9 @@ export const sendWelcomeEmail = async (email: string, username: string) => {
     },
     function (error: any, info: any) {
       if (error) {
-        console.log(error);
+        //console.log(error);
       } else {
-        console.log("Email sent: " + info.response);
+        //console.log("Email sent: " + info.response);
       }
     }
   );
@@ -44,9 +44,9 @@ export const sendResetPasswordEmail = async (
     },
     function (error: any, info: any) {
       if (error) {
-        console.log(error);
+        //console.log(error);
       } else {
-        console.log("Email sent: " + info.response);
+        //console.log("Email sent: " + info.response);
       }
     }
   );
@@ -67,9 +67,9 @@ export const sendInvitationEmail = async (
     },
     function (error: any, info: any) {
       if (error) {
-        console.log(error);
+        //console.log(error);
       } else {
-        console.log("Email sent: " + info.response);
+        //console.log("Email sent: " + info.response);
       }
     }
   );

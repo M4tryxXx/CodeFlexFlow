@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const Hero = ({ user }: any) => {
-  console.log(user);
+  //console.log(user);
   return (
     <section
       className="relative w-full max-h-[800px] min-h-[400px] md:min-h-[700px] mt-1"

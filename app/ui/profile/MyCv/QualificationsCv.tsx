@@ -8,11 +8,11 @@ import "react-vertical-timeline-component/style.min.css";
 import { DocumentIcon } from "@heroicons/react/24/outline";
 
 export default function QualificationsCv({ user }: any) {
-  console.log(user);
+  //console.log(user);
   if (user.qualifications.length > 0) {
     let qualificationElements = user.qualifications.map((qual: any) => {
       const fromFormatted = new Date(qual.from);
-      console.log(fromFormatted);
+      //console.log(fromFormatted);
       const toFormatted = new Date(qual.to);
       const months = [
         "January",
@@ -32,7 +32,7 @@ export default function QualificationsCv({ user }: any) {
       const toYear = toFormatted.getFullYear();
       const monthFrom = months[fromFormatted.getMonth()];
       const monthTo = months[toFormatted.getMonth()];
-      //console.log(exp);
+      ////console.log(exp);
       return (
         <>
           <VerticalTimelineElement

@@ -82,7 +82,7 @@ export async function registerUser(data: object | any) {
   data.password = hashedPassword;
 
   const response = await registerUserDb(data);
-  //console.log(response);
+  ////console.log(response);
   if (response) {
     await sendWelcomeEmail(email, username);
     revalidatePath("/home/admin/users");
@@ -241,7 +241,7 @@ export const sendInvitationLink = async (
 ) => {
   let invitationCode: any;
   const serial = await inviteSerial();
-  console.log(serial);
+  //console.log(serial);
   const expiresAt = new Date(Date.now() + 604800000).toISOString();
   if (serial) {
     invitationCode = `CV-${serial.id + 10000}`;

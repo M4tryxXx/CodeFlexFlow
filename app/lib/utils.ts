@@ -18,7 +18,7 @@ export const formatDateToLocal = (
 
 export const formatDateYearMonth = (dateFrom: string, dateTo: string) => {
   const fromFormatted = new Date(dateFrom);
-  console.log(fromFormatted);
+  //console.log(fromFormatted);
   const toFormatted = new Date(dateTo);
   const months = [
     "January",

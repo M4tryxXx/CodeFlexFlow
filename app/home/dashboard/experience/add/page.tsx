@@ -5,7 +5,7 @@ import { userData } from "@/app/lib/actions";
 
 export default async function AddExperience() {
   const user = await userData();
-  console.log(user.user.id);
+  //console.log(user.user.id);
   return (
     <main>
       <Breadcrumbs
