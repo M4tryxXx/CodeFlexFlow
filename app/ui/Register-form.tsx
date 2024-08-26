@@ -517,7 +517,7 @@ export default function RegisterForm() {
             })}
             disabled={isloading}
           >
-            {isloading ? "Asteptati..." : "Inregistrativa"}
+            {isloading ? "Asteptati..." : "Inregistrati-va"}
             <ArrowRightIcon className="ml-auto h-5 w-5 text-black dark:text-white dark:hover:text-rose-500 hover:text-blue-700 hover:h-7 hover:w-7" />
           </Button>
           <p className="flex justify-center mt-6 font-sans w-full text-sm antialiased font-light leading-normal text-inherit">
