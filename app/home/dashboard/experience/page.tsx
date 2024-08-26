@@ -4,6 +4,8 @@ import { getExperienceById } from "@/app/lib/myDb";
 import DeleteExperience from "@/app/ui/experience/DeleteExperience";
 import { userId } from "@/app/lib/actions";
 import { EditIcon } from "../../../ui/admin/table/EditIcon";
+import { formatDateYearMonth } from "@/app/lib/utils";
+import Card from "@/app/ui/Card";
 
 export default async function Page() {
   const userActivId = await userId();
@@ -12,59 +14,21 @@ export default async function Page() {
   let experienceContainer: any;
   if (experience && experience.length > 0) {
     experienceContainer = experience.map((experience: any) => {
-      const fromFormatted = new Date(experience.from);
-      const toFormatted = new Date(experience.to);
-      const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      const fromYear = fromFormatted.getFullYear();
-      const toYear = toFormatted.getFullYear();
-      const monthFrom = months[fromFormatted.getMonth()];
-      const monthTo = months[toFormatted.getMonth()];
-      return (
-        <div
-          key={experience.id}
-          className="flex-grow overflow-auto h-full w-72 flex-col mx-2 my-2    bg-silver border-2 shadow-lg border-stone-800 dark:shadow-black dark:bg-stone-900 rounded-lg max-w-md"
-        >
-          <div
-            className="flex justify-center items-center font-bold bg-stone-900 
-          text-emerald-100 shadow-md rounded-t-md h-10  dark:bg-emerald-950"
-          >
-            {experience.company}
-          </div>
-          <div className="py-3 px-4 hover:bg-rose-100 dark:hover:bg-stone-800 shadow-md">
-            <h3>
-              <strong>
-                {monthFrom} {fromYear} - {monthTo} {toYear}
-              </strong>
-            </h3>
-            <h3>
-              <strong>{experience.title}</strong>
-            </h3>
-            <h3>
-              <strong>{experience.description}</strong>
-            </h3>
-            <div className="flex flex-row justify-end mt-5">
-              <Link href={`/home/dashboard/experience/${experience.id}`}>
-                <EditIcon className="w-8 dark:text-yellow-300 mx-1 z-50" />
-              </Link>
+      const date = formatDateYearMonth(experience.from, experience.to);
 
-              <DeleteExperience id={experience.id} />
-            </div>
-          </div>
-        </div>
-      );
+      const from = `${date.from.month} ${date.from.year}`;
+      let to = `${date.to.month} ${date.to.year}`;
+      if (to === "January 1970") {
+        to = "Prezent";
+      }
+
+      const data = {
+        title: experience.title,
+        description: experience.description,
+        dates: `${from} - ${to}`,
+        id: experience.id,
+      };
+      return <Card data={data} delay={0.5} key={experience.id} />;
     });
   } else {
     experienceContainer = (

@@ -1,5 +1,6 @@
 const shimmer =
   "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray/60 before:to-transparent";
+import "../css/loadingLogin.css";
 
 export default function LoadingUsers() {
   return (

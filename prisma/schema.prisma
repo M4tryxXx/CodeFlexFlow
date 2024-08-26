@@ -92,7 +92,7 @@ model User {
   lastLogin         DateTime?
   lastLoginFrom     String?
   Experience        Experience[]
-  Invivte           Invites[]
+  Invite            Invites[]
   Qualifications    Qualification[]
   UserNotifications UserNotification[]
   UserSettings      UserSetting[]
@@ -102,7 +102,7 @@ model User {
 // The model inviteId is defined in the schema to save the serial number of the invite. This is used to generate the invite code.
 
 model inviteId {
-  id        Int   @id
+  id        Int   
   name      String @default("invite") @unique
 }
 

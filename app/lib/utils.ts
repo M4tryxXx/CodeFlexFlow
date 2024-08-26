@@ -1,3 +1,5 @@
+import { date } from "zod";
+
 export const formatDateToLocal = (
   dateStr: string,
   locale: string = "en-US"
@@ -12,6 +14,40 @@ export const formatDateToLocal = (
   };
   const formatter = new Intl.DateTimeFormat(locale, options);
   return formatter.format(date);
+};
+
+export const formatDateYearMonth = (dateFrom: string, dateTo: string) => {
+  const fromFormatted = new Date(dateFrom);
+  console.log(fromFormatted);
+  const toFormatted = new Date(dateTo);
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+  const fromYear = fromFormatted.getFullYear();
+  const fromMonth = months[fromFormatted.getMonth()];
+  const toYear = toFormatted.getFullYear();
+  const toMonth = months[toFormatted.getMonth()];
+  return {
+    from: {
+      year: fromYear,
+      month: fromMonth,
+    },
+    to: {
+      year: toYear,
+      month: toMonth,
+    },
+  };
 };
 
 export const generatePagination = (currentPage: number, totalPages: number) => {

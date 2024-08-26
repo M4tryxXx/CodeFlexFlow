@@ -4,7 +4,7 @@ export default function PageSkeleton() {
   return (
     <main className={`${myStyles.main}`}>
       <div className="flex flex-wrap justify-center dark:bg-transparent p-3">
-        <div className="w-full max-w-md p-4 bg-gray-300 dark:bg-gray-700 rounded-md mb-4">
+        <div className="w-full max-w-md p-4 bg-gray-300 dark:bg-gray-700 rounded-[20px] mb-4">
           <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
           <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
           <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
@@ -13,7 +13,7 @@ export default function PageSkeleton() {
             <div className="w-8 h-8 bg-gray-400 dark:bg-gray-600 rounded-full mx-1"></div>
           </div>
         </div>
-        <div className="w-full max-w-md p-4 bg-gray-300 dark:bg-gray-700 rounded-md mb-4">
+        <div className="w-full max-w-md p-4 bg-gray-300 dark:bg-gray-700 rounded-[20px] mb-4">
           <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
           <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>
           <div className="h-6 bg-gray-400 dark:bg-gray-600 rounded-md mb-2"></div>

@@ -1,4 +1,5 @@
 import { myStyles } from "@/app/styles";
+import "../../ui/css/loadingLogin.css";
 
 export default function DashPageSkeleton() {
   return (

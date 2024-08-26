@@ -1,7 +1,6 @@
 "use client"; // This is a client-side file
 
 import Link from "next/link";
-
 import {
   CheckIcon,
   ClockIcon,
@@ -14,7 +13,7 @@ import {
 import { Button } from "../Button";
 import { useState } from "react";
 import { addDataUserSide } from "@/app/lib/client-actions";
-import { set } from "zod";
+import "../css/loadingLogin.css";
 
 export default function QualificationForm({ id }: { id: string }) {
   const [name, setName] = useState("");

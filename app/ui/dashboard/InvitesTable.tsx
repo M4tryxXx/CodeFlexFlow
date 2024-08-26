@@ -8,6 +8,7 @@ import { handleDeleteInvite } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { formatDateToLocal } from "@/app/lib/utils";
+import "../css/loadingLogin.css";
 
 export default function InvitesTable(invitations: any) {
   const invites = invitations.invites;

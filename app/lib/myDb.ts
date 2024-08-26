@@ -248,30 +248,32 @@ export const updateQualification = async (data: any) => {
 
 export const deleteQualificationById = async (id: string) => {
   try {
-    await prisma.qualification.delete({
+    const result = await prisma.qualification.delete({
       where: {
         id: id,
       },
     });
     await prisma.$disconnect();
+    return result;
   } catch (err) {
     await prisma.$disconnect();
-    return { err };
+    return null;
   }
 };
 
 export const deleteExperienceById = async (id: string) => {
   try {
-    await prisma.experience.delete({
+    const result = await prisma.experience.delete({
       where: {
         id: id,
       },
     });
     await prisma.$disconnect();
+    return result;
   } catch (err) {
     await prisma.$disconnect();
     console.log(err);
-    return { err };
+    return null;
   }
 };
 

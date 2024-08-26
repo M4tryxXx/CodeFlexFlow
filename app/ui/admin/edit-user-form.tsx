@@ -1,32 +1,3 @@
-//write me a form that will look exactly like this one but include the following fields: email              String          @unique
-// firstName          String?
-// lastName           String?
-// username           String          @unique
-// password           String
-// role               String          @default("user")
-// resetToken         String?         @unique
-// resetTokenExpiry   DateTime?
-// verified           Boolean         @default(false)
-// verifiedAt         Int?
-// verifiyToken       String?         @unique
-// verifiyTokenExpiry Int?
-// mobile             String?
-// avatar             String?
-// address            String?
-// city               String?
-// state              String?
-// country            String?
-// zip                String?
-// address2           String?
-// bio                String?
-// website            String?
-// linkedin           String?
-// twitter            String?
-// facebook           String?
-// instagram          String?
-// github             String?
-// dateOfBirth        String?
-
 "use client";
 import Link from "next/link";
 import {

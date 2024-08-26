@@ -8,6 +8,7 @@ import clsx from "clsx";
 import { updatePassword } from "../lib/client-actions";
 import { getUserLocation } from "../lib/client-actions";
 import { useState } from "react";
+import "../css/loadingLogin.css";
 
 export default function PasswordResetForm({ userId }: any) {
   const userLocation = "Bucharest"; //getUserLocation();
