@@ -278,7 +278,7 @@ export default function RegisterForm() {
               <ArrowRightIcon className="ml-auto h-5 w-5 text-black dark:text-white dark:hover:text-rose-500 hover:text-blue-700 hover:h-7 hover:w-7" />
             </Button>
             <p className="flex justify-center mt-6 font-sans w-full text-sm antialiased font-light leading-normal text-inherit">
-              already have an account?
+              Already have an account?
               <Link
                 href="/login"
                 className="block ml-1 font-sans text-sm antialiased font-bold leading-normal text-blue-gray-900"
