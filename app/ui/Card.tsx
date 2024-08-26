@@ -2,13 +2,8 @@
 import { Tilt } from "react-tilt";
 import { motion } from "framer-motion";
 import { fadeIn, textVariant } from "../lib/utils";
-import { useInView } from "react-intersection-observer";
 
 export default function Card({ title, date, description, delay, index }: any) {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-  });
-
   return (
     <Tilt
       options={{
@@ -16,23 +11,27 @@ export default function Card({ title, date, description, delay, index }: any) {
         scale: 1,
         speed: 650,
       }}
-      className="bg-tertiary p-5 rounded-2xl w-[360px] "
+      className="bg-tertiary p-2 rounded-2xl w-[360px] "
     >
       <motion.div
-        ref={ref}
         variants={fadeIn("up", "spring", delay, 0.75)}
         initial="hidden"
-        animate={inView ? "show" : "hidden"}
         className="w-full green-pink-gradient p-[2px] rounded-[20px] dark:shadow-card"
+        whileInView="show"
       >
-        <div className="dark:bg-[#151030] bg-stone-100 rounded-[20px] py-5 px-12 flex justify-evenly items-center flex-col">
-          <div className=" bg-rose">
+        <div className="dark:bg-[#151030] bg-stone-100 rounded-[20px] flex justify-evenly items-center flex-col">
+          <div className=" bg-rose-200 w-full b">
             <h1 className="text-2xl font-bold">{title}</h1>
           </div>
           <hr className="my-4 border-[.3mm] border-gray-500 w-full" />
-          <p className="text-gray-700 dark:text-gray-300 indent-6">
-            {description}
-          </p>
+          <div className="  w-full ">
+            <h1 className="text-2xl font-bold">{date}</h1>
+          </div>
+          <div className=" py-6 px-4 w-full ">
+            <p className="text-gray-700 dark:text-gray-300 indent-6">
+              {description}
+            </p>
+          </div>
         </div>
       </motion.div>
     </Tilt>
