@@ -33,14 +33,15 @@ export default async function HomePage() {
           </h1>
           <div className=" flex flex-col md:flex-row justify-between">
             <div className="md:w-[400px] p-4">
-              <p>
-                Bine ai venit la CodeFlexFlow! Platforma noastră îți permite să
-                creezi și să trimiți CV-uri digitale cu ușurință. Urmărește
-                CV-ul tău pentru a vedea când și dacă a fost citit, împreună cu
-                data și ora exactă. Îmbunătățește procesul de aplicare pentru
-                joburi cu informații în timp real și o experiență digitală
-                simplificată. Alătură-te nouă și preia controlul asupra carierei
-                tale chiar astăzi!
+              <p className="indent-7">
+                <span className="text-4xl ">B</span>ine ai venit la
+                CodeFlexFlow! Platforma noastră îți permite să creezi și să
+                trimiți CV-uri digitale cu ușurință. Urmărește CV-ul tău pentru
+                a vedea când și dacă a fost citit, împreună cu data și ora
+                exactă. Îmbunătățește procesul de aplicare pentru joburi cu
+                informații în timp real și o experiență digitală simplificată.
+                Alătură-te nouă și preia controlul asupra carierei tale chiar
+                astăzi!
               </p>
             </div>
             <div className="flex-col md:flex-row w-full p-4  justify-center items-center flex flex-wrap gap-10">
