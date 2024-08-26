@@ -4,7 +4,7 @@ import {
   UserGroupIcon,
   UsersIcon,
   HomeIcon,
-  DocumentDuplicateIcon,
+  ComputerDesktopIcon,
   CommandLineIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -16,6 +16,11 @@ import { Tooltip } from "@nextui-org/react";
 // Depending on the size of the application, this would be stored in a database.
 const links = [
   { name: "Home", href: "/home", icon: HomeIcon },
+  {
+    name: "Dashboard",
+    href: "/home/dashboard",
+    icon: ComputerDesktopIcon,
+  },
   { name: "Admin", href: "/home/admin", icon: CommandLineIcon },
   {
     name: "Users",
