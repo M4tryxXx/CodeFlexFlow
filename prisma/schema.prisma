@@ -20,7 +20,7 @@ model Qualification {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
   image         String?
-  User          User     @relation(fields: [userId], references: [id])
+  User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "Qualification_userId_fkey")
 }
@@ -37,7 +37,7 @@ model Experience {
   image        String?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime? @default(now())
-  User         User      @relation(fields: [userId], references: [id])
+  User         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "Experience_userId_fkey")
 }
@@ -52,7 +52,7 @@ model Invites {
   destinationEmail String
   destinationName  String?
   opened           Boolean  @default(false)
-  User             User     @relation(fields: [userId], references: [id])
+  User             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId], map: "Invites_userId_fkey")
 }
@@ -92,11 +92,41 @@ model User {
   lastLogin         DateTime?
   lastLoginFrom     String?
   Experience        Experience[]
-  Invites           Invites[]
+  Invivte           Invites[]
   Qualifications    Qualification[]
+  UserNotifications UserNotification[]
+  UserSettings      UserSetting[]
 }
+
+
+// The model inviteId is defined in the schema to save the serial number of the invite. This is used to generate the invite code.
 
 model inviteId {
   id        Int   @id
   name      String @default("invite") @unique
+}
+
+model UserNotification {
+  id        String   @id @default(cuid())
+  userId    String
+  message   String
+  type      String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "UserNotification_userId_fkey")
+}
+
+model UserSetting {
+  id        String   @id @default(cuid())
+  userId    String
+  setting   String
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId], map: "UserSetting_userId_fkey")
 }

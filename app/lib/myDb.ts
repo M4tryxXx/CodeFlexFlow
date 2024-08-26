@@ -99,21 +99,21 @@ export const registerUserDb = async (data: any) => {
 };
 
 export const deleteUserById = async (id: string) => {
-  await prisma.qualification.deleteMany({
-    where: {
-      userId: id,
-    },
-  });
-  await prisma.experience.deleteMany({
-    where: {
-      userId: id,
-    },
-  });
-  await prisma.invites.deleteMany({
-    where: {
-      userId: id,
-    },
-  });
+  // await prisma.qualification.deleteMany({
+  //   where: {
+  //     userId: id,
+  //   },
+  // });
+  // await prisma.experience.deleteMany({
+  //   where: {
+  //     userId: id,
+  //   },
+  // });
+  // await prisma.invites.deleteMany({
+  //   where: {
+  //     userId: id,
+  //   },
+  // });
 
   try {
     await prisma.user.delete({
