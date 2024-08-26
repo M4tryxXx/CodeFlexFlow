@@ -23,6 +23,7 @@ export default async function Page() {
       }
 
       const data = {
+        type: "experience",
         title: experience.title,
         description: experience.description,
         dates: `${from} - ${to}`,

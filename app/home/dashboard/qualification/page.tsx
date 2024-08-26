@@ -21,6 +21,7 @@ export default async function QualificationPage() {
         }
 
         const data = {
+          type: "qualification",
           title: qualification.name,
           description: qualification.description,
           dates: `${from} - ${to}`,

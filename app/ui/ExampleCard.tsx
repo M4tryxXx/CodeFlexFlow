@@ -22,10 +22,10 @@ export default function Card({ data, delay, tools }: any) {
         variants={fadeIn("up", "spring", delay, 0.75)}
         drag
         dragConstraints={{
-          top: -40,
-          left: -50,
-          right: 50,
-          bottom: 50,
+          top: -20,
+          left: -20,
+          right: 20,
+          bottom: 20,
         }}
         initial="hidden"
         className="w-full green-pink-gradient p-[2px] rounded-[20px] dark:shadow-card"
