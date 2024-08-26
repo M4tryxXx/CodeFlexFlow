@@ -2,12 +2,9 @@
 import { Tilt } from "react-tilt";
 import { motion } from "framer-motion";
 import { fadeIn, textVariant } from "../lib/utils";
-import { useInView } from "react-intersection-observer";
 
 export default function Card({ title, description, delay, index }: any) {
-  const { ref, inView } = useInView({
-    triggerOnce: true,
-  });
+
 
   return (
     <Tilt
@@ -22,7 +19,7 @@ export default function Card({ title, description, delay, index }: any) {
         ref={ref}
         variants={fadeIn("up", "spring", delay, 0.75)}
         initial="hidden"
-        animate={inView ? "show" : "hidden"}
+        whileInView= "show"
         className="w-full green-pink-gradient p-[1px] rounded-[20px] shadow-card"
       >
         <div className="bg-[#151030] rounded-[20px] py-5 px-12 flex justify-evenly items-center flex-col">
