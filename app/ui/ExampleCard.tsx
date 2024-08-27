@@ -19,17 +19,21 @@ export default function Card({ data, delay, tools }: any) {
     >
       <motion.div
         layout
-        variants={fadeIn("up", "spring", delay, 0.75)}
-        drag
-        dragConstraints={{
-          top: -20,
-          left: -20,
-          right: 20,
-          bottom: 20,
+        initial={{ opacity: 0, scale: 0.1 }}
+        whileInView={{ opacity: 1, scale: 0.8 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 1 }}
+        transition={{
+          duration: 0.3,
+          ease: [0, 0.71, 0.2, 1.01],
+          scale: {
+            type: "spring",
+            damping: 5,
+            stiffness: 100,
+            restDelta: 0.001,
+          },
         }}
-        initial="hidden"
         className="w-full green-pink-gradient p-[2px] rounded-[20px] dark:shadow-card"
-        whileInView="show"
       >
         <div className="dark:bg-[#151030] bg-stone-100 rounded-[20px] flex justify-evenly items-center flex-col">
           <div className=" bg-rose-200 dark:bg-emerald-900 w-full rounded-t-[20px] text-center py-3">
