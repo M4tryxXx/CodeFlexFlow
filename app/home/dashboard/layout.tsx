@@ -1,5 +1,5 @@
 import SideNav from "@/app/ui/dashboard/sidenav";
-import { myStyles } from "@/app/styles";
+import { myStyles } from "../../styles";
 
 export default function DashboardLayout({
   children,
