@@ -2,9 +2,54 @@ import { myStyles } from "@/app/styles";
 import InvitationForm from "@/app/ui/dashboard/InviteForm";
 import InvitesTable from "@/app/ui/dashboard/InvitesTable";
 import { userData } from "@/app/lib/actions";
+import { list } from "postcss";
+import { Link } from "@nextui-org/react";
 
 export default async function dashPage() {
   const user = await userData();
+  let listItems = [];
+
+  for (let [key, value] of Object.entries(user.user)) {
+    if (
+      key === "password" ||
+      key === "role" ||
+      key === "resetToken" ||
+      key === "resetTokenExpiry" ||
+      key === "verified" ||
+      key === "verifiedAt" ||
+      key === "verifyToken" ||
+      key === "verifyTokenExpiry" ||
+      key === "github" ||
+      key === "website" ||
+      key === "linkedin" ||
+      key === "instagram" ||
+      key === "facebook" ||
+      key === "address2" ||
+      key === "createdAt" ||
+      key === "updatedAt" ||
+      key === "lastLogin" ||
+      key === "lastLoginAt" ||
+      key === "id" ||
+      key === "twitter" ||
+      key === "avatar" ||
+      value !== null
+    ) {
+      continue;
+    }
+    listItems.push(
+      <li key={key} className="flex flex-row justify-between items-center">
+        <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
+          {key}
+        </span>
+        <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
+          {`${value}`}
+        </span>
+      </li>
+    );
+  }
+
+  const loaded = Math.floor((100 / 11) * listItems.length);
+
   return (
     <main className={`${myStyles.main}`}>
       <div className="flex flex-col justify-center items-start w-full mb-5">
@@ -12,9 +57,39 @@ export default async function dashPage() {
           Your Dashboard
         </h1>
         <hr className="w-full border-[3px] border-gray-200 dark:border-emerald-800 rounded-md my-4" />
-        <div className="w-full">
-          <InvitationForm user={user.user} />
-        </div>
+        {/* {loaded ? (
+          <div className="w-[300px] h-5 rounded-md p-[.3mm]  flex flex-row bg-emerald-500 items-center justify-start mb-5">
+            <div
+              className={` bg-blue-500  h-full w-[${loaded}%] rounded-md flex items-center justify-center font-bold`}
+            >
+              {loaded}%
+            </div>
+          </div>
+        ) : null} */}
+        {listItems.length < 2 ? (
+          <div className="w-full">
+            <InvitationForm user={user.user} />
+          </div>
+        ) : (
+          <>
+            <h3 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
+              Your Profile is {loaded}% complete!
+            </h3>
+            <h3 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
+              You need to fill out the required fields to generate your CV!
+            </h3>
+            <Link href={`/home/dashboard/profile/${user.user.id}`}>
+              <a className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+                Click here to update your profile
+              </a>
+            </Link>
+
+            <h5 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
+              Missing fields:
+            </h5>
+            <ul className="w-full">{listItems}</ul>
+          </>
+        )}
       </div>
 
       <hr className="w-full border-[2px] border-gray-200 dark:border-emerald-800 rounded-md my-4" />
