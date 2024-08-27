@@ -2,7 +2,6 @@ import "@/app/ui/global.css";
 import { lusitana } from "@/app/ui/fonts";
 import { Toaster } from "react-hot-toast";
 import { Providers } from "./providers";
-import Footer from "./ui/Footer/Footer";
 import type { Viewport } from "next";
 
 export const viewport: Viewport = {
@@ -32,7 +31,6 @@ export default function RootLayout({
           {children}
           <Toaster position="top-center" />
         </Providers>
-        <Footer />
       </body>
     </html>
   );
