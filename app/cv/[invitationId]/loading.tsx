@@ -8,10 +8,14 @@ import "../../ui/css/loadingSpinner.css";
 export default function LoadingUsers() {
   return (
     <main className="w-[100vw] h-[100vh] bg-slate-950 m-0 py-[30px]">
-      <div className="relative bg-sky-200 rounded-md border w-[200px] mx-auto mt-30">
-        <InformationCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
-        <div className="rounded-md border border-blue-400 py-2 px-5 pl-10 text-sm outline-2 font-medium dark:bg-blue-950 dark:border-sky-500">
-          Loading...
+      <div className="fixed left-0 top-0 bg-[#250e0e49] dark:bg-[#06093f77] w-[100vw] h-[100vh] ">
+        <div className="fixed left-[25%] top-1/2 w-[50%] flex items-center justify-center">
+          <div
+            className={`bg-[#b76973ab] dark:bg-[#113a27e3] dark:text-yellow-300 md:text-lg  md:h-16 h-12 w-[200px] md:w-[250px] rounded-lg flex flex-row justify-center items-center `}
+          >
+            <div className="inline-block md:h-8 md:w-8 h-5 w-5 animate-spin-slow rounded-full mr-4 md:border-4 border-2 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_3s_linear_infinite] dark:text-yellow-300"></div>
+            Loading...
+          </div>
         </div>
       </div>
     </main>
