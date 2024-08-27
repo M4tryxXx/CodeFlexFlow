@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { fadeIn, textVariant } from "../../lib/utils";
-import { myStyles } from "../../styles";
+import { sendContactEmail } from "@/app/lib/actions";
+import toast from "react-hot-toast";
 export default function Contact({ hid }: any) {
   const [hidden, setHidden] = useState(true);
   useEffect(() => {
@@ -22,18 +22,27 @@ export default function Contact({ hid }: any) {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Handle form submission logic here
-    console.log(formData);
-    setHidden(true);
-    const element = document.getElementById("contact");
-    if (element) {
-      element.innerHTML = hidden ? "Close" : "Contact me";
-      element.style.color = hidden ? "red" : "";
+    try {
+      const response = await sendContactEmail(formData);
+      toast.success(
+        "Your message has been sent, I will get back to you soon! Thank you",
+        { duration: 5000 }
+      );
+      setHidden(true);
+      const element = document.getElementById("contact");
+      if (element) {
+        element.innerHTML = hidden ? "Close" : "Contact me";
+        element.style.color = hidden ? "red" : "";
+      }
+    } catch (error) {
+      toast.error("Something went wrong, please try again later", {
+        duration: 5000,
+      });
     }
   };
-
   return (
     <motion.div
       layout

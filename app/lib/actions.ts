@@ -7,6 +7,7 @@ import {
   sendWelcomeEmail,
   sendResetPasswordEmail,
   sendInvitationEmail,
+  sendContactMeEmail,
 } from "./mailer";
 import { auth } from "auth";
 import {
@@ -34,7 +35,6 @@ import {
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
-import { user } from "@nextui-org/react";
 
 export const redirectUser = async () => {
   return redirect("/home");
@@ -311,4 +311,14 @@ export const userDataById = async (id: string) => {
     qualifications: userQualification,
     Invites: userInvites,
   };
+};
+
+export const sendContactEmail = async (formData: any) => {
+  const { email, name, message } = formData;
+  try {
+    const response = await sendContactMeEmail(email, name, message);
+    return response;
+  } catch (error) {
+    return "Something went wrong";
+  }
 };

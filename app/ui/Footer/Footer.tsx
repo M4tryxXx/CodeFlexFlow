@@ -7,9 +7,26 @@ import Contact from "../Contact/Contact";
 export default function Footer() {
   const [hidden, setHidden] = useState(true);
   return (
-    <footer className="w-full mt-10 p-6 bg-stone-100 text-black dark:bg-emerald-900 dark:text-white">
+    <footer className="w-full mt-10  py-2 bg-stone-100 text-black dark:bg-emerald-900 dark:text-white">
       <div className="container mx-auto text-center">
-        <p>M4tryxXx</p>
+        <div className="flex-row flex items-center justify-center">
+          <p>M4tryxXx &nbsp;|&nbsp;&nbsp;</p>{" "}
+          <p
+            onClick={() => {
+              setHidden(!hidden);
+              const element = document.getElementById("contact");
+              if (element) {
+                element.innerHTML = hidden ? "Close" : "Contact me";
+                element.style.color = hidden ? "red" : "";
+              }
+            }}
+            id="contact"
+            className="cursor-pointer font-bold text-blue-500 hover:underline underline-offset-4 dark:text-yellow-300"
+          >
+            {" "}
+            <a href="#bot">Contact me</a>
+          </p>
+        </div>
         <p>
           Email:{" "}
           <Tooltip
@@ -37,21 +54,6 @@ export default function Footer() {
               https://github.com/M4tryxXx
             </a>
           </Tooltip>
-        </p>
-        <p
-          onClick={() => {
-            setHidden(!hidden);
-            const element = document.getElementById("contact");
-            if (element) {
-              element.innerHTML = hidden ? "Close" : "Contact me";
-              element.style.color = hidden ? "red" : "";
-            }
-          }}
-          id="contact"
-          className="cursor-pointer font-bold text-blue-500 hover:underline underline-offset-4"
-        >
-          {" "}
-          <a href="#bot">Contact me</a>
         </p>
       </div>
       <Contact hid={hidden} />

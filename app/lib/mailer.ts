@@ -74,3 +74,26 @@ export const sendInvitationEmail = async (
     }
   );
 };
+
+export const sendContactMeEmail = async (
+  email: string,
+  name: string,
+  message: string
+) => {
+  const info = await transporter.sendMail(
+    {
+      from: "CodeFlexFlow@gmail.com", // sender address
+      to: "m4tryxxx@gmail.com", // list of receivers
+      subject: "You have a new message!", // Subject line
+      text: `New message from ${name} - ${email}!`, // plain text body
+      html: `<b> <h3>New message from ${name} - ${email}!</h3></b>  <p>  </p> <p>  ${message}</p>`, // html body
+    },
+    function (error: any, info: any) {
+      if (error) {
+        return { error };
+      } else {
+        return null;
+      }
+    }
+  );
+};

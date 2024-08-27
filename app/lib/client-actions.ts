@@ -27,7 +27,7 @@ import {
   editExperienceSchema,
   updateUserPasswordSchema,
 } from "./zod-schemas";
-import { sendWelcomeEmail } from "./mailer";
+import { sendWelcomeEmail, sendContactMeEmail } from "./mailer";
 import { updateLogin } from "../lib/myDb";
 
 export const editUserSide = async (data: any) => {
