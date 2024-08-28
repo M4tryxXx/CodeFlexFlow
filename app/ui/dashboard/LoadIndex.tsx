@@ -14,10 +14,10 @@ const LoadIndicator: React.FC<LoadIndicatorProps> = ({ number }) => {
   const percentage = 100 - (clampedNumber / 12) * 100;
 
   return (
-    <div className="w-[90%] mx-auto bg-gray-300 rounded-full h-4 md:h-6 mb-4">
+    <div className="w-[90%] mx-auto bg-gray-200 rounded-full h-4 md:h-6 mb-4">
       {percentage > 0 ? (
         <div
-          className="bg-blue-800 h-full rounded-full flex justify-center items-center font-bold text-white dark:text-black dark:bg-blue-500"
+          className="bg-blue-300 h-full rounded-full flex justify-center items-center font-bold dark:text-white text-black dark:bg-blue-500"
           style={{ width: `${percentage}%` }}
         >
           {Math.floor(percentage)}%
