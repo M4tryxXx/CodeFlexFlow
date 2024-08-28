@@ -11,6 +11,8 @@ export default async function dashPage() {
   let listItems = [];
   let expCheck = false;
   let qualiCheck = false;
+  let infoExp = [];
+  let infoQuali = [];
 
   for (let [key, value] of Object.entries(user.user)) {
     if (
@@ -86,6 +88,24 @@ export default async function dashPage() {
   }
  }
 
+  if(expCheck) {
+  infoExp.push(<Link href={`/home/dashboard/experience/add`}>
+              <a className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+                Click here to add experience!
+              </a>
+            </Link>);
+  }
+
+if(qualiCheck) {
+  infoQuali.push(<Link href={`/home/dashboard/qualifications/add`}>
+              <a className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+                Click here to add qualifications!
+              </a>
+            </Link>);
+  }
+
+
+
   const loaded = Math.floor((100 / 12) * (12 - listItems.length));
 
   return (
@@ -121,23 +141,14 @@ export default async function dashPage() {
                 Click here to update your profile
               </a>
             </Link>
-
+            {infoExp}
+            {infoQuali}
             <h5 className="text-2xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
               Missing fields:
             </h5>
             <ul className="w-full">{listItems}</ul>
           </>
         )}
-       {qualiCheck ? (<Link href={`/home/dashboard/qualifications/add`}>
-              <a className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
-                Click here to add qualifications!
-              </a>
-            </Link>) : ""}
-        {expCheck ? (<Link href={`/home/dashboard/experience/add`}>
-              <a className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
-                Click here to add experience!
-              </a>
-            </Link>) : ""}
       </div>
 
       <hr className="w-full border-[2px] border-gray-200 dark:border-emerald-800 rounded-md my-4" />
