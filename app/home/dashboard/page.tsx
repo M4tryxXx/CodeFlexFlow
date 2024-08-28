@@ -9,6 +9,8 @@ import { firstToCapital } from "../../lib/utils";
 export default async function dashPage() {
   const user = await userData();
   let listItems = [];
+  let expCheck = false;
+  let qualiCheck = false;
 
   for (let [key, value] of Object.entries(user.user)) {
     if (
@@ -54,6 +56,7 @@ export default async function dashPage() {
   }
  if(user && user.experience !== null) { 
   if(user.experience.length < 1) {
+  expCheck = true;
   listItems.push(
       <li key="experience" className="flex flex-row justify-between items-center">
         <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
@@ -69,6 +72,7 @@ export default async function dashPage() {
 
  if(user && user.qualifications !== null) { 
   if(user.qualifications.length < 1) {
+  qualiCheck = true;
   listItems.push(
       <li key="qualifications" className="flex flex-row justify-between items-center">
         <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
@@ -124,6 +128,16 @@ export default async function dashPage() {
             <ul className="w-full">{listItems}</ul>
           </>
         )}
+       {qualiCheck ? (<Link href={`/home/dashboard/qualifications/add`}>
+              <a className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+                Click here to add qualifications!
+              </a>
+            </Link>) : ""}
+        {expCheck ? (<Link href={`/home/dashboard/experience/add`}>
+              <a className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+                Click here to add experience!
+              </a>
+            </Link>) : ""}
       </div>
 
       <hr className="w-full border-[2px] border-gray-200 dark:border-emerald-800 rounded-md my-4" />
