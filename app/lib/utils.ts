@@ -126,3 +126,23 @@ export const fadeIn = (
     },
   };
 };
+
+
+  export const firstToCapital = string => {
+   if(string.length < 1){
+     return string;
+   }
+
+   let result = [];
+   for(let i = 0; i < string.length; i++) {
+     if(i = 0){
+       result.push(string[i].toUpperCase());
+     }
+     result.push(string[i];
+   }
+    result = result.join("");
+    rerurn result;
+  }
+
+
+
