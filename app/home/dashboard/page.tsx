@@ -48,7 +48,33 @@ export default async function dashPage() {
     );
   }
 
-  const loaded = Math.floor((100 / 11) * (11 - listItems.length));
+  if(user.experience.length < 1) {
+  listItems.push(
+      <li key="experience" className="flex flex-row justify-between items-center">
+        <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
+          Experience
+        </span>
+        <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
+          null
+        </span>
+      </li>
+    );
+  }
+
+  if(user.qualifucations.length < 1) {
+  listItems.push(
+      <li key="qualifications" className="flex flex-row justify-between items-center">
+        <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
+          Qualifications
+        </span>
+        <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
+          null
+        </span>
+      </li>
+    );
+  }
+
+  const loaded = Math.floor((100 / 13) * (13 - listItems.length));
 
   return (
     <main className={`${myStyles.main}`}>
