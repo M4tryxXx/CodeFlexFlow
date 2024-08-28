@@ -140,8 +140,7 @@ export const fadeIn = (
      }
      result.push(string[i]);
    }
-    result = result.join("");
-    return result;
+    return result.join("");
   }
 
 
