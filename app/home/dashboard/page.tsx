@@ -48,7 +48,7 @@ export default async function dashPage() {
       </li>
     );
   }
-
+ if(user && user.experience.length >= 0) { 
   if(user.experience.length < 1) {
   listItems.push(
       <li key="experience" className="flex flex-row justify-between items-center">
@@ -61,7 +61,9 @@ export default async function dashPage() {
       </li>
     );
   }
+}
 
+ if(user && user.qualifications.length >= 0) { 
   if(user.qualifucations.length < 1) {
   listItems.push(
       <li key="qualifications" className="flex flex-row justify-between items-center">
@@ -74,6 +76,7 @@ export default async function dashPage() {
       </li>
     );
   }
+ }
 
   const loaded = Math.floor((100 / 13) * (13 - listItems.length));
 
