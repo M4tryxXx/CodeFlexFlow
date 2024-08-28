@@ -254,6 +254,7 @@ export const sendPasswordChangeLink = async (email: string) => {
     return "Something went wrong";
   }
   await sendResetPasswordEmail(email, token, user.username);
+  revalidatePath("/login");
   redirect("/login");
 };
 
