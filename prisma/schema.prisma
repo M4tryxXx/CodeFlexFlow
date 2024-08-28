@@ -86,7 +86,10 @@ model User {
   facebook          String?
   instagram         String?
   github            String?
-  age               String?
+  youtube           String?
+  twitch            String?
+  discord           String?
+  age               Int?
   createdAt         DateTime?       @default(now())
   updatedAt         DateTime?       @default(now())
   lastLogin         DateTime?

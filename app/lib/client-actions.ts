@@ -11,6 +11,7 @@ import {
   handleDelete,
   sendPasswordChangeLink,
   updateUserPassword,
+  editProfile,
 } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import z from "zod";
@@ -53,6 +54,38 @@ export const editUserSide = async (data: any) => {
     return;
   }
   const response = await editUser(dataToUpdate.data);
+  if (response === "Something went wrong") {
+    toast.error("Something went wrong!", { duration: 5000 });
+    return;
+  }
+  toast.success("Details has been succesfully updated!");
+};
+
+export const editProfileUserSide = async (data: any) => {
+  let obj: any = {};
+
+  for (const [key, value] of Object.entries(data)) {
+    if (value) {
+      obj[key] = value;
+    }
+  }
+  if (Object.keys(obj).length < 3) {
+    toast.error("The forms are empty!", { duration: 4000 });
+    return;
+  }
+  const dataToUpdate = editUserSchema.safeParse(obj);
+  if (!dataToUpdate.success) {
+    let errorMessage = "";
+    dataToUpdate.error.errors.forEach((issue) => {
+      errorMessage =
+        errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
+    });
+    toast.error(errorMessage, { duration: 5000 });
+    return;
+  }
+
+  //console.log(dataToUpdate.data);
+  const response = await editProfile(dataToUpdate.data);
   if (response === "Something went wrong") {
     toast.error("Something went wrong!", { duration: 5000 });
     return;

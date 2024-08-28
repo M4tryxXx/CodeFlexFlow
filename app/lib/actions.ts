@@ -130,6 +130,18 @@ export const editUser = async (data: any) => {
   }
 };
 
+export const editProfile = async (data: any) => {
+  data.updatedAt = new Date().toISOString();
+  //console.log(data);
+  const response = await updateUser(data);
+  if (response) {
+    revalidatePath("/home/dashboard/profile");
+    redirect("/home/dashboard/profile");
+  } else {
+    return "Something went wrong";
+  }
+};
+
 export const updateInviteById = async (id: any) => {
   const updatedAt = new Date(Date.now()).toISOString();
   const data = {
