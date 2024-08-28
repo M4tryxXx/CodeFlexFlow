@@ -35,6 +35,17 @@ import {
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
+const nodemailer = require("nodemailer");
+
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true, // use SSL
+  auth: {
+    user: process.env["EMAIL_ID"],
+    pass: process.env["EMAIL_PASSWORD"],
+  },
+});
 
 export const redirectUser = async () => {
   return redirect("/home");
@@ -332,10 +343,30 @@ export async function sendContactEmail(formData: FormData) {
     message: formData.get("message"),
   };
 
-  const { email, name, message } = rawFormData;
+  let { email, name, message } = rawFormData;
+
   try {
-    const response = await sendContactMeEmail(email, name, message);
-    return response;
+    if (!email) {
+      email = "No Email Provided";
+    }
+    const info = await transporter.sendMail(
+      {
+        from: "CodeFlexFlow@gmail.com", // sender address
+        to: "m4tryxxx@gmail.com", // list of receivers
+        subject: "You have a new message!", // Subject line
+        text: `New message from ${name} - ${email}!`, // plain text body
+        html: `<b> <h3>New message from ${name} - ${email}!</h3></b>  <p>  </p> <p>  ${message}</p>`, // html body
+      },
+      function (error: any, info: any) {
+        if (error) {
+          console.log(error);
+          throw error;
+        } else {
+          console.log("Email sent: " + info.response);
+          return info;
+        }
+      }
+    );
   } catch (error) {
     throw error;
   }
