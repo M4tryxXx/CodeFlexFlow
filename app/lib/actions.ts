@@ -332,8 +332,6 @@ export async function sendContactEmail(formData: FormData) {
     message: formData.get("message"),
   };
 
-  console.log(rawFormData);
-
   const { email, name, message } = rawFormData;
   try {
     const response = await sendContactMeEmail(email, name, message);
