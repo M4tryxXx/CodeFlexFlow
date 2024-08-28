@@ -18,23 +18,16 @@ export default function Contact({ hid }: any) {
     e.preventDefault();
     // Handle form submission logic here
     try {
-      const response = await sendContactEmail(email, name, message);
-      if (!response) {
-        toast.success(
-          "Your message has been sent, I will get back to you soon! Thank you",
-          { duration: 5000 }
-        );
-        setHidden(true);
-        setName("");
-        setEmail("");
-        setMessage("");
-      } else {
-        const element = document.getElementById("contact");
-        if (element) {
-          element.innerHTML = hidden ? "Close" : "Contact me";
-          element.style.color = hidden ? "red" : "";
-        }
-      }
+      await sendContactEmail(email, name, message);
+
+      setHidden(true);
+      setName("");
+      setEmail("");
+      setMessage("");
+      toast.success(
+        "Your message has been sent, I will get back to you soon! Thank you",
+        { duration: 5000 }
+      );
     } catch (error) {
       toast.error("Something went wrong, please try again later", {
         duration: 5000,

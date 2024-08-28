@@ -330,6 +330,6 @@ export const sendContactEmail = async (email: any, name: any, message: any) => {
     const response = await sendContactMeEmail(email, name, message);
     return response;
   } catch (error) {
-    return "Something went wrong";
+    throw error;
   }
 };

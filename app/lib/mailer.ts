@@ -21,9 +21,10 @@ export const sendWelcomeEmail = async (email: string, username: string) => {
     },
     function (error: any, info: any) {
       if (error) {
-        //console.log(error);
+        console.log(error);
+        throw error;
       } else {
-        //console.log("Email sent: " + info.response);
+        console.log("Email sent: " + info.response);
       }
     }
   );
@@ -44,9 +45,11 @@ export const sendResetPasswordEmail = async (
     },
     function (error: any, info: any) {
       if (error) {
-        //console.log(error);
+        console.log(error);
+        throw error;
       } else {
-        //console.log("Email sent: " + info.response);
+        console.log("Email sent: " + info.response);
+        console.log(info);
       }
     }
   );
@@ -67,9 +70,11 @@ export const sendInvitationEmail = async (
     },
     function (error: any, info: any) {
       if (error) {
-        //console.log(error);
+        console.log(error);
+        throw error;
       } else {
-        //console.log("Email sent: " + info.response);
+        console.log("Email sent: " + info.response);
+        console.log(info);
       }
     }
   );
@@ -90,9 +95,11 @@ export const sendContactMeEmail = async (
     },
     function (error: any, info: any) {
       if (error) {
-        return { error };
+        console.log(error);
+        throw error;
       } else {
-        return null;
+        console.log("Email sent: " + info.response);
+        console.log(info);
       }
     }
   );
