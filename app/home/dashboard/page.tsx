@@ -64,7 +64,7 @@ export default async function dashPage() {
 }
 
  if(user && user.qualifications !== null) { 
-  if(user.qualifucations.length < 1) {
+  if(user.qualifications.length < 1) {
   listItems.push(
       <li key="qualifications" className="flex flex-row justify-between items-center">
         <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
