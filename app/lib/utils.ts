@@ -1,4 +1,4 @@
-import { date } from "zod";
+ import { date } from "zod";
 
 export const formatDateToLocal = (
   dateStr: string,
@@ -138,7 +138,7 @@ export const fadeIn = (
      if(i = 0){
        result.push(string[i].toUpperCase());
      }
-     result.push(string[i];
+     result.push(string[i]);
    }
     result = result.join("");
     rerurn result;
