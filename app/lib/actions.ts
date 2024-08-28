@@ -1,7 +1,7 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import {
   sendWelcomeEmail,
@@ -35,20 +35,10 @@ import {
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
-const nodemailer = require("nodemailer");
+import { createId } from "@paralleldrive/cuid2";
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true, // use SSL
-  auth: {
-    user: process.env["EMAIL_ID"],
-    pass: process.env["EMAIL_PASSWORD"],
-  },
-});
-
-export const redirectUser = async () => {
-  return redirect("/home");
+export const redirectUser = async (path: string) => {
+  return redirect(path);
 };
 
 export const getUsersData = async () => {
@@ -107,6 +97,13 @@ export const handleDelete = async (id: string) => {
   await deleteUserById(id);
   revalidatePath("/home/admin/users");
   redirect("/home/admin/users");
+};
+
+export const handleDeleteAccount = async (id: string) => {
+  await deleteUserById(id);
+  await signOut();
+  revalidatePath("/home/admin/users");
+  redirect("/login");
 };
 
 export const handleDeleteInvite = async (id: string, location: string) => {

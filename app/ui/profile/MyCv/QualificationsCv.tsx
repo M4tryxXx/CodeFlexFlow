@@ -41,7 +41,7 @@ export default function QualificationsCv({ user }: any) {
               color: "#fff",
             }}
             contentArrowStyle={{ borderRight: "7px solid  #232631" }}
-            key={qual.id}
+            key={qual.id + qual.name}
             date={`${monthFrom} ${fromYear} - ${monthTo} ${toYear}`}
             iconStyle={{ background: "#000", color: "#fff" }}
             icon={<DocumentIcon />}

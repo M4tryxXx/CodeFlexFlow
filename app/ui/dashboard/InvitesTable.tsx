@@ -47,6 +47,11 @@ export default function InvitesTable(invitations: any) {
     invites.map((invite: any) => {
       const formattedDate = formatDateToLocal(invite.createdAt, "en-GB");
       const formattedDateOpened = formatDateToLocal(invite.updatedAt, "en-GB");
+      let expires: any;
+      if (invite) {
+        expires = new Date(invite?.expiresAt);
+      }
+
       infoArr.push(
         <div
           id={invite.id}
@@ -65,88 +70,180 @@ export default function InvitesTable(invitations: any) {
             <p>The Cv has not been seen by the recipient</p>
           )}
           <p>Invitation Code: {invite.id}</p>
+          <p className="text-md underline underline-offset-[3px] dark:text-orange-400 text-red-600">
+            Expired!
+          </p>
         </div>
       );
 
-      dataArr.push(
-        <tr
-          key={invite.id + invite.destinationName}
-          className="odd:bg-white even:bg-gray-100 hover:bg-gray-100 dark:odd:bg-transparent dark:even:bg-transparent dark:hover:bg-stone-700 dark:hover:bg-opacity-25"
-        >
-          <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200">
-            {invite.destinationName}
-          </td>
+      if (Date.now() > Date.parse(expires)) {
+        dataArr.push(
+          <tr
+            key={invite.id + invite.destinationName}
+            className=" hover:bg-rose-200 bg-rose-100 dark:bg-rose-700 dark:bg-opacity-35 dark:hover:bg-rose-700 dark:hover:bg-opacity-25"
+          >
+            <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 decoration-slice decoration-black decoration-2">
+              <p>
+                <span className="line-through">{invite.destinationName}</span> -
+                Expired
+              </p>
+            </td>
 
-          <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
-            <Tooltip
-              content={invite.opened ? `Invite Opened` : `Invite Not Opened`}
-              className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
-            >
-              {invite.opened ? (
-                <div className=" border border-green-500 rounded-md bg-green-600 h-[16px] w-[16px]"></div>
-              ) : (
-                <div className=" border border-red-500 rounded-md bg-red-600 h-[16px] w-[16px]"></div>
-              )}
-            </Tooltip>
-          </td>
+            <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
+              <Tooltip
+                content={invite.opened ? `Invite Opened` : `Invite Not Opened`}
+                className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+              >
+                {invite.opened ? (
+                  <div className=" border border-green-500 rounded-md bg-green-600 h-[16px] w-[16px]"></div>
+                ) : (
+                  <div className=" border border-red-500 rounded-md bg-red-600 h-[16px] w-[16px]"></div>
+                )}
+              </Tooltip>
+            </td>
 
-          <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
-            <Tooltip
-              content={
-                <>
-                  <p>Sent: {formattedDate}</p>
-                  <br />
-                  {invite.opened ? (
-                    <p>Opened: {formattedDateOpened} </p>
-                  ) : (
-                    <p>Not Opened yet</p>
-                  )}
-                </>
-              }
-              className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
-            >
-              <EyeIcon
-                className="m-auto text-green-600 hover:cursor-pointer"
-                onClick={(e: any) => {
-                  const element = document.getElementById(invite.id);
-                  if (element) {
-                    element.classList.toggle("hidden");
-                    element.style.left = e.pageX - 260 + "px";
-                    element.style.top = e.pageY - 240 + "px";
-                  }
-                }}
-              />
-            </Tooltip>
-          </td>
+            <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
+              <Tooltip
+                content={
+                  <>
+                    <p>Sent: {formattedDate}</p>
+                    <br />
+                    {invite.opened ? (
+                      <p>Opened: {formattedDateOpened} </p>
+                    ) : (
+                      <p>Not Opened yet</p>
+                    )}
+                  </>
+                }
+                className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+              >
+                <EyeIcon
+                  className="m-auto text-green-600 hover:cursor-pointer"
+                  onClick={(e: any) => {
+                    const element = document.getElementById(invite.id);
+                    if (element) {
+                      element.classList.toggle("hidden");
+                      element.style.left = e.pageX - 260 + "px";
+                      element.style.top = e.pageY - 240 + "px";
+                    }
+                  }}
+                />
+              </Tooltip>
+            </td>
 
-          <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
-            {/* <form action={handleDelete(user.id)}> */}
-            <Tooltip
-              content={`Delete ${invite.id}`}
-              className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
-            >
-              <DeleteIcon
-                className="text-red-600 m-auto cursor-pointer "
-                onClick={async () => {
-                  setLoading(true);
-                  try {
-                    await handleDeleteInvite(invite.id, location);
-                  } catch (error) {
+            <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
+              {/* <form action={handleDelete(user.id)}> */}
+              <Tooltip
+                content={`Delete ${invite.id}`}
+                className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+              >
+                <DeleteIcon
+                  className="text-red-600 m-auto cursor-pointer "
+                  onClick={async () => {
+                    setLoading(true);
+                    try {
+                      await handleDeleteInvite(invite.id, location);
+                    } catch (error) {
+                      setLoading(false);
+                      toast.error(
+                        "An error occurred while deleting the Invite"
+                      );
+                    }
+                    toast.success("Invite deleted successfully", {
+                      duration: 5000,
+                      icon: "👋",
+                    });
                     setLoading(false);
-                    toast.error("An error occurred while deleting the Invite");
-                  }
-                  toast.success("Invite deleted successfully", {
-                    duration: 5000,
-                    icon: "👋",
-                  });
-                  setLoading(false);
-                }}
-              />
-            </Tooltip>
-            {/* </form> */}
-          </td>
-        </tr>
-      );
+                  }}
+                />
+              </Tooltip>
+              {/* </form> */}
+            </td>
+          </tr>
+        );
+      } else {
+        dataArr.push(
+          <tr
+            key={invite.id + invite.destinationName}
+            className="odd:bg-white even:bg-gray-100 hover:bg-gray-100 dark:odd:bg-transparent dark:even:bg-transparent dark:hover:bg-stone-700 dark:hover:bg-opacity-25"
+          >
+            <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200">
+              {invite.destinationName}
+            </td>
+
+            <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
+              <Tooltip
+                content={invite.opened ? `Invite Opened` : `Invite Not Opened`}
+                className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+              >
+                {invite.opened ? (
+                  <div className=" border border-green-500 rounded-md bg-green-600 h-[16px] w-[16px]"></div>
+                ) : (
+                  <div className=" border border-red-500 rounded-md bg-red-600 h-[16px] w-[16px]"></div>
+                )}
+              </Tooltip>
+            </td>
+
+            <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
+              <Tooltip
+                content={
+                  <>
+                    <p>Sent: {formattedDate}</p>
+                    <br />
+                    {invite.opened ? (
+                      <p>Opened: {formattedDateOpened} </p>
+                    ) : (
+                      <p>Not Opened yet</p>
+                    )}
+                  </>
+                }
+                className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+              >
+                <EyeIcon
+                  className="m-auto text-green-600 hover:cursor-pointer"
+                  onClick={(e: any) => {
+                    const element = document.getElementById(invite.id);
+                    if (element) {
+                      element.classList.toggle("hidden");
+                      element.style.left = e.pageX - 260 + "px";
+                      element.style.top = e.pageY - 240 + "px";
+                    }
+                  }}
+                />
+              </Tooltip>
+            </td>
+
+            <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">
+              {/* <form action={handleDelete(user.id)}> */}
+              <Tooltip
+                content={`Delete ${invite.id}`}
+                className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-800"
+              >
+                <DeleteIcon
+                  className="text-red-600 m-auto cursor-pointer "
+                  onClick={async () => {
+                    setLoading(true);
+                    try {
+                      await handleDeleteInvite(invite.id, location);
+                    } catch (error) {
+                      setLoading(false);
+                      toast.error(
+                        "An error occurred while deleting the Invite"
+                      );
+                    }
+                    toast.success("Invite deleted successfully", {
+                      duration: 5000,
+                      icon: "👋",
+                    });
+                    setLoading(false);
+                  }}
+                />
+              </Tooltip>
+              {/* </form> */}
+            </td>
+          </tr>
+        );
+      }
     });
   }
 

@@ -11,9 +11,26 @@ import { Button } from "../../Button";
 import { deleteUserSide, editProfileUserSide } from "@/app/lib/client-actions";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { set } from "zod";
+import { redirectUser } from "@/app/lib/actions";
 
 export default function EditProfileForm({ user }: any) {
+  if (!user) {
+    return (
+      <div className="flex items-center justify-start">
+        <StopCircleIcon className="h-10 w-10 text-red-500" />
+        <h1 className="text-2xl text-gray-800 dark:text-gray-200 ml-2">
+          User not found
+        </h1>
+        <Button
+          onClick={() => redirectUser("/home/dashboard")}
+          className="ml-4"
+        >
+          Go back
+        </Button>
+      </div>
+    );
+  }
+
   const {
     id,
     email,
@@ -116,7 +133,7 @@ export default function EditProfileForm({ user }: any) {
 
   const handleDelete = async (e: any) => {
     e.preventDefault();
-    await deleteUserSide(id);
+    await deleteUserSide(id, "account");
   };
   return (
     <>
@@ -653,8 +670,7 @@ export default function EditProfileForm({ user }: any) {
       <div className="relative my-5 bg-red-300 rounded-md border">
         <InformationCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2  peer-focus:text-gray-900 text-black" />
         <div className="rounded-md border border-red-500 py-2 pl-10 text-md  dark:text-black outline-2 font-medium dark:bg-red-300 dark:border-red-400">
-          Daca stergeti toate datele se vor sterge inclusiv Experientele si
-          Calificarile deja salvate!
+          If you delete your account, all your data will be lost.
         </div>
       </div>
       <form
@@ -667,7 +683,7 @@ export default function EditProfileForm({ user }: any) {
           type="submit"
           className="flex h-9 items-center justify-end rounded-lg bg-rose-100 px-3 text-sm font-medium text-gray-800 transition-colors dark:bg-emerald-300 hover:bg-rose-300 dark:hover:bg-rose-300"
         >
-          Sterge User
+          Delete Account
         </button>
       </form>
     </>

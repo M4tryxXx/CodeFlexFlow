@@ -12,6 +12,7 @@ import {
   sendPasswordChangeLink,
   updateUserPassword,
   editProfile,
+  handleDeleteAccount,
 } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import z from "zod";
@@ -93,12 +94,22 @@ export const editProfileUserSide = async (data: any) => {
   toast.success("Details has been succesfully updated!");
 };
 
-export const deleteUserSide = async (id: string) => {
-  try {
-    await handleDelete(id);
-    toast.success("User has been deleted!", { duration: 4000 });
-  } catch (error: any) {
-    toast.error(error);
+export const deleteUserSide = async (id: string, method: string) => {
+  if (method === "admin") {
+    try {
+      await handleDelete(id);
+      toast.success("User has been deleted!", { duration: 4000 });
+    } catch (error: any) {
+      toast.error(error);
+    }
+  }
+  if (method === "account") {
+    try {
+      await handleDeleteAccount(id);
+      toast.success("User has been deleted!", { duration: 4000 });
+    } catch (error: any) {
+      toast.error(error);
+    }
   }
 };
 
