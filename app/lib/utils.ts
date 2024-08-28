@@ -136,10 +136,12 @@ export const fadeIn = (
 
    let result = [];
    for(let i = 0; i < string.length; i++) {
-     if(i = 0){
+     if(i === 0){
        result.push(string[i].toUpperCase());
+     } 
+     else {
+       result.push(string[i]);
      }
-     result.push(string[i]);
    }
   const resulted = result.join("");
     return resulted;
