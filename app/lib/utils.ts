@@ -128,7 +128,8 @@ export const fadeIn = (
 };
 
 
-  export const firstToCapital = (string: any) => {
+  export const firstToCapital = (str: any) => {
+   const string = str.split("");
    if(string.length < 1){
      return string;
    }
