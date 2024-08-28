@@ -85,6 +85,9 @@ export const sendContactMeEmail = async (
   name: any,
   message: any
 ) => {
+  if (!email) {
+    email = "No Email Provided";
+  }
   const info = await transporter.sendMail(
     {
       from: "CodeFlexFlow@gmail.com", // sender address
