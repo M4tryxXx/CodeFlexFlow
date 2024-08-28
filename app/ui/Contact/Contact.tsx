@@ -18,7 +18,7 @@ export default function Contact({ hid }: any) {
     e.preventDefault();
     // Handle form submission logic here
     try {
-      await sendContactEmail(email, name, message);
+      const response = await sendContactEmail(email, name, message);
 
       setHidden(true);
       setName("");
@@ -28,6 +28,12 @@ export default function Contact({ hid }: any) {
         "Your message has been sent, I will get back to you soon! Thank you",
         { duration: 5000 }
       );
+      console.log(response);
+      const element = document.getElementById("contact");
+      if (element) {
+        element.innerHTML = hidden ? "Close" : "Contact me";
+        element.style.color = hidden ? "red" : "";
+      }
     } catch (error) {
       toast.error("Something went wrong, please try again later", {
         duration: 5000,

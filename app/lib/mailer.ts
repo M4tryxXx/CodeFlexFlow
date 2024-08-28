@@ -99,7 +99,7 @@ export const sendContactMeEmail = async (
         throw error;
       } else {
         console.log("Email sent: " + info.response);
-        console.log(info);
+        return info;
       }
     }
   );
