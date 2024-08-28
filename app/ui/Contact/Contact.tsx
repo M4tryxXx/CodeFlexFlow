@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { sendContactEmail } from "@/app/lib/actions";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
+import { set } from "zod";
 
 export default function Contact() {
   const [hidden, setHidden] = useState(true);
@@ -34,6 +35,7 @@ export default function Contact() {
       toast.success(
         "Your message has been sent, I will get back to you soon! Thank you"
       );
+      setHidden(true);
     } catch (error) {
       toast.error("Something went wrong, please try again later");
     }
