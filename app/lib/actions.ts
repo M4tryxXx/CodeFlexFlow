@@ -325,8 +325,7 @@ export const userDataById = async (id: string) => {
   };
 };
 
-export const sendContactEmail = async (formData: any) => {
-  const { email, name, message } = formData;
+export const sendContactEmail = async (email: any, name: any, message: any) => {
   try {
     const response = await sendContactMeEmail(email, name, message);
     return response;

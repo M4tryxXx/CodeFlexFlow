@@ -6,36 +6,34 @@ import { sendContactEmail } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 export default function Contact({ hid }: any) {
   const [hidden, setHidden] = useState(true);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
   useEffect(() => {
     setHidden(hid);
   }, [hid]);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     // Handle form submission logic here
     try {
-      const response = await sendContactEmail(formData);
-      toast.success(
-        "Your message has been sent, I will get back to you soon! Thank you",
-        { duration: 5000 }
-      );
-      setHidden(true);
-      const element = document.getElementById("contact");
-      if (element) {
-        element.innerHTML = hidden ? "Close" : "Contact me";
-        element.style.color = hidden ? "red" : "";
+      const response = await sendContactEmail(email, name, message);
+      if (!response) {
+        toast.success(
+          "Your message has been sent, I will get back to you soon! Thank you",
+          { duration: 5000 }
+        );
+        setHidden(true);
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        const element = document.getElementById("contact");
+        if (element) {
+          element.innerHTML = hidden ? "Close" : "Contact me";
+          element.style.color = hidden ? "red" : "";
+        }
       }
     } catch (error) {
       toast.error("Something went wrong, please try again later", {
@@ -63,7 +61,7 @@ export default function Contact({ hid }: any) {
       <div className="container mx-auto p-4">
         <h1 className="text-2xl font-bold text-center mb-4">Contact Me</h1>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={async (e) => await handleSubmit(e)}
           className="max-w-lg mx-auto bg-gray-800 p-6 rounded-lg shadow-md"
         >
           <div className="mb-4">
@@ -77,8 +75,7 @@ export default function Contact({ hid }: any) {
               type="text"
               id="name"
               name="name"
-              value={formData.name}
-              onChange={handleChange}
+              onChange={(e) => setName(e.target.value)}
               className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
               required
             />
@@ -94,8 +91,7 @@ export default function Contact({ hid }: any) {
               type="email"
               id="email"
               name="email"
-              value={formData.email}
-              onChange={handleChange}
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
               required
             />
@@ -110,8 +106,7 @@ export default function Contact({ hid }: any) {
             <textarea
               id="message"
               name="message"
-              value={formData.message}
-              onChange={handleChange}
+              onChange={(e) => setMessage(e.target.value)}
               className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
               required
             />
