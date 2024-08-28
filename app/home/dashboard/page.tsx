@@ -28,7 +28,8 @@ export default async function dashPage() {
       key === "createdAt" ||
       key === "updatedAt" ||
       key === "lastLogin" ||
-      key === "lastLoginAt" ||
+      key === "lastLoginAt" || 
+      key ===  "lastLoginFrom"  || 
       key === "id" ||
       key === "twitter" ||
       key === "avatar" ||
