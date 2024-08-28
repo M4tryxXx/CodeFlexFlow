@@ -81,9 +81,9 @@ export const sendInvitationEmail = async (
 };
 
 export const sendContactMeEmail = async (
-  email: string,
-  name: string,
-  message: string
+  email: any,
+  name: any,
+  message: any
 ) => {
   const info = await transporter.sendMail(
     {

@@ -325,11 +325,20 @@ export const userDataById = async (id: string) => {
   };
 };
 
-export const sendContactEmail = async (email: any, name: any, message: any) => {
+export async function sendContactEmail(formData: FormData) {
+  const rawFormData = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    message: formData.get("message"),
+  };
+
+  console.log(rawFormData);
+
+  const { email, name, message } = rawFormData;
   try {
     const response = await sendContactMeEmail(email, name, message);
     return response;
   } catch (error) {
     throw error;
   }
-};
+}
