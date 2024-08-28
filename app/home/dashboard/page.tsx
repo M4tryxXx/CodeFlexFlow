@@ -90,7 +90,7 @@ export default async function dashPage() {
 
   if(expCheck) {
   infoExp.push(<Link href={`/home/dashboard/experience/add`}>
-              <a className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+              <a className="text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
                 Click here to add experience!
               </a>
             </Link>);
@@ -98,7 +98,7 @@ export default async function dashPage() {
 
 if(qualiCheck) {
   infoQuali.push(<Link href={`/home/dashboard/qualifications/add`}>
-              <a className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+              <a className="text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
                 Click here to add qualifications!
               </a>
             </Link>);
@@ -136,10 +136,9 @@ if(qualiCheck) {
             <h3 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
               You need to fill out the required fields to generate your CV!
             </h3>
-            <Link href={`/home/dashboard/profile/${user.user.id}`}>
-              <a className="text-lg font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+            <Link href={`/home/dashboard/profile/${user.user.id}`} 
+                  className="text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
                 Click here to update your profile
-              </a>
             </Link>
             {infoExp}
             {infoQuali}
