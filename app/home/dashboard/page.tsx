@@ -4,6 +4,7 @@ import InvitesTable from "@/app/ui/dashboard/InvitesTable";
 import { userData } from "@/app/lib/actions";
 import { list } from "postcss";
 import { Link } from "@nextui-org/react";
+inport { fristToCapital } from "../../lib/utils";
 
 export default async function dashPage() {
   const user = await userData();
@@ -37,10 +38,13 @@ export default async function dashPage() {
     ) {
       continue;
     }
+
+    let newKey = firstToCapital(key);
+
     listItems.push(
       <li key={key} className="flex flex-row justify-between items-center">
         <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
-          {key}
+          {newKey}
         </span>
         <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
           {`${value}`}
