@@ -48,7 +48,7 @@ export default async function dashPage() {
     );
   }
 
-  const loaded = Math.floor((100 / 11) * listItems.length);
+  const loaded = Math.floor((100 / 11) * (11 - listItems.length));
 
   return (
     <main className={`${myStyles.main}`}>
