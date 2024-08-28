@@ -4,7 +4,7 @@ import InvitesTable from "@/app/ui/dashboard/InvitesTable";
 import { userData } from "@/app/lib/actions";
 import { list } from "postcss";
 import { Link } from "@nextui-org/react";
-import { fristToCapital } from "../../lib/utils";
+import { firstToCapital } from "../../lib/utils";
 
 export default async function dashPage() {
   const user = await userData();
