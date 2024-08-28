@@ -49,8 +49,9 @@ export default function Contact() {
           if(!hidden) {
             const element = document.getElementById("contact");
             element.style.color = "red";
+              }
+           }
         }
-      }
         className="cursor-pointer font-bold text-blue-500 hover:underline underline-offset-4 dark:text-yellow-300"
       >
         <a href="#bot">{hidden ? "Contact me" : "Close"}</a>
