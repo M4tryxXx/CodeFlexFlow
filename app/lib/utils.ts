@@ -128,7 +128,7 @@ export const fadeIn = (
 };
 
 
-  export const firstToCapital = string => {
+  export const firstToCapital = (string: any) => {
    if(string.length < 1){
      return string;
    }
