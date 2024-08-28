@@ -49,7 +49,6 @@ export const sendResetPasswordEmail = async (
         throw error;
       } else {
         console.log("Email sent: " + info.response);
-        console.log(info);
       }
     }
   );
@@ -74,7 +73,7 @@ export const sendInvitationEmail = async (
         throw error;
       } else {
         console.log("Email sent: " + info.response);
-        console.log(info);
+        //console.log(info);
       }
     }
   );
