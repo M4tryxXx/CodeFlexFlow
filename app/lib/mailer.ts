@@ -101,7 +101,7 @@ export const sendContactMeEmail = async (
         console.log(error);
         throw error;
       } else {
-        console.error("Email sent: " + info.response);
+        console.log("Email sent: " + info.response);
         return info;
       }
     }
