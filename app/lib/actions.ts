@@ -370,4 +370,5 @@ export async function sendContactEmail(formData: FormData) {
   } catch (error) {
     throw error;
   }
+  revalidatePath("/home/dashboard");
 }
