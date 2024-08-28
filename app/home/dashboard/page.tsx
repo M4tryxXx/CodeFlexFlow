@@ -89,19 +89,19 @@ export default async function dashPage() {
  }
 
   if(expCheck) {
-  infoExp.push(<Link href={`/home/dashboard/experience/add`}>
-              <a className="text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
-                Click here to add experience!
-              </a>
-            </Link>);
+  infoExp.push(<Link 
+                 href={`/home/dashboard/experience/add`}
+                 className="text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+                 Click here to add experience!
+               </Link>);
   }
 
 if(qualiCheck) {
-  infoQuali.push(<Link href={`/home/dashboard/qualifications/add`}>
-              <a className="text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
-                Click here to add qualifications!
-              </a>
-            </Link>);
+  infoQuali.push(<Link 
+                   href={`/home/dashboard/qualifications/add`}
+                   className="text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+                   Click here to add qualifications!
+                 </Link>);
   }
 
 
@@ -136,9 +136,10 @@ if(qualiCheck) {
             <h3 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
               You need to fill out the required fields to generate your CV!
             </h3>
-            <Link href={`/home/dashboard/profile/${user.user.id}`} 
-                  className="text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
-                Click here to update your profile
+            <Link  
+              href={`/home/dashboard/profile/${user.user.id}`} 
+              className="text-sm font-semibold text-blue-700 dark:text-blue-300 hover:underline m-4">
+              Click here to update your profile!
             </Link>
             {infoExp}
             {infoQuali}
