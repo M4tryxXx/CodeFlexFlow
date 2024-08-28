@@ -14,7 +14,7 @@ export default async function AdminLayout({
 
   const actionUser = async () => {
     if (!user || user.role !== "admin") {
-      await redirectUser();
+      await redirectUser("/home");
     }
   };
 
