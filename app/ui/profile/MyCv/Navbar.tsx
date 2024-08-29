@@ -29,7 +29,7 @@ const navLinks = [
 const Navbar = ({ user }: any) => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
-  console.log(user);
+  //console.log(user);
 
   useEffect(() => {
     const scrollFunction = () => {

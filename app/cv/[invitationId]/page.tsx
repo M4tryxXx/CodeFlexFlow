@@ -56,7 +56,7 @@ export default async function CvPage({
     );
   }
   return (
-    <main className="w-[100vw] h-full bg-[#050816] m-0 scroll-smooth">
+    <main className="w-[100vw] h-full bg-[#050816] -z-40 m-0 scroll-smooth">
       <div>
         <div className="bg-[url('./images/herobg.png')] bg-cover bg-no-repeat bg-center">
           <Navbar user={user.user} />
@@ -88,9 +88,9 @@ export default async function CvPage({
           delay={0.3}
         />
       </div>
-      <div className=" relative h-auto">
+      <div className=" relative h-auto z-30">
         <div>
-          <div className="absolute bottom-5 left-[-30px] w-[400px] h-[400px]">
+          <div className="absolute bottom-55 left-[-30px] w-[400px] h-[400px] -z-30">
             <EarthCanvas />
           </div>
           <ContactCard user={user} />
