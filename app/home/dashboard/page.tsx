@@ -43,6 +43,8 @@ export default async function dashPage() {
       key === "twitch" ||
       key === "discord" ||
       key === "youtube" ||
+      key === "street" ||
+      key === "house" ||
       value !== null
     ) {
       continue;
