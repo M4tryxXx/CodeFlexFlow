@@ -29,6 +29,7 @@ const navLinks = [
 const Navbar = ({ user }: any) => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
+  console.log(user);
 
   useEffect(() => {
     const scrollFunction = () => {
@@ -57,7 +58,7 @@ const Navbar = ({ user }: any) => {
     >
       <div className="w-full flex justify-between items-center max-w-7xl mx-auto">
         <Link
-          href={"/"}
+          href={"#top"}
           className="flex items-center gap-2 "
           onClick={() => {
             setActive("");
@@ -67,6 +68,7 @@ const Navbar = ({ user }: any) => {
           <img
             src={user.avatar}
             alt="logo"
+            id="top"
             className=" object-contain max-w-[200px] max-h-[95px]"
           />
           <p className="text-white text-[18px] font-bold cursor-pointer">
@@ -77,7 +79,7 @@ const Navbar = ({ user }: any) => {
             </span>
           </p>
         </Link>
-        <ul className="list-none hidden sm:flex flex-row gap-10">
+        <ul className="list-none hidden sm:flex flex-row gap-8">
           {navLinks.map((link) => {
             return (
               <li
