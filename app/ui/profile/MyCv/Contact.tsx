@@ -41,25 +41,31 @@ export default function ContactCard({ user }: any) {
             </h2>
           </div>
           <div className=" max-w-lg mx-auto green-pink-gradient p-[2px] rounded-[20px] dark:shadow-md">
-            <div className="max-w-lg mx-auto bg-gray-50 dark:bg-gray-800 dark:bg-opacity-90 p-6 rounded-[20px] ">
+            <div className="max-w-lg mx-auto bg-gray-50 dark:bg-gray-800 dark:bg-opacity-90 p-3 md:p-6 rounded-[20px] ">
               <p className="mb-2">
-                <strong>Email:</strong>{" "}
-                <a href={`mailto:${user.user.email}`} className="text-blue-400">
+                <strong className="text-sm md:text-lg">Email:</strong>{" "}
+                <a
+                  href={`mailto:${user.user.email}`}
+                  className="text-blue-400 text-sm md:text-lg"
+                >
                   &nbsp;{user.user.email}
                 </a>
               </p>
               <p className="mb-2">
-                <strong>Phone:</strong>{" "}
-                <a href={`tel:${user.user.mobile}`} className="text-blue-400">
+                <strong className="text-sm md:text-lg">Phone:</strong>{" "}
+                <a
+                  href={`tel:${user.user.mobile}`}
+                  className="text-blue-400 text-sm md:text-lg"
+                >
                   &nbsp;{user.user.mobile}
                 </a>
               </p>
               <div className="mb-2 flex fel-row justify-start gap-6">
                 <div>
-                  <strong>Address: </strong>
+                  <strong className="text-sm md:text-lg">Address: </strong>
                 </div>
                 <div>
-                  <span className="">
+                  <span className="text-sm md:text-lg">
                     {user.user.city ? ` ${user.user.city}` : ""}
                     {user.user.city ? <br /> : ""}
                     {user.user.address ? ` ${user.user.address}` : ""}
@@ -74,7 +80,7 @@ export default function ContactCard({ user }: any) {
                   </span>
                 </div>
               </div>
-              <p className="text-xs">
+              <p className="text-xs md:text-sm">
                 Tap and hold for zoom, move it so you can see the earth!
               </p>
             </div>
