@@ -24,7 +24,7 @@ export default function ContactCard({ user }: any) {
           restDelta: 0.001,
         },
       }}
-      whileDrag={{ scale: 1, transition: { duration: 0.2 } }}
+      whileDrag={{ scale: 1.2, transition: { duration: 0.3 } }}
       drag
       dragConstraints={{
         top: -500,
