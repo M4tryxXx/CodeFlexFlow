@@ -10,6 +10,7 @@ import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import ContactMe from "@/app/ui/Contact/ContactMe";
 import EarthCanvas from "@/app/ui/profile/MyCv/Earth";
 import ContactCard from "@/app/ui/profile/MyCv/Contact";
+import StarsCanvas from "@/app/ui/profile/MyCv/Stars";
 export default async function CvPage({
   params,
 }: {
@@ -81,19 +82,21 @@ export default async function CvPage({
         <div className="m-5"></div>
         <QualificationsCv user={user} />
         <div className="m-5"></div>
-        <Motion
-          title={"Contact Me"}
-          subTitle={"Get in Touch!"}
-          duration={1}
-          delay={0.3}
-        />
-      </div>
-      <div className=" relative h-auto z-30">
-        <div>
-          <div className="absolute bottom-20 left-[5px] w-[200px] h-[200px] md:w-[400px] md:h-[400px] md:bottom-5 ">
-            <EarthCanvas />
+
+        <div className=" relative h-auto z-30">
+          <Motion
+            title={"Contact Me"}
+            subTitle={"Get in Touch!"}
+            duration={1}
+            delay={0.3}
+          />
+          <div>
+            <StarsCanvas />
+            <div className="absolute bottom-20 left-[5px] w-[200px] h-[200px] md:w-[400px] md:h-[400px] md:bottom-5 ">
+              <EarthCanvas />
+            </div>
+            <ContactCard user={user} />
           </div>
-          <ContactCard user={user} />
         </div>
       </div>
     </main>
