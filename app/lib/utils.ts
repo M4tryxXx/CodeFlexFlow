@@ -1,4 +1,4 @@
- import { date } from "zod";
+import { date } from "zod";
 
 export const formatDateToLocal = (
   dateStr: string,
@@ -48,6 +48,34 @@ export const formatDateYearMonth = (dateFrom: string, dateTo: string) => {
       month: toMonth,
     },
   };
+};
+
+export const formatDateMed = (dateIn: string) => {
+  const fromFormatted = new Date(dateIn);
+  //console.log(fromFormatted);
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+  const month = months[fromFormatted.getMonth()];
+  const day = days[fromFormatted.getDay()];
+  const date = fromFormatted.getDate();
+  const hours = fromFormatted.getHours();
+  const minutes = fromFormatted.getMinutes();
+
+  return `${day}, ${date} ${month} ${hours}:${minutes}`;
 };
 
 export const generatePagination = (currentPage: number, totalPages: number) => {
@@ -127,25 +155,20 @@ export const fadeIn = (
   };
 };
 
-
-  export const firstToCapital = (str: any) => {
-   const string = str.split("");
-   if(string.length < 1){
-     return string;
-   }
-
-   let result = [];
-   for(let i = 0; i < string.length; i++) {
-     if(i === 0){
-       result.push(string[i].toUpperCase());
-     } 
-     else {
-       result.push(string[i]);
-     }
-   }
-  const resulted = result.join("");
-    return resulted;
+export const firstToCapital = (str: any) => {
+  const string = str.split("");
+  if (string.length < 1) {
+    return string;
   }
 
-
-
+  let result = [];
+  for (let i = 0; i < string.length; i++) {
+    if (i === 0) {
+      result.push(string[i].toUpperCase());
+    } else {
+      result.push(string[i]);
+    }
+  }
+  const resulted = result.join("");
+  return resulted;
+};

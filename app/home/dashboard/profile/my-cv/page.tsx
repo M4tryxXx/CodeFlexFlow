@@ -5,6 +5,7 @@ import QualificationsCv from "@/app/ui/profile/MyCv/QualificationsCv";
 import { userData } from "@/app/lib/actions";
 import Motion from "@/app/ui/profile/MyCv/Motion";
 import Hero from "@/app/ui/profile/MyCv/CvHero";
+import Navbar from "@/app/ui/profile/MyCv/Navbar";
 
 export default async function MyCvPage() {
   const user = await userData();
@@ -12,11 +13,12 @@ export default async function MyCvPage() {
   return (
     <div>
       <h1>My CV</h1>
+      <Navbar user={user.user}/>
       <Hero user={user} />
       <Motion title={"Where I Learned?"} subTitle={"My Learning!"} />
       <div className="m-5"></div>
       <QualificationsCv user={user} />
-      <div className="m-5"></div>
+      <div className="m-5" id="work"></div>
       <Motion title={"Where I Worked?"} subTitle={"My Experience!"} />
       <div className="m-5"></div>
       <ExperienceCv user={user} />

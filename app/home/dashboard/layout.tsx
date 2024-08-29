@@ -9,7 +9,7 @@ export default function DashboardLayout({
 }) {
   return (
     <>
-      <main className={`${myStyles.mainLayout}`}>
+      <main className={`${myStyles.mainLayout} scroll-smooth`}>
         <div className="w-full flex-none">
           <SideNav />
         </div>

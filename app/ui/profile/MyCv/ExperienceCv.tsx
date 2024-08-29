@@ -38,8 +38,10 @@ export default function ExperienceCv({ user }: any) {
             contentStyle={{
               background: "#1d1836",
               color: "#fff",
+              boxShadow: " 0 4px 0 0 #11e5b4",
+              border: "2px solid #220c22",
             }}
-            contentArrowStyle={{ borderRight: "7px solid  #232631" }}
+            contentArrowStyle={{ borderRight: "7px solid  #fff" }}
             key={exp.id}
             date={`${monthFrom} ${fromYear} - ${monthTo} ${toYear}`}
             iconStyle={{ background: "#000", color: "#fff" }}

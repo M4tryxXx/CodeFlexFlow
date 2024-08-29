@@ -1,11 +1,11 @@
 import { getInvitesById } from "@/app/lib/myDb";
 import { userDataById, updateInviteById } from "@/app/lib/actions";
 import "react-vertical-timeline-component/style.min.css";
-import AcmeLogo from "@/app/ui/acme-logo";
 import ExperienceCv from "@/app/ui/profile/MyCv/ExperienceCv";
 import QualificationsCv from "@/app/ui/profile/MyCv/QualificationsCv";
 import Motion from "@/app/ui/profile/MyCv/Motion";
 import Hero from "@/app/ui/profile/MyCv/CvHero";
+import Navbar from "@/app/ui/profile/MyCv/Navbar";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 export default async function CvPage({
   params,
@@ -53,16 +53,20 @@ export default async function CvPage({
     );
   }
   return (
-    <main className="w-[100vw] h-full bg-[#050816] m-0">
+    <main className="w-[100vw] h-full bg-[#050816] m-0 scroll-smooth">
       <div>
+      <div className="bg-[url('./images/herobg.png')] bg-cover bg-no-repeat bg-center">
+        <Navbar user={user.user}/>
         <Hero user={user} />
-        <Motion title={"Where I Learned?"} subTitle={"My Learning!"} />
-        <div className="m-5"></div>
-        <QualificationsCv user={user} />
-        <div className="m-5"></div>
+      </div>
+        <div className="m-5" id="experience"></div>
         <Motion title={"Where I Worked?"} subTitle={"My Experience!"} />
         <div className="m-5"></div>
         <ExperienceCv user={user} />
+        <div className="m-5" id="qualification"></div>
+        <Motion title={"Where I Learned?"} subTitle={"My Learning!"} />
+        <div className="m-5"></div>
+        <QualificationsCv user={user} />
       </div>
     </main>
   );

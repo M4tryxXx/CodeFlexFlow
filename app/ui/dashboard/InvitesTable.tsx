@@ -7,18 +7,22 @@ import { Tooltip } from "@nextui-org/react";
 import { handleDeleteInvite } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
-import { formatDateToLocal } from "@/app/lib/utils";
+import { formatDateToLocal, formatDateMed } from "@/app/lib/utils";
 import "../css/loadingSpinner.css";
 
 export default function InvitesTable(invitations: any) {
+  // Get the invites, role and location from the props
   const invites = invitations.invites;
   const role = invitations.role;
   const location = invitations.location;
-  const [loading, setLoading] = useState(false);
   let dataArr: any = [];
   let infoArr: any = [];
   const ref = useRef<HTMLDivElement>(null);
 
+  // Set the loading state
+  const [loading, setLoading] = useState(false);
+
+  // Handle the outside click event to close the invite info div
   const handleOutSideClick = (event: MouseEvent) => {
     let className: any;
     if ((event.target as Element).parentElement?.className) {
@@ -36,6 +40,7 @@ export default function InvitesTable(invitations: any) {
     }
   };
 
+  // Add the event listener to the window to handle the outside click event to close the invite info div
   useEffect(() => {
     window.addEventListener("mousedown", handleOutSideClick);
     return () => {
@@ -43,15 +48,31 @@ export default function InvitesTable(invitations: any) {
     };
   }, []);
 
+  // Check if the invites array is not empty and map through the invites array to create the invite info div and the table row for each invite
   if (invites && invites.length > 0) {
     invites.map((invite: any) => {
+      // Format the date
       const formattedDate = formatDateToLocal(invite.createdAt, "en-GB");
       const formattedDateOpened = formatDateToLocal(invite.updatedAt, "en-GB");
       let expires: any;
+      let expiresFormatted = formatDateMed(invite.expiresAt);
+      let remainingTime = Math.floor(
+        (Date.parse(invite.expiresAt) - Date.now()) / 1000 / 60 / 60
+      );
+
+      // Convert remaining time to days and hours
+      const temp = remainingTime / 24;
+      const remainingToDays = String(temp.toFixed(2));
+      const remainingArr = remainingToDays.split(".");
+      const remainingDays = Number(remainingArr[0]);
+      const remainingHours = Math.floor((Number(remainingArr[1]) / 100) * 24);
+
+      // Check if the invite has expired
       if (invite) {
         expires = new Date(invite?.expiresAt);
       }
 
+      // Create the invite info div and the table row for each invite in the invites array if the invite has expired
       infoArr.push(
         <div
           id={invite.id}
@@ -70,12 +91,25 @@ export default function InvitesTable(invitations: any) {
             <p>The Cv has not been seen by the recipient</p>
           )}
           <p>Invitation Code: {invite.id}</p>
-          <p className="text-md underline underline-offset-[3px] dark:text-orange-400 text-red-600">
-            Expired!
-          </p>
+          {Date.now() > Date.parse(expires) ? (
+            <p className="text-md underline underline-offset-[3px] dark:text-orange-400 text-red-600">
+              Expired!
+            </p>
+          ) : (
+            <>
+              <p className="text-md underline underline-offset-[3px] dark:text-green-400 text-green-600">
+                Expires: {expiresFormatted}
+              </p>
+              <p className="text-md underline underline-offset-[3px] dark:text-green-400 text-green-600">
+                {remainingDays > 0 ? `${remainingDays} days and ` : ""}
+                {remainingHours} hours left!
+              </p>
+            </>
+          )}
         </div>
       );
 
+      // Create the invite info div and the table row for each invite in the invites array if the invite is valid
       if (Date.now() > Date.parse(expires)) {
         dataArr.push(
           <tr
@@ -247,6 +281,7 @@ export default function InvitesTable(invitations: any) {
     });
   }
 
+  // Return the table with the invites
   return (
     <>
       <div className="flex flex-col">

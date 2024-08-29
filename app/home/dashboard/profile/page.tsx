@@ -4,7 +4,7 @@ export default async function Profile() {
   const user = await userId();
 
   return (
-    <div className="flex flex-wrap justify-start dark:bg- p-3 ">
+    <div className="flex flex-wrap justify-start dark:bg- p-3 scroll-smooth">
       <ProfileTable user={user} />
     </div>
   );
