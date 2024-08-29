@@ -90,7 +90,7 @@ export default async function CvPage({
       </div>
       <div className=" relative h-auto z-30">
         <div>
-          <div className="absolute bottom-55 left-[-30px] w-[400px] h-[400px] -z-30">
+          <div className="absolute bottom-20 left-[5px] w-[200px] h-[200px] ">
             <EarthCanvas />
           </div>
           <ContactCard user={user} />

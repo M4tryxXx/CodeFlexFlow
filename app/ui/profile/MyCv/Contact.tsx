@@ -4,18 +4,18 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export default function ContactCard({ user }: any) {
-  console.log(user);
+  //console.log(user);
   return (
     <motion.div
       layout
       initial={{ opacity: 0, scale: 0.1 }}
-      animate={{ opacity: 1, scale: 1 }}
+      whileInView={{ opacity: 1, scale: 1 }}
       whileTap={{
         scale: 1.5,
         transition: { duration: 0.2 },
       }}
       transition={{
-        duration: 2,
+        duration: 3,
         ease: [0, 0.71, 0.2, 1.01],
         scale: {
           type: "spring",
@@ -32,6 +32,7 @@ export default function ContactCard({ user }: any) {
         right: 140,
         bottom: 200,
       }}
+      viewport={{ once: true }}
     >
       <div className="flex justify-end  ">
         <div className="container md:mr-[10%] mb-8 w-64 md:w-[400px] p-4">
