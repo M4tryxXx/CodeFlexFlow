@@ -6,57 +6,74 @@ const {
 } = require("react-vertical-timeline-component");
 import "react-vertical-timeline-component/style.min.css";
 import { DocumentIcon } from "@heroicons/react/24/outline";
+import { formatDateYearMonth } from "@/app/lib/utils";
 
 export default function ExperienceCv({ user }: any) {
   if (user.experience.length > 0) {
-    let experienceElements = user.experience.map((exp: any) => {
-      const fromFormatted = new Date(exp.from);
-      //console.log(fromFormatted);
-      const toFormatted = new Date(exp.to);
-      const months = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
-      const fromYear = fromFormatted.getFullYear();
-      const toYear = toFormatted.getFullYear();
-      const monthFrom = months[fromFormatted.getMonth()];
-      const monthTo = months[toFormatted.getMonth()];
-      ////console.log(exp);
-      return (
-        <>
-          <VerticalTimelineElement
-            contentStyle={{
-              background: "#1d1836",
-              color: "#fff",
-              boxShadow: " 0 4px 0 0 #11e5b4",
-              border: "2px solid #220c22",
-            }}
-            contentArrowStyle={{ borderRight: "7px solid  #fff" }}
-            key={exp.id}
-            date={`${monthFrom} ${fromYear} - ${monthTo} ${toYear}`}
-            iconStyle={{ background: "#000", color: "#fff" }}
-            icon={<DocumentIcon />}
-            iconClassName={"dark:bg-emerald-950"}
-            dateClassName={"mx-5 font-bold text-lg"}
-          >
-            <h3 className="vertical-timeline-element-title">{exp.title}</h3>
-            <h4 className="vertical-timeline-element-subtitle">
-              {exp.company}
-            </h4>
-            <p>{exp.description}</p>
-          </VerticalTimelineElement>
-        </>
-      );
+    let experienceElements = user.experience.map((exp: any, index: any) => {
+      const experienceDate = formatDateYearMonth(exp.from, exp.to);
+      const { from, to } = experienceDate;
+
+      if (index === user.experience.length - 1) {
+        return (
+          <>
+            <VerticalTimelineElement
+              contentStyle={{
+                background: "#1d1836",
+                color: "#fff",
+                boxShadow: " 0 4px 0 0 #11e5b4",
+                border: "2px solid #220c22",
+              }}
+              key={exp.id}
+              contentArrowStyle={{ borderRight: "7px solid  #fff" }}
+              date={`${from.month} ${from.year} - ${to.month} ${to.year}`}
+              iconStyle={{ background: "#000", color: "#fff" }}
+              icon={<DocumentIcon />}
+              iconClassName={"dark:bg-emerald-950"}
+              dateClassName={"mx-5 font-bold text-lg"}
+            >
+              <h3
+                className="vertical-timeline-element-title"
+                id="qualification"
+              >
+                {exp.title}
+              </h3>
+              <h4 className="vertical-timeline-element-subtitle">
+                {exp.company}
+              </h4>
+              <p>{exp.description}</p>
+            </VerticalTimelineElement>
+          </>
+        );
+      } else {
+        ////console.log(exp);
+        return (
+          <>
+            <VerticalTimelineElement
+              contentStyle={{
+                background: "#1d1836",
+                color: "#fff",
+                boxShadow: " 0 4px 0 0 #11e5b4",
+                border: "2px solid #220c22",
+              }}
+              contentAttribute={{ key: `${exp.key}` }}
+              contentArrowStyle={{ borderRight: "7px solid  #fff" }}
+              key={exp.id}
+              date={`${from.month} ${from.year} - ${to.month} ${to.year}`}
+              iconStyle={{ background: "#000", color: "#fff" }}
+              icon={<DocumentIcon />}
+              iconClassName={"dark:bg-emerald-950"}
+              dateClassName={"mx-5 font-bold text-lg"}
+            >
+              <h3 className="vertical-timeline-element-title">{exp.title}</h3>
+              <h4 className="vertical-timeline-element-subtitle">
+                {exp.company}
+              </h4>
+              <p>{exp.description}</p>
+            </VerticalTimelineElement>
+          </>
+        );
+      }
     });
 
     return <VerticalTimeline>{experienceElements}</VerticalTimeline>;

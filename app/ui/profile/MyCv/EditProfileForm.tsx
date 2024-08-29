@@ -57,6 +57,8 @@ export default function EditProfileForm({ user }: any) {
     twitch,
     youtube,
     discord,
+    street,
+    house,
   } = user;
 
   const [emailState, setEmailState] = useState(email);
@@ -82,6 +84,8 @@ export default function EditProfileForm({ user }: any) {
   const [youtoubeState, setYoutoubeState] = useState(youtube);
   const [twitchState, settwitchState] = useState(twitch);
   const [discordState, setDiscordState] = useState(discord);
+  const [streetState, setStreetState] = useState("");
+  const [houseState, setHouseState] = useState("");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -128,6 +132,8 @@ export default function EditProfileForm({ user }: any) {
       mobile: mobileState,
       youtube: youtoubeState,
       twitch: twitchState,
+      street: streetState,
+      house: houseState,
     });
   };
 
@@ -311,6 +317,44 @@ export default function EditProfileForm({ user }: any) {
                   // onFocus={(e) => (e.target.value = mobileState)}
                   className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={mobile ? mobile : "072..."}
+                />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
+              </div>
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="street"
+                className="mb-3 mt-5 block text-xs font-medium text-gray-900 dark:text-white"
+              >
+                Street
+              </label>
+              <div className="relative">
+                <input
+                  id="street"
+                  name="street"
+                  onChange={(e) => setStreetState(e.target.value)}
+                  // onFocus={(e) => (e.target.value = addressState)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
+                  placeholder={street ? street : "Street..."}
+                />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
+              </div>
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="house"
+                className="mb-3 mt-5 block text-xs font-medium text-gray-900 dark:text-white"
+              >
+                House no.
+              </label>
+              <div className="relative">
+                <input
+                  id="house"
+                  name="house"
+                  onChange={(e) => setHouseState(e.target.value)}
+                  // onFocus={(e) => (e.target.value = addressState)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
+                  placeholder={house ? house : "House no..."}
                 />
                 <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>

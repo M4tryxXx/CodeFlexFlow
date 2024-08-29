@@ -7,6 +7,9 @@ import Motion from "@/app/ui/profile/MyCv/Motion";
 import Hero from "@/app/ui/profile/MyCv/CvHero";
 import Navbar from "@/app/ui/profile/MyCv/Navbar";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
+import ContactMe from "@/app/ui/Contact/ContactMe";
+import EarthCanvas from "@/app/ui/profile/MyCv/Earth";
+import ContactCard from "@/app/ui/profile/MyCv/Contact";
 export default async function CvPage({
   params,
 }: {
@@ -55,18 +58,43 @@ export default async function CvPage({
   return (
     <main className="w-[100vw] h-full bg-[#050816] m-0 scroll-smooth">
       <div>
-      <div className="bg-[url('./images/herobg.png')] bg-cover bg-no-repeat bg-center">
-        <Navbar user={user.user}/>
-        <Hero user={user} />
-      </div>
-        <div className="m-5" id="experience"></div>
-        <Motion title={"Where I Worked?"} subTitle={"My Experience!"} />
+        <div className="bg-[url('./images/herobg.png')] bg-cover bg-no-repeat bg-center">
+          <Navbar user={user.user} />
+          <Hero user={user} />
+        </div>
+        <div className="m-5"></div>
+        <Motion
+          title={"Where I Worked?"}
+          subTitle={"My Experience!"}
+          duration={1}
+          delay={0.4}
+        />
         <div className="m-5"></div>
         <ExperienceCv user={user} />
-        <div className="m-5" id="qualification"></div>
-        <Motion title={"Where I Learned?"} subTitle={"My Learning!"} />
+        <div className="m-5"></div>
+        <Motion
+          title={"Where I Learned?"}
+          subTitle={"My Learning!"}
+          duration={1}
+          delay={0.4}
+        />
         <div className="m-5"></div>
         <QualificationsCv user={user} />
+        <div className="m-5"></div>
+        <Motion
+          title={"Contact Me"}
+          subTitle={"Get in Touch!"}
+          duration={1}
+          delay={0.3}
+        />
+      </div>
+      <div className=" relative h-auto">
+        <div>
+          <div className="absolute bottom-5 left-[-30px] w-[400px] h-[400px]">
+            <EarthCanvas />
+          </div>
+          <ContactCard user={user} />
+        </div>
       </div>
     </main>
   );

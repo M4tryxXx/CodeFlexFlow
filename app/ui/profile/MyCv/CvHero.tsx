@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import About from "./AboutMe";
 
 const Hero = ({ user }: any) => {
   //console.log(user);
@@ -17,6 +18,7 @@ const Hero = ({ user }: any) => {
           <div className="w-5 h-5 rounded-full bg-[#915eff]" />
           <div className="w-1 sm:h-80 h-96 bg-gradient-to-b from-[#915eff]" />
         </div>
+
         <div>
           <h1
             className={`font-black text-white lg:text-[80px] sm:text-[60px] xs:text-[50px] text-[40px] lg:leading-[98px] mt-2`}
@@ -32,6 +34,7 @@ const Hero = ({ user }: any) => {
               ? user.qualifications[0]?.qualification
               : "Missing Information"}
           </p>
+          <About user={user} />
         </div>
       </div>
 
@@ -50,6 +53,7 @@ const Hero = ({ user }: any) => {
               className="w-3 h-3 rounded-full bg-[#915eff] mb-1"
             />
           </div>
+          <div id="experience"></div>
         </a>
       </div>
     </section>

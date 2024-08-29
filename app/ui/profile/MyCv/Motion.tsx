@@ -2,7 +2,7 @@
 
 const { motion } = require("framer-motion");
 
-export default function Motion({ title, subTitle }: any) {
+export default function Motion({ title, subTitle, duration, delay }: any) {
   ////console.log(title);
   const textVariant = () => {
     return {
@@ -15,8 +15,8 @@ export default function Motion({ title, subTitle }: any) {
         opacity: 1,
         transition: {
           type: "spring",
-          duration: 1.5,
-          delay: 0.4,
+          duration: duration || 0.5,
+          delay: delay || 0,
         },
       },
     };
@@ -28,6 +28,7 @@ export default function Motion({ title, subTitle }: any) {
       initial="hidden"
       whileInView="show"
       className="text-center"
+      viewport={{ once: true }}
       style={{ y: -50, opacity: 0 }}
     >
       <p

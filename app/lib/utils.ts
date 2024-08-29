@@ -111,6 +111,30 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
   ];
 };
 
+export const slideIn = (
+  direction: any = "right",
+  type: any = "spring",
+  delay: any = 0.5,
+  duration: any = 1
+) => {
+  return {
+    hidden: {
+      x: direction === "left" ? "-100%" : direction === "right" ? "100%" : 0,
+      y: direction === "up" ? "100%" : direction === "down" ? "100%" : 0,
+    },
+    show: {
+      x: 0,
+      y: 0,
+      transition: {
+        type: type,
+        delay: delay,
+        duration: duration,
+        ease: "easeOut",
+      },
+    },
+  };
+};
+
 export const textVariant = (delay: any) => {
   return {
     hidden: {

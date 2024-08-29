@@ -26,6 +26,8 @@ export const editUserSchema = z.object({
   twitch: z.string().optional(),
   discord: z.string().optional(),
   address2: z.string().optional(),
+  street: z.string().optional(),
+  house: z.string().optional(),
 });
 
 export const verifyEmailSchema = z.object({ email: z.string().email().min(5) });
