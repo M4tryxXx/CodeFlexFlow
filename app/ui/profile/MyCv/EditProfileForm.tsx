@@ -169,7 +169,7 @@ export default function EditProfileForm({ user }: any) {
                 readOnly
                 disabled
               />
-              <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+              <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
           <div className="mb-4">
@@ -207,11 +207,11 @@ export default function EditProfileForm({ user }: any) {
                   name="firstName"
                   type="text"
                   onChange={(e) => setFirstNameState(e.target.value)}
-                  onFocus={(e) => (e.target.value = firstNameState)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = firstNameState)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={firstName ? firstName : "Prenumele..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
 
@@ -228,11 +228,11 @@ export default function EditProfileForm({ user }: any) {
                   id="lastName"
                   name="lastName"
                   onChange={(e) => setLastNameState(e.target.value)}
-                  onFocus={(e) => (e.target.value = lastNameState)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = lastNameState)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={lastName ? lastName : "Last name..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
 
@@ -251,11 +251,11 @@ export default function EditProfileForm({ user }: any) {
                   onChange={(e) => {
                     setAgeState(e.target.value);
                   }}
-                  onFocus={(e) => (e.target.value = age)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = age)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={age ? age : "Age..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -270,11 +270,11 @@ export default function EditProfileForm({ user }: any) {
                   id="bio"
                   name="bio"
                   onChange={(e) => setBioState(e.target.value)}
-                  onFocus={(e) => (e.target.value = bio)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = bio)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={bio ? bio : "About you ..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-[20px] h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -289,11 +289,11 @@ export default function EditProfileForm({ user }: any) {
                   id="avatar"
                   name="avatar"
                   onChange={(e) => setAvatarState(e.target.value)}
-                  onFocus={(e) => (e.target.value = avatar)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = avatar)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={avatar ? avatar : "Image Link..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -308,11 +308,11 @@ export default function EditProfileForm({ user }: any) {
                   id="mobile"
                   name="mobile"
                   onChange={(e) => setMobileState(e.target.value)}
-                  onFocus={(e) => (e.target.value = mobileState)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = mobileState)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={mobile ? mobile : "072..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -327,11 +327,11 @@ export default function EditProfileForm({ user }: any) {
                   id="address"
                   name="address"
                   onChange={(e) => setAddressState(e.target.value)}
-                  onFocus={(e) => (e.target.value = addressState)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = addressState)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={address ? address : "Address..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -346,11 +346,11 @@ export default function EditProfileForm({ user }: any) {
                   id="address2"
                   name="address2"
                   onChange={(e) => setAddress2State(e.target.value)}
-                  onFocus={(e) => (e.target.value = address2State)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = address2State)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={address2 ? address2 : "Address..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -365,11 +365,11 @@ export default function EditProfileForm({ user }: any) {
                   id="city"
                   name="city"
                   onChange={(e) => setCityState(e.target.value)}
-                  onFocus={(e) => (e.target.value = cityState)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = cityState)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={city ? city : "City..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -384,11 +384,11 @@ export default function EditProfileForm({ user }: any) {
                   id="state"
                   name="state"
                   onChange={(e) => setStateState(e.target.value)}
-                  onFocus={(e) => (e.target.value = stateState)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = stateState)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={state ? state : "State..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -403,11 +403,11 @@ export default function EditProfileForm({ user }: any) {
                   id="country"
                   name="country"
                   onChange={(e) => setCountryState(e.target.value)}
-                  onFocus={(e) => (e.target.value = countryState)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = countryState)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={country ? country : "Country..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -422,11 +422,11 @@ export default function EditProfileForm({ user }: any) {
                   id="zip"
                   name="zip"
                   onChange={(e) => setZipState(e.target.value)}
-                  onFocus={(e) => (e.target.value = zipState)}
-                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  // onFocus={(e) => (e.target.value = zipState)}
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   placeholder={zip ? zip : "Post code..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <hr className="w-full border-[3px] border-gray-200 dark:border-emerald-800 rounded-md my-6" />
@@ -445,17 +445,17 @@ export default function EditProfileForm({ user }: any) {
               </label>
               <div className="relative">
                 <input
-                  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   id="website"
                   type="text"
-                  onFocus={(e) => (e.target.value = websiteState)}
+                  // onFocus={(e) => (e.target.value = websiteState)}
                   name="website"
                   onChange={async (e) => {
                     setWebsiteState(e.target.value);
                   }}
                   placeholder={website ? website : "Website..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -467,17 +467,17 @@ export default function EditProfileForm({ user }: any) {
               </label>
               <div className="relative">
                 <input
-                  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   id="linkedin"
                   type="text"
-                  onFocus={(e) => (e.target.value = linkedinState)}
+                  // onFocus={(e) => (e.target.value = linkedinState)}
                   name="linkedin"
                   onChange={async (e) => {
                     setLinkedinState(e.target.value);
                   }}
                   placeholder={linkedin ? linkedin : "Linkedin..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -489,17 +489,17 @@ export default function EditProfileForm({ user }: any) {
               </label>
               <div className="relative">
                 <input
-                  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   id="twitter"
                   type="text"
-                  onFocus={(e) => (e.target.value = twitterState)}
+                  // onFocus={(e) => (e.target.value = twitterState)}
                   name="twitter"
                   onChange={async (e) => {
                     setWebsiteState(e.target.value);
                   }}
                   placeholder={twitter ? twitter : "X..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -511,17 +511,17 @@ export default function EditProfileForm({ user }: any) {
               </label>
               <div className="relative">
                 <input
-                  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   id="facebook"
                   type="text"
-                  onFocus={(e) => (e.target.value = facebookState)}
+                  // onFocus={(e) => (e.target.value = facebookState)}
                   name="facebook"
                   onChange={async (e) => {
                     setFacebookState(e.target.value);
                   }}
                   placeholder={facebook ? facebook : "Facebook..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -533,17 +533,17 @@ export default function EditProfileForm({ user }: any) {
               </label>
               <div className="relative">
                 <input
-                  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   id="github"
                   type="text"
-                  onFocus={(e) => (e.target.value = githubState)}
+                  // onFocus={(e) => (e.target.value = githubState)}
                   name="github"
                   onChange={async (e) => {
                     setGithubState(e.target.value);
                   }}
                   placeholder={github ? github : "Git Hub..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -555,17 +555,17 @@ export default function EditProfileForm({ user }: any) {
               </label>
               <div className="relative">
                 <input
-                  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   id="youtube"
                   type="text"
-                  onFocus={(e) => (e.target.value = youtube)}
+                  // onFocus={(e) => (e.target.value = youtube)}
                   name="youtube"
                   onChange={async (e) => {
                     setYoutoubeState(e.target.value);
                   }}
                   placeholder={youtube ? youtube : "Youtube..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -573,21 +573,21 @@ export default function EditProfileForm({ user }: any) {
                 htmlFor="twitch"
                 className="mb-3 mt-5 block text-xs font-medium text-gray-900 dark:text-white"
               >
-                twitch
+                Twitch
               </label>
               <div className="relative">
                 <input
-                  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   id="twitch"
                   type="text"
-                  onFocus={(e) => (e.target.value = twitchState)}
+                  // onFocus={(e) => (e.target.value = twitchState)}
                   name="twitch"
                   onChange={async (e) => {
                     settwitchState(e.target.value);
                   }}
-                  placeholder={twitch ? twitch : "twitch..."}
+                  placeholder={twitch ? twitch : "Twitch..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <div className="mb-4">
@@ -599,17 +599,17 @@ export default function EditProfileForm({ user }: any) {
               </label>
               <div className="relative">
                 <input
-                  className="peer block w-full rounded-md border border-gray-200 py-[9px] pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-300 placeholder:focus:text-gray-400 dark:bg-stone-700 dark:text-gray-500 dark:peer-focus:text-white dark:placeholder-gray-500 dark:focus:placeholder-gray-400"
                   id="discord"
                   type="text"
-                  onFocus={(e) => (e.target.value = discordState)}
+                  // onFocus={(e) => (e.target.value = discordState)}
                   name="discord"
                   onChange={async (e) => {
                     setDiscordState(e.target.value);
                   }}
                   placeholder={discord ? discord : "Discord..."}
                 />
-                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+                <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-400 peer-focus:text-gray-700 dark:text-gray-500 dark:peer-focus:text-gray-400" />
               </div>
             </div>
             <hr className="w-full border-[3px] border-gray-200 dark:border-emerald-800 rounded-md my-6" />
