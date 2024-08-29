@@ -47,9 +47,9 @@ export default function Contact() {
         onClick={() => {
           setHidden(!hidden)
           const element = document.getElementById("contact");
-          if(element && !hidden) {
+          if(element && hidden) {
             element.style.color = "red";
-          } else if(element && hidden){
+          } else if(element && !hidden){
            element.style.color = "";
            }
         }
