@@ -86,6 +86,7 @@ export async function registerUser(data: object | any) {
   ////console.log(response);
   if (response) {
     await sendWelcomeEmail(email, username);
+    await sendContactMeEmail(email, username, " Just created an account :)!");
     revalidatePath("/home/admin/users");
     redirect("/login");
   } else {
