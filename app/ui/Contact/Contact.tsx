@@ -47,10 +47,12 @@ export default function Contact() {
         onClick={() => {
           setHidden(!hidden)
           const element = document.getElementById("contact");
-          if(!hidden && element) {
+          if(element && element.innerHTML === "Close") {
             element.style.color = "red";
-              }
+          } else if(element && element.innerHTML !== "Close"){
+           element.style.color = "";
            }
+        }
         }
         className="cursor-pointer font-bold text-blue-500 hover:underline underline-offset-4 dark:text-yellow-300"
       >
