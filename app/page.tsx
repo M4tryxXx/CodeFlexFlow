@@ -8,7 +8,6 @@ import ThemeSwitch from "./ui/ThemeSwitch";
 import ExampleCard from "@/app/ui/ExampleCard";
 import Footer from "@/app/ui/Footer/Footer";
 import { getUserLocation } from "./lib/client-actions";
-import { get } from "http";
 
 //export default function Page with a conditional statement
 export default function Page() {
