@@ -12,7 +12,7 @@ const Hero = ({ user }: any) => {
       style={{ height: "85vh" }}
     >
       <div
-        className={`sm:px-16 px-6 absolute inset-0 top-[120px] max-w-7xl mx-auto flex flex-row items-start gap-5`}
+        className={`sm:px-16 px-6 absolute inset-0 top-[140px] max-w-7xl mx-auto flex flex-row items-start gap-5`}
       >
         <div className="flex flex-col justify-center items-center md:mt-5">
           <div className="w-5 h-5 rounded-full bg-[#915eff]" />
