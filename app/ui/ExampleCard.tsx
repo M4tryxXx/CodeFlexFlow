@@ -1,10 +1,6 @@
 "use client";
 import { Tilt } from "react-tilt";
 import { motion } from "framer-motion";
-import { fadeIn, textVariant } from "../lib/utils";
-import { EditIcon } from "./admin/table/EditIcon";
-import Link from "next/link";
-import DeleteQualification from "./qualification/DeleteQualification";
 
 export default function Card({ data, delay, tools }: any) {
   const { title, description, dates } = data;

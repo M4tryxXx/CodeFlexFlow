@@ -1,5 +1,3 @@
-// CodeFlexFlow
-
 "use client";
 
 //import dependencies
@@ -12,6 +10,12 @@ import Footer from "@/app/ui/Footer/Footer";
 
 //export default function Page with a conditional statement
 export default function Page() {
+  return (
+    <main className="flex min-h-screen flex-col items-center p-6 ">
+      \<h1>Home</h1>
+    </main>
+  );
+
   const location = "Bucharest";
   const data = {
     title: "Code Flex Flow",
