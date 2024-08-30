@@ -23,9 +23,7 @@ export default function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const loginFrom = Intl.DateTimeFormat()
-    .resolvedOptions()
-    .timeZone.split("/")[1];
+  const loginFrom = location;
 
   const loginFunction = async (username: string, password: string) => {
     setLoading(true);

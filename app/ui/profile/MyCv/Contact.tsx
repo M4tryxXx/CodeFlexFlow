@@ -41,14 +41,14 @@ export default function ContactCard({ user }: any) {
           restDelta: 0.001,
         },
       }}
-      whileDrag={{ scale: 1.2, transition: { duration: 0.3 } }}
-      drag
-      dragConstraints={{
-        top: -500,
-        left: -140,
-        right: 20,
-        bottom: 50,
-      }}
+      // whileDrag={{ scale: 1.2, transition: { duration: 0.3 } }}
+      // drag
+      // dragConstraints={{
+      //   top: -500,
+      //   left: -140,
+      //   right: 20,
+      //   bottom: 50,
+      // }}
       viewport={{ once: true }}
     >
       <div>
@@ -82,7 +82,7 @@ export default function ContactCard({ user }: any) {
                   &nbsp;{user.user.mobile}
                 </a>
               </p>
-              <div className="mb-2 flex fel-row justify-start gap-6">
+              <div className="mb-2 flex fel-row justify-start gap-2">
                 <div>
                   <strong className="text-sm md:text-lg">Address: </strong>
                 </div>
