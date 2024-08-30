@@ -20,7 +20,7 @@ export default function About({ user }: any) {
         variants={fadeIn("", "", 0.1, 1)}
         className="mt-4 indent-6 text-[17px] max-w-3xl leading-[30px]"
       >
-        {user?.bio || "No information provided"}
+        {user?.user.bio || "No information provided"}
       </motion.p>
     </>
   );
