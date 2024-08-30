@@ -9,7 +9,9 @@ import ExampleCard from "@/app/ui/ExampleCard";
 import Footer from "@/app/ui/Footer/Footer";
 
 export default function Page() {
-  const location = getUserLocation();
+  const location = Intl.DateTimeFormat()
+    .resolvedOptions()
+    .timeZone.split("/")[1];
 
   const data = {
     title: "Code Flex Flow",
