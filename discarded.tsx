@@ -10,12 +10,14 @@
 //   /* Invoice Status */
 // }
 
-<div className="fixed left-0 top-0  bg-[#1a60313a] w-[100vw] h-[100vh] ">
+{
+  /* <div className="fixed left-0 top-0  bg-[#1a60313a] w-[100vw] h-[100vh] ">
   <div className="bg-rose-200 h-20 w-[30%] rounded-lg flex flex-row justify-center items-center fixed left-[35%] top-1/2">
     <div className="inline-block h-8 w-8 animate-spin rounded-full mr-4 border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_2s_linear_infinite] dark:text-white"></div>
     Loading...
   </div>
-</div>;
+</div>; */
+}
 
 // <fieldset>
 //   <legend className="mb-2 block text-sm font-medium">

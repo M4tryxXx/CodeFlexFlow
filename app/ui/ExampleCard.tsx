@@ -15,7 +15,7 @@ export default function Card({ data, delay, tools }: any) {
         scale: 1,
         speed: 650,
       }}
-      className="bg-tertiary rounded-2xl w-[360px] "
+      className="bg-tertiary crounded-2xl w-[360px] "
     >
       <motion.div
         layout
