@@ -4,24 +4,6 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function ContactCard({ user }: any) {
-  const [windowEdges, setWindowEdges] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowEdges({ width: window.innerWidth, height: window.innerHeight });
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
   return (
     <motion.div
       layout
@@ -51,10 +33,6 @@ export default function ContactCard({ user }: any) {
       // }}
       viewport={{ once: true }}
     >
-      <div>
-        <p>Window Width: {windowEdges.width}px</p>
-        <p>Window Height: {windowEdges.height}px</p>
-      </div>
       <div className="flex justify-end  ">
         <div className="container md:mr-[10%] mb-8 w-64 md:w-[400px] p-4">
           <div className=" max-w-lg mx-auto">

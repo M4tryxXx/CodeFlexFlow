@@ -314,11 +314,13 @@ export const userData = async () => {
   const userExperience = await getExperienceById(currentUser.id);
   const userQualification = await getQualificationById(currentUser.id);
   const userInvites = await getInvitesByUserId(currentUser.id);
+  const userAbilities = null;
   return {
     user: currentUser,
     experience: userExperience,
     qualifications: userQualification,
     Invites: userInvites,
+    Abilities: userAbilities,
   };
 };
 
@@ -333,7 +335,7 @@ export const userDataById = async (id: string) => {
     experience: userExperience,
     qualifications: userQualification,
     Invites: userInvites,
-    userAbilities: userAbilities,
+    Abilities: userAbilities,
   };
 };
 
