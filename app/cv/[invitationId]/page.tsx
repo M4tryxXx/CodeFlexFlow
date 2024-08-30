@@ -60,7 +60,7 @@ export default async function CvPage({
     <main className="w-[100vw] h-full bg-[#050816] -z-40 m-0 scroll-smooth">
       <div>
         <div className="bg-[url('./images/herobg.png')] bg-cover bg-no-repeat bg-center">
-          <Navbar user={user.user} />
+          <Navbar user={user.user} userAbilities={true} />
           <Hero user={user} />
         </div>
         <div className="m-5"></div>
@@ -82,7 +82,18 @@ export default async function CvPage({
         <div className="m-5"></div>
         <QualificationsCv user={user} />
         <div className="m-5"></div>
-
+        {user.personalAbilities ? (
+          <>
+            <div className="m-5"></div>
+            <Motion
+              title={"Personal Abilities!"}
+              subTitle={"Abilities!"}
+              duration={1}
+              delay={0.4}
+            />
+            <div className="m-5"></div>{" "}
+          </>
+        ) : null}
         <div className=" relative h-auto z-30">
           <Motion
             title={"Contact Me"}

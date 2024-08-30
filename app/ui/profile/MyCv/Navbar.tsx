@@ -6,27 +6,33 @@ import { motion } from "framer-motion";
 import clsx from "clsx";
 import { poppins } from "../../fonts";
 
-const navLinks = [
-  {
-    id: "about",
-    title: "About Me",
-  },
-  {
-    id: "experience",
-    title: "Experience",
-  },
-  {
-    id: "qualification",
-    title: "Qualifications",
-  },
+const Navbar = ({ user, userAbilities }: any) => {
+  console.log(userAbilities);
+  let abilities: any;
+  if (userAbilities) {
+    abilities = { id: "abilities", title: "Abilities" };
+  }
 
-  {
-    id: "contactme",
-    title: "Contact",
-  },
-];
+  const navLinks = [
+    {
+      id: "about",
+      title: "About Me",
+    },
+    {
+      id: "experience",
+      title: "Experience",
+    },
+    {
+      id: "qualification",
+      title: "Qualifications",
+    },
+    abilities ? abilities : { id: null, title: null },
+    {
+      id: "contactme",
+      title: "Contact",
+    },
+  ];
 
-const Navbar = ({ user }: any) => {
   const [active, setActive] = useState("");
   const [toggle, setToggle] = useState(false);
   //console.log(user);
@@ -42,8 +48,17 @@ const Navbar = ({ user }: any) => {
       if (window.scrollY > 1150) {
         setActive("Qualifications");
       }
-      if (window.scrollY > 1700) {
-        setActive("Contact");
+      if (abilities && window.scrollY > 1700) {
+        setActive("Abilities");
+      }
+      if (!abilities) {
+        if (window.scrollY > 1700) {
+          setActive("Contact");
+        }
+      } else {
+        if (window.scrollY > 2300) {
+          setActive("Contact");
+        }
       }
     };
     window.addEventListener("scroll", scrollFunction);
@@ -79,25 +94,29 @@ const Navbar = ({ user }: any) => {
             </span>
           </p>
         </Link>
-        <ul className="list-none hidden sm:flex flex-row gap-2">
+        <ul className="list-none hidden sm:flex flex-row gap-6">
           {navLinks.map((link) => {
-            return (
-              <li
-                key={link.id}
-                className={clsx(
-                  "font-medium cursor-pointer text-[14px] text-white",
-                  {
-                    " cursor-pointer text-[14px] text-yellow-400 font-bold uderline underline-yellow-400 unserline-offset-[3px] underline underline-yellow-400 underline-offset-[3px]":
-                      active === link.title,
-                  }
-                )}
-                onClick={() => {
-                  setActive(link.title);
-                }}
-              >
-                <Link href={`#${link.id}`}>{link.title}</Link>
-              </li>
-            );
+            if (link.id === null) {
+              return <li key={link.id} className=" hidden"></li>;
+            } else {
+              return (
+                <li
+                  key={link.id}
+                  className={clsx(
+                    "font-medium cursor-pointer text-[14px] text-white",
+                    {
+                      " cursor-pointer text-[14px] text-yellow-400 font-bold uderline underline-yellow-400 unserline-offset-[3px] underline underline-yellow-400 underline-offset-[3px]":
+                        active === link.title,
+                    }
+                  )}
+                  onClick={() => {
+                    setActive(link.title);
+                  }}
+                >
+                  <Link href={`#${link.id}`}>{link.title}</Link>
+                </li>
+              );
+            }
           })}
         </ul>
         <div className="sm:hidden flex flex-1 justify-end items-center px-4">
@@ -125,24 +144,28 @@ const Navbar = ({ user }: any) => {
           >
             <ul className="list-none flex justify-end items-start flex-col gap-4">
               {navLinks.map((link) => {
-                return (
-                  <li
-                    key={link.id}
-                    className={clsx(
-                      " font-medium cursor-pointer text-[16px] text-white",
-                      {
-                        " cursor-pointer text-[16px] text-yellow-400 font-bold uderline underline-yellow-400 unserline-offset-[3px]":
-                          active === link.title,
-                      }
-                    )}
-                    onClick={() => {
-                      setActive(`${link.title}`);
-                      setToggle(!toggle);
-                    }}
-                  >
-                    <a href={`#${link.id}`}>{link.title}</a>
-                  </li>
-                );
+                if (link.id === null) {
+                  return <li key={link.id} className=" hidden"></li>;
+                } else {
+                  return (
+                    <li
+                      key={link.id}
+                      className={clsx(
+                        " font-medium cursor-pointer text-[16px] text-white",
+                        {
+                          " cursor-pointer text-[16px] text-yellow-400 font-bold uderline underline-yellow-400 unserline-offset-[3px]":
+                            active === link.title,
+                        }
+                      )}
+                      onClick={() => {
+                        setActive(`${link.title}`);
+                        setToggle(!toggle);
+                      }}
+                    >
+                      <a href={`#${link.id}`}>{link.title}</a>
+                    </li>
+                  );
+                }
               })}
             </ul>
           </div>
