@@ -1,5 +1,8 @@
+// CodeFlexFlow
+
 "use client";
 
+//import dependencies
 import AcmeLogo from "@/app/ui/acme-logo";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -8,6 +11,7 @@ import ExampleCard from "@/app/ui/ExampleCard";
 import Footer from "@/app/ui/Footer/Footer";
 
 export default function Page() {
+  const location = "London";
   const data = {
     title: "Code Flex Flow",
     description:
@@ -22,10 +26,7 @@ export default function Page() {
     dates: "August 2024",
   };
 
-  if (
-    Intl.DateTimeFormat().resolvedOptions().timeZone.split("/")[1] ===
-    "Bucharest"
-  ) {
+  if (location === "Bucharest") {
     // if user is from Romania
     return (
       <>
@@ -82,7 +83,9 @@ export default function Page() {
         <Footer />
       </>
     );
-  } else {
+  }
+  // if user is not from Romania
+  else {
     return (
       <>
         <main className="flex min-h-screen flex-col items-center p-6 ">
