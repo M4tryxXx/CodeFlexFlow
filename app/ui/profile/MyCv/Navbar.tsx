@@ -79,15 +79,15 @@ const Navbar = ({ user }: any) => {
             </span>
           </p>
         </Link>
-        <ul className="list-none hidden sm:flex flex-row gap-8">
+        <ul className="list-none hidden sm:flex flex-row gap-2">
           {navLinks.map((link) => {
             return (
               <li
                 key={link.id}
                 className={clsx(
-                  "font-medium cursor-pointer text-[16px] text-white",
+                  "font-medium cursor-pointer text-[14px] text-white",
                   {
-                    " cursor-pointer text-[16px] text-yellow-400 font-bold uderline underline-yellow-400 unserline-offset-[3px]":
+                    " cursor-pointer text-[14px] text-yellow-400 font-bold uderline underline-yellow-400 unserline-offset-[3px] underline underline-yellow-400 underline-offset-[3px]":
                       active === link.title,
                   }
                 )}
