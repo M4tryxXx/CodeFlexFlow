@@ -1,7 +1,6 @@
 import EditProfileForm from "@/app/ui/profile/MyCv/EditProfileForm";
 import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
 import { selectUserFull } from "@/app/lib/myDb";
-import EditUserFormNew from "@/app/ui/admin/new-edit-user-form";
 
 export default async function EditProfilePage({
   params,
