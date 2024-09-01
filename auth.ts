@@ -4,7 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { selectUserLogIn } from "./app/lib/myDb";
-import { SelectUserLogIn } from "./app/lib/types"; // Import the User type
+import { UserLogInType } from "./app/lib/types"; // Import the User type
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
