@@ -22,6 +22,7 @@ export default function AddExperienceForm({ id }: { id: string }) {
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const working_now = status === "true" ? true : false;
   const handleSubmit = async (e: any) => {
     setIsLoading(true);
     e.preventDefault();
@@ -31,7 +32,7 @@ export default function AddExperienceForm({ id }: { id: string }) {
       start_date: new Date(start_date),
       end_date: end_date ? new Date(end_date) : null,
       description: description,
-      working_now: status,
+      working_now: working_now,
       user_id: id,
     });
     setIsLoading(false);
@@ -184,7 +185,7 @@ export default function AddExperienceForm({ id }: { id: string }) {
                     name="status"
                     type="radio"
                     onChange={(e) => setStatus(e.target.value)}
-                    value="false"
+                    value={"false"}
                     className="h-4 w-4 cursor-pointer dark:bg-gray-800 border-emerald-100 bg-gray-100 text-gray-600 focus:ring-2"
                   />
 

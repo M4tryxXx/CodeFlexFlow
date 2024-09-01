@@ -82,7 +82,7 @@ export const addExperienceSchema = z.object({
   start_date: z.date(),
   end_date: z.date().optional(),
   description: z.string().optional(),
-  working_now: z.string().optional(),
+  working_now: z.boolean().optional(),
   company_logo: z.string().optional(),
 });
 
