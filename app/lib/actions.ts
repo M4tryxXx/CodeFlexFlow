@@ -92,6 +92,10 @@ export const redirectUser = async (path: string) => {
   return redirect(path);
 };
 
+export const revalidatePathCustom = async (path: string) => {
+  revalidatePath(path);
+};
+
 /**
  *
  *
@@ -376,13 +380,13 @@ export const sendInvitationLink = async (
   if (serial) {
     invitationCode = `CV-${serial.id + 10000}`;
   }
-  //console.log(invitationCode, user.id, expires_at, email, name);
+  console.log(invitationCode, user.username, expires_at, email, name);
 
   const data = {
     id: invitationCode,
     user_id: user.id,
     expires_at: expires_at,
-    user_UserName: user.name,
+    user_userName: user.username,
     destination_email: email,
     at_company_name: name,
   };
@@ -392,6 +396,46 @@ export const sendInvitationLink = async (
     await sendInvitationEmail(email, response, user);
     if (response && serial) {
       await updateSerial({ id: serial.id + 1 });
+    }
+  } catch (error) {
+    console.log(error);
+    return "Something went wrong";
+  }
+
+  revalidatePath("/home/dashboard");
+  redirect("/home/dashboard");
+};
+
+export const shareInvitationLink = async (
+  user: any,
+  email: String,
+  name: String
+) => {
+  let invitationCode: any;
+  const serial = await inviteSerial();
+  //console.log(serial);
+  const expires_at = new Date(Date.now() + 604800000);
+  if (serial) {
+    invitationCode = `CV-${serial.id + 10000}`;
+  }
+  //console.log(invitationCode, user.id, expires_at, email, name);
+
+  const data = {
+    id: invitationCode,
+    user_id: user.id,
+    expires_at: expires_at,
+    user_userName: user.username,
+    destination_email: email,
+    at_company_name: name,
+  };
+  let response;
+  try {
+    response = await createInvitation(data);
+    if (response && serial) {
+      await updateSerial({ id: serial.id + 1 });
+      revalidatePath("/home/dashboard");
+      revalidatePathCustom("/home/dashboard");
+      return response;
     }
   } catch (error) {
     console.log(error);

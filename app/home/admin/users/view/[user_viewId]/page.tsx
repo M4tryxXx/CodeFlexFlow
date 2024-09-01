@@ -4,16 +4,17 @@ import { selectUserFull } from "@/app/lib/myDb";
 import { formatDateToLocal } from "@/app/lib/utils";
 import UsersTable from "@/app/ui/admin/UsersTable";
 import UsersTableView from "@/app/ui/admin/UsersTable";
+import ProfileTable from "@/app/ui/profile/MyCv/Profile";
 
 export default async function EditUserPage({
   params,
 }: {
-  params: { userId: string };
+  params: { user_viewId: string };
 }) {
-  const { userId } = params;
+  const { user_viewId } = params;
 
   let data: any;
-  const user = await selectUserFull(userId);
+  const user = await selectUserFull(user_viewId);
   //console.log(user);
   return (
     <main className="container mx-auto">
@@ -23,7 +24,7 @@ export default async function EditUserPage({
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
               <div className="overflow-hidden"></div>
-              <UsersTableView users={user} />
+              <ProfileTable user={user} />
             </div>
           </div>
         </div>

@@ -263,6 +263,27 @@ export const selectUserFull = async (
   }
 };
 
+export const selectUsersFull = async () => {
+  try {
+    let user = await prisma.user.findMany({
+      include: {
+        personal_info: true,
+        qualifications: true,
+        experiences: true,
+        skills: true,
+        social_media: true,
+        invites: true,
+      },
+    });
+    await prisma.$disconnect();
+
+    return user;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
 /**
  *
  *

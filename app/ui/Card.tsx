@@ -29,7 +29,7 @@ export default function Card({ data, delay }: any) {
             {description}
           </p>
           <div className="flex flex-row justify-end mt-3 w-full px-3 pb-3">
-            <Link href={`/home/dashboard/qualification/${id}`}>
+            <Link href={`/home/dashboard/qualifications/${id}`}>
               <EditIcon className="w-8 dark:text-yellow-300 mx-1 z-50" />
             </Link>
 

@@ -13,23 +13,38 @@ import {
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 import { verifyEmailSchema } from "../../lib/zod-schemas";
-import { sendInvitationLink } from "../../lib/actions";
+import { sendInvitationLink, shareInvitationLink } from "../../lib/actions";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import clsx from "clsx";
 import "../../ui/css/loadingSpinner.css";
-
-const shareData = {
-  title: "MDN",
-  text: "Learn web development on MDN!",
-  url: "https://developer.mozilla.org",
-};
+import { set } from "zod";
 
 export default function InvitationForm({ user }: any) {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [invitationInfo, setInvitationInfo] = useState("");
+
+  let shareOption;
+
+  if (typeof window !== "undefined" && navigator.share !== undefined) {
+    shareOption = (
+      <Button
+        className={clsx("mt-4 w-full", {
+          "mt-4 w-full  cursor-wait loadingSpinner disabled ": loading === true,
+        })}
+        onClick={async (e) => {
+          await handleSubmitLocal(e);
+        }}
+      >
+        {loading ? "Loading ..." : "Share Invitation link"}
+        <ArrowRightIcon className="ml-auto h-5 w-5 text-black dark:text-white dark:hover:text-rose-500 hover:text-blue-700 hover:h-7 hover:w-7" />
+      </Button>
+    );
+  } else {
+    shareOption = "";
+  }
 
   const handleSubmit = async (e: any) => {
     setLoading(true);
@@ -64,6 +79,75 @@ export default function InvitationForm({ user }: any) {
     setName("");
     setLoading(false);
   };
+
+  const handleSubmitLocal = async (e: any) => {
+    setLoading(true);
+    e.preventDefault();
+    if (typeof window !== "undefined" && navigator.share) {
+      if (!email || !name) {
+        toast.error("Please fill all fields");
+        setLoading(false);
+        return;
+      }
+      const destination_email = verifyEmailSchema.safeParse({ email: email });
+      if (!destination_email.success) {
+        let errorMessage = "";
+        destination_email.error.errors.forEach((issue: any) => {
+          errorMessage =
+            errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
+        });
+        toast.error(errorMessage);
+        setLoading(false);
+        return;
+      }
+      const response = await shareInvitationLink(user, email, name);
+      if (response === "Something went wrong") {
+        toast.error("Something went wrong");
+        setLoading(false);
+        return;
+      }
+      console.log(response);
+
+      const shareData = {
+        title: `${user.personal_info.first_name} Digital CV`,
+        text: "Please check my Cv I look forward to work for you!",
+        url: `https://codeflexflow.vercel.app/cv/${response.id}`,
+      };
+      const resultPara = document.querySelector(".result");
+
+      try {
+        await navigator.share(shareData);
+        if (resultPara) {
+          resultPara.textContent = "Your CV has been shared successfully";
+        }
+
+        setInvitationInfo(
+          "Your CV has been successfully created, track it or delete it from the dashboard"
+        );
+        toast.success("Invitation successfully generated!");
+        setEmail("");
+        setName("");
+        setLoading(false);
+        return;
+      } catch (err) {
+        if (resultPara) {
+          resultPara.textContent = `Error: ${err}`;
+        }
+        setInvitationInfo("You canceled the share! ");
+        toast.error("Sharing canceled by user!");
+        setLoading(false);
+      }
+    } else {
+      toast.error("Web Share API is not supported in this browser.");
+      setLoading(false);
+      return;
+    }
+    setInvitationInfo(
+      "Your CV has been successfully sent, track it from the dashboard"
+    );
+    toast.success("Invitation successfully sent!");
+  };
+
   return (
     <>
       <form
@@ -120,6 +204,7 @@ export default function InvitationForm({ user }: any) {
               </div>
             </div>
           </div>
+
           <Button
             className={clsx("mt-4 w-full ", {
               "mt-4 w-full  cursor-wait loadingSpinner disabled ":
@@ -129,9 +214,11 @@ export default function InvitationForm({ user }: any) {
               await handleSubmit(e);
             }}
           >
-            {loading ? "Loading ..." : "Send Invitation link"}
+            {loading ? "Loading ..." : "Send Invitation link Now"}
             <ArrowRightIcon className="ml-auto h-5 w-5 text-black dark:text-white dark:hover:text-rose-500 hover:text-blue-700 hover:h-7 hover:w-7" />
           </Button>
+
+          {shareOption}
           <div className="flex flex-row justify-center items-center mt-5">
             <InformationCircleIcon className=" text-lg mr-5 pointer-events-none h-[25px] w-[25px] dark:text-blue-300 dark:peer-focus:text-white text-blue-700" />
             Invitation is valid for 7 days!
@@ -150,7 +237,6 @@ export default function InvitationForm({ user }: any) {
           )}
         </div>
       </form>
-
       {loading && (
         <div className="fixed left-0 top-0 bg-[#250e0e49] dark:bg-[#06093f77] w-[100vw] h-[100vh] ">
           <div className="bg-[#b76973ab] dark:bg-[#113a27e3] dark:text-yellow-300 md:text-lg md:h-16 h-12 w-[30%] rounded-lg flex flex-row justify-center items-center fixed left-[35%] top-1/2">
@@ -158,39 +244,6 @@ export default function InvitationForm({ user }: any) {
           </div>
         </div>
       )}
-      <p>
-        <button
-          onClick={async () => {
-            const shareData = {
-              title: "MDN",
-              text: "Learn web development on MDN!",
-              url: "https://developer.mozilla.org",
-            };
-            const resultPara = document.querySelector(".result");
-
-            try {
-              if (!navigator.share) {
-                if (resultPara) {
-                  resultPara.textContent =
-                    "You need to use a browser that supports the Web Share API";
-                }
-                return;
-              }
-              await navigator.share(shareData);
-              if (resultPara) {
-                resultPara.textContent = "MDN shared successfully";
-              }
-            } catch (err) {
-              if (resultPara) {
-                resultPara.textContent = `Error: ${err}`;
-              }
-            }
-          }}
-        >
-          Share MDN!
-        </button>
-      </p>
-      <p className="result"></p>
     </>
   );
 }

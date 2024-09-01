@@ -42,10 +42,10 @@ export interface UserType {
 
 export interface UserLogInType {
   id: string;
-  username?: string;
-  email?: string;
+  username: string;
+  email: string;
   password?: string;
-  role?: string;
+  role: string;
   lastLogin_from: string | null;
 }
 

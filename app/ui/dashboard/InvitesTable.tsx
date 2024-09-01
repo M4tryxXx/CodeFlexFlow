@@ -10,11 +10,9 @@ import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { formatDateToLocal, formatDateMed } from "@/app/lib/utils";
 import "../css/loadingSpinner.css";
 
-export default function InvitesTable(invitations: any) {
+export default function InvitesTable({ invites, role, location }: any) {
   // Get the invites, role and location from the props
-  const invites = invitations.invites;
-  const role = invitations.role;
-  const location = invitations.location;
+
   let dataArr: any = [];
   let infoArr: any = [];
   const ref = useRef<HTMLDivElement>(null);
@@ -80,7 +78,7 @@ export default function InvitesTable(invitations: any) {
           onClick={(e) => e.stopPropagation()}
           className="border border-solid border-stone-700 p-3 rounded-md absolute  z-50 invite-options bg-white text-black dark:bg-gray-800 dark:text-white hidden drop-shadow-xl"
         >
-          {role === "admin" ? <p>Invite sent by: {invite.userUserName}</p> : ""}
+          {role === "admin" ? <p>CV sent by: {invite.user_userName}</p> : ""}
           <h1 className="text-lg font-semibold">{invite.destination_name}</h1>
           <hr className="w-full border-[.3mm] border-gray-200 dark:border-emerald-800 rounded-md my-1" />
           <p>At: {invite.destination_email}</p>
@@ -202,7 +200,7 @@ export default function InvitesTable(invitations: any) {
             className="odd:bg-white even:bg-gray-100 hover:bg-gray-100 dark:odd:bg-transparent dark:even:bg-transparent dark:hover:bg-stone-700 dark:hover:bg-opacity-25"
           >
             <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200">
-              {invite.destination_name}
+              {invite.at_company_name}
             </td>
 
             <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">

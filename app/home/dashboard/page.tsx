@@ -5,7 +5,6 @@ import { userData } from "@/app/lib/actions";
 import LoadIndicator from "@/app/ui/dashboard/LoadIndex";
 import { Link } from "@nextui-org/react";
 import { firstToCapital } from "../../lib/utils";
-import { list } from "postcss";
 
 export default async function dashPage() {
   const user = await userData();
