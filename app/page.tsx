@@ -51,7 +51,7 @@ export default function Page() {
                 <ArrowRightIcon className="w-5 md:w-6" />
               </Link>
 
-              <div className="flex w-25 items-center gap-5 self-start justify-between rounded-lg bg-rose-500 text-sm font-medium text-white transition-colors hover:bg-rose-400 md:text-base dark:bg-emerald-900 dark:hover:bg-emerald-700">
+              <div className="flex w-25 items-center gap-5 self-start justify-between rounded-lg bg-gray-50 text-sm font-medium text-black transition-colors hover:bg-rose-400 md:text-base dark:bg-emerald-900 dark:hover:bg-emerald-700 dark:text-white">
                 <ThemeSwitch />
               </div>
             </div>
@@ -107,7 +107,7 @@ export default function Page() {
                 <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
               </Link>
 
-              <div className="flex w-25 items-center gap-5 self-start justify-between rounded-lg bg-rose-500 text-sm font-medium text-white transition-colors hover:bg-rose-400 md:text-base dark:bg-emerald-900 dark:hover:bg-emerald-700">
+              <div className="flex w-25 items-center gap-5 self-start justify-between rounded-lg bg-gray-50 text-sm font-medium text-black transition-colors hover:bg-rose-400 md:text-base dark:bg-emerald-900 dark:hover:bg-emerald-700 dark:text-white">
                 <ThemeSwitch />
               </div>
             </div>
