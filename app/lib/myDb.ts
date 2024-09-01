@@ -4,13 +4,8 @@ import prisma from "./prisma-cache";
 import { sendWelcomeEmail } from "./mailer";
 import {
   UserType,
-  UserLogInType,
-  NotificationType,
-  SettingsType,
   PersonalInfoType,
   EditEducationType,
-  ExperienceType,
-  SkillType,
   InviteType,
   UpdateInviteType,
   SocialType,
