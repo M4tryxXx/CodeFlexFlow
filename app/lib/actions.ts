@@ -219,7 +219,7 @@ export const editUser = async (
   if (userPersonalInfo) {
     userPersonalInfo.updated_at = new Date(Date.now());
     const response = await updateUser(userPersonalInfo);
-    console.log(response);
+    //console.log(response);
     if (response) {
       revalidatePath("/home/admin/users");
       redirect("/home/admin/users");
@@ -380,7 +380,7 @@ export const sendInvitationLink = async (
   if (serial) {
     invitationCode = `CV-${serial.id + 10000}`;
   }
-  console.log(invitationCode, user.username, expires_at, email, name);
+  //console.log(invitationCode, user.username, expires_at, email, name);
 
   const data = {
     id: invitationCode,
@@ -408,20 +408,15 @@ export const sendInvitationLink = async (
 
 export const shareInvitationLink = async (
   user: any,
-  email: String,
-  name: String
+  email: string,
+  name: string,
+  invitationCode: number
 ) => {
-  let invitationCode: any;
-  const serial = await inviteSerial();
   //console.log(serial);
   const expires_at = new Date(Date.now() + 604800000);
-  if (serial) {
-    invitationCode = `CV-${serial.id + 10000}`;
-  }
-  //console.log(invitationCode, user.id, expires_at, email, name);
-
+  const cv_id = `CV-${invitationCode + 10000}`;
   const data = {
-    id: invitationCode,
+    id: cv_id,
     user_id: user.id,
     expires_at: expires_at,
     user_userName: user.username,
@@ -431,19 +426,15 @@ export const shareInvitationLink = async (
   let response;
   try {
     response = await createInvitation(data);
-    if (response && serial) {
-      await updateSerial({ id: serial.id + 1 });
+    if (response) {
+      await updateSerial({ id: invitationCode + 1 });
       revalidatePath("/home/dashboard");
-      revalidatePathCustom("/home/dashboard");
       return response;
     }
   } catch (error) {
     console.log(error);
     return "Something went wrong";
   }
-
-  revalidatePath("/home/dashboard");
-  redirect("/home/dashboard");
 };
 
 export const allInvites = async () => {

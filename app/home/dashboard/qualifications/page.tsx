@@ -10,7 +10,7 @@ export default async function QualificationPage() {
   const qualifications = session_user_id?.qualifications;
   let qualificationContainer: any;
 
-  console.log(qualifications);
+  //console.log(qualifications);
 
   if (qualifications) {
     if (qualifications.length > 0) {

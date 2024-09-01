@@ -36,7 +36,7 @@ export default function ContactCard({ user }: any) {
       <div className="flex justify-end  z-70">
         <div className="container md:mr-[10%] mb-8 w-64 md:w-[400px] p-4">
           <div className=" max-w-lg mx-auto">
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="text-2xl font-bold mb-4 text-white">
               {user.first_name} {user.last_name}
             </h2>
           </div>

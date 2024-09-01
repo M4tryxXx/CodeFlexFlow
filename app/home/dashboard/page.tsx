@@ -8,7 +8,7 @@ import { firstToCapital } from "../../lib/utils";
 
 export default async function dashPage() {
   const user = await userData();
-  console.log(user);
+  //console.log(user);
   let listItems = [];
   let noExperience = false;
   let noQualification = false;
@@ -119,7 +119,7 @@ export default async function dashPage() {
   return (
     <main className={`${myStyles.main}`}>
       <div className="flex flex-col md:flex-row md:justify-around">
-        <div className="flex flex-col justify-center items-start w-full md:w-[45%] mb-5">
+        <div className="flex flex-col justify-start items-start w-full md:w-[45%] mb-5">
           <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200 opacity-75">
             Your Dashboard
           </h1>

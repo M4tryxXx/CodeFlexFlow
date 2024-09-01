@@ -9,7 +9,7 @@ export default async function EditUserPage({
 }) {
   const { userId } = params;
   const user = await selectUserFull(userId);
-  console.log(user);
+  //(user);
 
   return (
     <main>
