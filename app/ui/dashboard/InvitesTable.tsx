@@ -8,7 +8,7 @@ import { handleDeleteInvite } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { formatDateToLocal, formatDateMed } from "@/app/lib/utils";
-import "../css/loadingSpinner.css";
+import "../css/loading.css";
 
 export default function InvitesTable({ invites, role, location }: any) {
   // Get the invites, role and location from the props

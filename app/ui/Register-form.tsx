@@ -270,7 +270,7 @@ export default function RegisterForm() {
             </div>
             <Button
               className={clsx("mt-4 w-full ", {
-                "mt-4 w-full  cursor-wait loadingSpinner disabled aria-disabled":
+                "mt-4 w-full  cursor-wait loading_state disabled aria-disabled":
                   isloading === true,
               })}
               disabled={isloading}
@@ -513,7 +513,7 @@ export default function RegisterForm() {
           </div>
           <Button
             className={clsx("mt-4 w-full ", {
-              "mt-4 w-full  cursor-wait loadingSpinner disabled aria-disabled":
+              "mt-4 w-full  cursor-wait loading_state disabled aria-disabled":
                 isloading === true,
             })}
             disabled={isloading}

@@ -1,5 +1,5 @@
 import { myStyles } from "@/app/styles";
-import "../../ui/css/loadingSpinner.css";
+import "../../ui/css/loading.css";
 
 export default function DashPageSkeleton() {
   return (

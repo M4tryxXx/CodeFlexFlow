@@ -19,7 +19,7 @@ import { sendInvitationLink, shareInvitationLink } from "../../lib/actions";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import clsx from "clsx";
-import "../../ui/css/loadingSpinner.css";
+import "../../ui/css/loading.css";
 import { inviteSerial } from "../../lib/myDb";
 
 export default function InvitationForm({ user }: any) {
@@ -233,7 +233,7 @@ export default function InvitationForm({ user }: any) {
 
           <Button
             className={clsx("mt-4 w-full ", {
-              "mt-4 w-full  cursor-wait loadingSpinner disabled ":
+              "mt-4 w-full  cursor-wait loading_state disabled ":
                 loading === true,
             })}
             onClick={async (e) => {

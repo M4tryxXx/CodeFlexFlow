@@ -16,7 +16,7 @@ import { checkUserEmail } from "../lib/client-actions";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import clsx from "clsx";
-import "../ui/css/loadingSpinner.css";
+import "../ui/css/loading.css";
 import Link from "next/link";
 
 export default function CvInvitationForm() {
@@ -82,7 +82,7 @@ export default function CvInvitationForm() {
           className={clsx(
             "mt-4 w-full flex h-9 items-center rounded-lg bg-rose-300 dark:bg-emerald-900 dark:hover:bg-emerald-700 px-4 text-sm font-medium text-black dark:text-white transition-colors hover:bg-rose-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500 active:bg-rose-300 aria-disabled:cursor-not-allowed aria-disabled:opacity-50 shadow-md shadow-black",
             {
-              "mt-4 w-full  cursor-wait loadingSpinner disabled ":
+              "mt-4 w-full  cursor-wait loading_state disabled ":
                 loading === true,
             }
           )}

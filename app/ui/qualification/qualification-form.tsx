@@ -13,7 +13,7 @@ import {
 import { Button } from "../Button";
 import { useState } from "react";
 import { addDataUserSide } from "@/app/lib/client-actions";
-import "../css/loadingSpinner.css";
+import "../css/loading.css";
 
 export default function QualificationForm({ id }: { id: string }) {
   const [school, setSchool] = useState("");

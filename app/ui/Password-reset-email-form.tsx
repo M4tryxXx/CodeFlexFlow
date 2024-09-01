@@ -13,7 +13,7 @@ import { checkUserEmail, getUserLocation } from "../lib/client-actions";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import clsx from "clsx";
-import "../ui/css/loadingSpinner.css";
+import "../ui/css/loading.css";
 
 export default function ResetPasswordForm() {
   const userLocation = getUserLocation();
@@ -97,7 +97,7 @@ export default function ResetPasswordForm() {
             </div>
             <Button
               className={clsx("mt-4 w-full ", {
-                "mt-4 w-full  cursor-wait loadingSpinner disabled ":
+                "mt-4 w-full  cursor-wait loading_state disabled ":
                   loading === true,
               })}
             >
@@ -160,7 +160,7 @@ export default function ResetPasswordForm() {
           </div>
           <Button
             className={clsx("mt-4 w-full ", {
-              "mt-4 w-full  cursor-wait loadingSpinner disabled ":
+              "mt-4 w-full  cursor-wait loading_state disabled ":
                 loading === true,
             })}
           >
