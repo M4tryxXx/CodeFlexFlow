@@ -17,6 +17,7 @@ import { editQualification } from "@/app/lib/actions";
 export default function EditExperienceForm({ id }: any) {
   const { exprienceId } = id;
   const [company, setCompany] = useState("");
+  const [city, setCity] = useState("");
   const [position, setPosition] = useState("");
   const [start_date, setStart_date] = useState("");
   const [end_date, setEnd_date] = useState("");
@@ -29,6 +30,7 @@ export default function EditExperienceForm({ id }: any) {
       editExperience: "true",
       position: position,
       company: company,
+      city: city,
       start_date: start_date,
       end_date: end_date,
       description: description,
@@ -66,6 +68,24 @@ export default function EditExperienceForm({ id }: any) {
                 onChange={(e) => setCompany(e.target.value)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 placeholder="Compania..."
+              />
+              <BuildingLibraryIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+            </div>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="city"
+              className="mb-2 block text-sm font-medium dark:text-white"
+            >
+              City
+            </label>
+            <div className="relative">
+              <input
+                id="city"
+                name="city"
+                onChange={(e) => setCity(e.target.value)}
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                placeholder="City..."
               />
               <BuildingLibraryIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -149,7 +169,7 @@ export default function EditExperienceForm({ id }: any) {
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 placeholder="Descriere activitati si aptitudini..."
               />
-              <DocumentCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+              <DocumentCheckIcon className="pointer-events-none absolute left-3 top-[20px] h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
           </div>
 

@@ -15,10 +15,10 @@ export default async function AddExperience() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: "Experience", href: "/home/dashboard/experience" },
+          { label: "Experience", href: "/home/dashboard/experiences" },
           {
             label: "Adauga Experiente",
-            href: "/home/dashboard/education/add",
+            href: "/home/dashboard/experiences/add",
             active: true,
           },
         ]}

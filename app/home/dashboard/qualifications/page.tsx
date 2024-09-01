@@ -28,7 +28,10 @@ export default async function QualificationPage() {
 
         const data = {
           type: "qualifications",
-          title: qualifications.name,
+          company_school: qualifications.school,
+          title_position: qualifications.degree,
+          field: qualifications.field,
+          city: qualifications.city,
           description: qualifications.description,
           dates: `${from} - ${to}`,
           id: qualifications.id,

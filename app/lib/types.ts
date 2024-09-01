@@ -115,6 +115,7 @@ export interface EditEducationType {
   user_id?: string;
   school?: string;
   degree?: string;
+  city?: string;
   field?: string;
   start_date?: Date;
   description?: string;
@@ -140,6 +141,7 @@ export interface EditEducationType {
 export interface ExperienceType {
   user_id: string;
   company: string;
+  city: string;
   position: string;
   description?: string;
   company_logo?: string;
@@ -151,6 +153,7 @@ export interface ExperienceType {
 export interface EditExperienceType {
   id: string;
   company?: string;
+  city?: string;
   position?: string;
   start_date?: Date;
   description?: string;

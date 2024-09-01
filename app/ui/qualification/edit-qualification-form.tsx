@@ -15,9 +15,10 @@ import { Button } from "../Button";
 import { editDataUserSide } from "@/app/lib/client-actions";
 
 export default function EditQualificationForm({ id }: any) {
-  const [name, setName] = useState("");
+  const [school, setSchool] = useState("");
   const [city, setCity] = useState("");
-  const [qualification, setQualification] = useState("");
+  const [degree, setDegree] = useState("");
+  const [field, setField] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [description, setDescription] = useState("");
@@ -25,13 +26,15 @@ export default function EditQualificationForm({ id }: any) {
     e.preventDefault();
     await editDataUserSide({
       editQualification: "true",
-      qualification: qualification,
-      name: name,
+      degree: degree,
+      school: school,
       city: city,
-      from: from,
-      to: to,
+      field: field,
+      start_date: from,
+      end_date: to,
       description: description,
       id: id,
+      updated_at: new Date(Date.now()),
     });
   };
   return (
@@ -50,66 +53,28 @@ export default function EditQualificationForm({ id }: any) {
         <div className="rounded-md bg-gray-50 p-4 md:p-6 dark:bg-gray-800">
           <div className="mb-4">
             <label
-              htmlFor="name"
+              htmlFor="degree"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              Numele institutiei
+              Qualification
             </label>
             <div className="relative">
               <input
-                id="name"
-                name="name"
-                onChange={(e) => setName(e.target.value)}
-                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                placeholder="Scoala..."
-              />
-              <BuildingLibraryIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
-            </div>
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="city"
-              className="mb-2 block text-sm font-medium dark:text-white"
-            >
-              Localitatea
-            </label>
-            <div className="relative">
-              <input
-                id="city"
-                name="city"
-                onChange={(e) => setCity(e.target.value)}
-                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white "
-                placeholder="Localitatea..."
-              />
-              <MapIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
-            </div>
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="qualification"
-              className="mb-2 block text-sm font-medium dark:text-white"
-            >
-              Profilul
-            </label>
-            <div className="relative">
-              <input
-                id="qualification"
-                onChange={(e) => setQualification(e.target.value)}
-                name="qualification"
+                id="degree"
+                onChange={(e) => setDegree(e.target.value)}
+                name="degree"
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 placeholder="Specializarea..."
               />
               <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
           </div>
-
           <div className="mb-4">
             <label
               htmlFor="from"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              De la
+              Start date
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
@@ -131,21 +96,73 @@ export default function EditQualificationForm({ id }: any) {
               htmlFor="to"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              Pana la
+              End date
             </label>
-            <div className="relative mt-2 rounded-md">
-              <div className="relative">
-                <input
-                  id="to"
-                  name="to"
-                  onChange={(e) => setTo(e.target.value)}
-                  type="date"
-                  min={new Date("1975-01-01").toISOString().split("T")[0]}
-                  max={new Date().toISOString().split("T")[0]}
-                  className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                />
-                <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
-              </div>
+            <div className="relative">
+              <input
+                id="to"
+                name="to"
+                onChange={(e) => setTo(e.target.value)}
+                type="date"
+                min={new Date("1975-01-01").toISOString().split("T")[0]}
+                max={new Date().toISOString().split("T")[0]}
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+              />
+              <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+            </div>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="school"
+              className="mb-2 block text-sm font-medium dark:text-white"
+            >
+              School
+            </label>
+            <div className="relative">
+              <input
+                id="school"
+                name="school"
+                onChange={(e) => setSchool(e.target.value)}
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                placeholder="Scoala..."
+              />
+              <BuildingLibraryIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+            </div>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="field"
+              className="mb-2 block text-sm font-medium dark:text-white"
+            >
+              Profil
+            </label>
+            <div className="relative">
+              <input
+                id="field"
+                onChange={(e) => setField(e.target.value)}
+                name="field"
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                placeholder="Profil..."
+              />
+              <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+            </div>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="city"
+              className="mb-2 block text-sm font-medium dark:text-white"
+            >
+              City
+            </label>
+            <div className="relative">
+              <input
+                id="city"
+                name="city"
+                onChange={(e) => setCity(e.target.value)}
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white "
+                placeholder="City..."
+              />
+              <MapIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
           </div>
 

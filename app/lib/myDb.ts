@@ -841,7 +841,7 @@ export const saveExperience = async (data: any) => {
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    console.log(err);
     return null;
   }
 };

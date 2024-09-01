@@ -24,7 +24,10 @@ export default async function Page() {
 
       const data = {
         type: "experiences",
-        title: experiences.company,
+        company_school: experiences.company,
+        title_position: experiences.position,
+        field: experiences.field,
+        city: experiences.city,
         description: experiences.description,
         dates: `${from} - ${to}`,
         id: experiences.id,

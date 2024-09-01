@@ -317,8 +317,8 @@ export async function addQualification(data: CreateEducationType) {
 export const editQualification = async (data: EditEducationType) => {
   const response = await updateQualification(data);
   if (response) {
-    revalidatePath("/home/dashboard/qualification");
-    redirect("/home/dashboard/qualification");
+    revalidatePath("/home/dashboard/qualifications");
+    redirect("/home/dashboard/qualifications");
   } else {
     return "Something went wrong";
   }
@@ -333,8 +333,8 @@ export const deleteQualification = async (id: string) => {
 export const editExperience = async (data: EditExperienceType) => {
   const response = await updateExperience(data);
   if (response) {
-    revalidatePath("/home/dashboard/experience");
-    redirect("/home/dashboard/experience");
+    revalidatePath("/home/dashboard/experiences");
+    redirect("/home/dashboard/experiences");
   } else {
     return "Something went wrong";
   }
@@ -342,8 +342,8 @@ export const editExperience = async (data: EditExperienceType) => {
 
 export const deleteExperience = async (id: string) => {
   await deleteExperienceById(id);
-  revalidatePath("/home/dashboard/experience");
-  redirect("/home/dashboard/experience");
+  revalidatePath("/home/dashboard/experiences");
+  redirect("/home/dashboard/experiences");
 };
 
 export const sendPasswordChangeLink = async (email: string) => {

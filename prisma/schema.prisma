@@ -167,6 +167,8 @@ model user_experiences {
   user_id      String
   position     String
   company      String
+  field        String?
+  city         String
   start_date   DateTime
   end_date     DateTime?
   description  String?   @db.Text
