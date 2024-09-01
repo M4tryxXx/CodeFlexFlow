@@ -376,7 +376,7 @@ export const sendInvitationLink = async (
   if (serial) {
     invitationCode = `CV-${serial.id + 10000}`;
   }
-  console.log(invitationCode, user.id, expires_at, email, name);
+  //console.log(invitationCode, user.id, expires_at, email, name);
 
   const data = {
     id: invitationCode,

@@ -1,6 +1,6 @@
 //import getServerSession from "next-auth";
 import { auth } from "auth";
-import { findUserByEmail, getUsers } from "./myDb";
+import { selectUserLogIn, selectAllUsers } from "./myDb";
 
 const currentSession = await auth();
 ////console.log(currentSession);
@@ -8,6 +8,6 @@ let userEmail: any;
 if (currentSession && currentSession.user) {
   userEmail = currentSession.user.email;
 }
-const currentUser = await findUserByEmail(userEmail);
+const currentUser = await selectUserLogIn(undefined, userEmail);
 export const session_user_id = currentUser?.id;
-const allRegUsers = await getUsers();
+const allRegUsers = await selectAllUsers();

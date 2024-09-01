@@ -4,7 +4,7 @@ import { formatDateToLocal } from "@/app/lib/utils";
 export default async function UsersTableView({ users }: any) {
   let data: any;
 
-  console.log("User my side:  ", users);
+  //console.log("User my side:  ", users);
   const trClassNames = [
     "bg-rose-50 hover:bg-rose-100 transition-colors duration-300 dark:bg-emerald-800 dark:textwhite dark:hover:bg-stone-800 ",
     "bg-rose-50 hover:bg-rose-100 transition-colors duration-300 dark:bg-emerald-600 dark:textwhite dark:hover:bg-stone-800",

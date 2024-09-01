@@ -14,7 +14,7 @@ import { updateUserLast } from "@/app/lib/myDb";
 
 export default function EditUserForm({ user }: any) {
   // updateUserLast(user.id);
-  console.log(user);
+  //console.log(user);
   if (!user) {
     return (
       <div className="flex items-center justify-start">
