@@ -3,6 +3,8 @@ import { lusitana } from "@/app/ui/fonts";
 import { Toaster } from "react-hot-toast";
 import { Providers } from "./providers";
 import type { Viewport } from "next";
+import { getLoggedUser } from "@/app/lib/actions";
+import { signOut } from "@/auth";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -16,7 +18,7 @@ export const metadata = {
     "Welcome to the next generation of Curicculkm Vitae, Code Flex Flow and more!",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;

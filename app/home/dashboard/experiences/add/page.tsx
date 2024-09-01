@@ -2,9 +2,14 @@
 import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
 import AddExperienceForm from "@/app/ui/experience/create-experience-form";
 import { getLoggedUser } from "@/app/lib/actions";
+import { signOut } from "@/auth";
 
 export default async function AddExperience() {
   const session_user_id = await getLoggedUser();
+  if (!session_user_id) {
+    await signOut();
+  }
+
   //console.log(user.user.id);
   return (
     <main>
