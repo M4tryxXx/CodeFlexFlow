@@ -2,7 +2,7 @@
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { lusitana } from "@/app/ui/fonts";
 
-export default async function AcmeLogoDesk() {
+export default function AcmeLogoDesk() {
   return (
     <div
       className={`${lusitana.className} flex flex-row justify-between items-start leading-none text-white`}

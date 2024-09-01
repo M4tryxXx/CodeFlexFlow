@@ -8,7 +8,7 @@ import DeleteQualification from "./qualification/DeleteQualification";
 import DeleteExperience from "./experience/DeleteExperience";
 
 export default function Card({ data, delay }: any) {
-  const { title, description, dates, id, type} = data;
+  const { title, description, dates, id, type } = data;
   return (
     <motion.div
       variants={fadeIn("up", "spring", delay, 0.75)}
@@ -33,7 +33,11 @@ export default function Card({ data, delay }: any) {
               <EditIcon className="w-8 dark:text-yellow-300 mx-1 z-50" />
             </Link>
 
-            {type === "qualification" ? <DeleteQualification id={id} /> : <DeleteExperience id={id} />}
+            {type === "qualifications" ? (
+              <DeleteQualification id={id} />
+            ) : (
+              <DeleteExperience id={id} />
+            )}
           </div>
         </div>
       </div>

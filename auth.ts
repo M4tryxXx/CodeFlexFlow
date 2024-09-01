@@ -3,20 +3,20 @@ import { authConfig } from "./auth.config";
 import Credentials from "next-auth/providers/credentials";
 import { z } from "zod";
 import bcrypt from "bcrypt";
-import { findUserByUsername } from "./app/lib/myDb";
-import { User } from "./app/lib/myDb"; // Import the User type
+import { selectUserLogIn } from "./app/lib/myDb";
+import { SelectUserLogIn } from "./app/lib/types"; // Import the User type
 
 export const { auth, signIn, signOut } = NextAuth({
   ...authConfig,
   providers: [
     Credentials({
-      async authorize(credentials, request): Promise<User | null> {
+      async authorize(credentials, request): Promise<SelectUserLogIn | null> {
         const parsedCredentials = z
           .object({ username: z.string().min(3), password: z.string().min(8) })
           .safeParse(credentials);
         if (parsedCredentials.success) {
           const { username, password } = parsedCredentials.data;
-          const user = await findUserByUsername(username);
+          const user = await selectUserLogIn(undefined, undefined, username);
           if (!user) return null;
           const passwordsMatch = await bcrypt.compare(password, user.password);
           if (passwordsMatch) {

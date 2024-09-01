@@ -1,12 +1,12 @@
 import AcmeLogo from "@/app/ui/acme-logo";
 import { myStyles } from "../styles";
-import { userId } from "../lib/actions";
+import { getLoggedUser } from "../lib/actions";
 import HomeSideNav from "../ui/HomeSidenav";
 import ExampleCard from "../ui/ExampleCard";
 import Footer from "../ui/Footer/Footer";
 
 export default async function HomePage() {
-  const user = (await userId()) || "";
+  const user = (await getLoggedUser()) || "";
 
   const data = {
     title: "Code Flex Flow",
@@ -22,7 +22,7 @@ export default async function HomePage() {
     dates: "August 2024",
   };
 
-  if (user && user.lastLoginFrom === "Bucharest") {
+  if (user && user.lastLogin_from === "Bucharest") {
     // if user is from Romania
 
     return (

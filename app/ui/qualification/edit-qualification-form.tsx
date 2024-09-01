@@ -168,7 +168,7 @@ export default function EditQualificationForm({ id }: any) {
             </div>
           </div>
         </div>
-        <input type="text" name="userId" value={id} readOnly hidden />
+        <input type="text" name="user_id" value={id} readOnly hidden />
         <div className="mt-6 flex justify-end gap-4">
           <Link
             href="/home/dashboard/qualification"

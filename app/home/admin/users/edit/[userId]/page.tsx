@@ -1,6 +1,6 @@
 import EditUserForm from "@/app/ui/admin/edit-user-form";
 import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
-import { findUserById } from "@/app/lib/myDb";
+import { selectUserFull } from "@/app/lib/myDb";
 import EditUserFormNew from "@/app/ui/admin/new-edit-user-form";
 
 export default async function EditUserPage({
@@ -9,7 +9,7 @@ export default async function EditUserPage({
   params: { userId: string };
 }) {
   const { userId } = params;
-  const user = await findUserById(userId);
+  const user = await selectUserFull(userId);
 
   return (
     <main>

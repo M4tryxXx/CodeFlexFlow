@@ -11,45 +11,55 @@ import {
 } from "./mailer";
 import { auth } from "auth";
 import {
-  registerUserDb,
+  saveUserDb,
   deleteUserById,
   updateUser,
+  saveExperience,
   saveQualification,
   updateQualification,
-  saveExperience,
   updateExperience,
   deleteQualificationById,
   deleteExperienceById,
-  getQualificationById,
+  selectQualifications,
   getExperienceById,
   getAllInvites,
   createInvitation,
-  getInvitesByUserId,
-  deleteInviteById,
-  findUserByEmail,
-  getUsers,
-  findUserById,
+  getInvitesByuser_id,
+  deleteInvite,
+  selectUserPasswordToken,
   updateInvite,
   inviteSerial,
   updateSerial,
+  selectUserFull,
+  selectUserLogIn,
+  selectUserAccount,
+  selectAllUsers,
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
-import { createId } from "@paralleldrive/cuid2";
-
-export const redirectUser = async (path: string) => {
-  return redirect(path);
-};
-
-export const getUsersData = async () => {
-  const result = await getUsers();
-  if (result) {
-    return result;
-  }
-  revalidatePath("/home/admin/users");
-  redirect("/home/admin/users");
-};
-
+import {
+  EditEducationType,
+  CreateEducationType,
+  ExperienceType,
+  UserType,
+  EditExperienceType,
+  PersonalInfoType,
+  SocialType,
+} from "./types";
+import { CreateEducation, CreateExperience } from "../home/types";
+/**
+ *
+ *
+ *
+ *
+ *
+ * @param formData
+ * @authenticates the user
+ *
+ *
+ *
+ *
+ */
 export async function authenticate(formData: FormData) {
   try {
     await signIn("credentials", formData);
@@ -67,13 +77,75 @@ export async function authenticate(formData: FormData) {
   redirect("/home");
 }
 
-export const userId = async () => {
+/**
+ *
+ *
+ *
+ *
+ * @param path
+ * @redirects the user to the path
+ *
+ *
+ *
+ */
+export const redirectUser = async (path: string) => {
+  return redirect(path);
+};
+
+/**
+ *
+ *
+ *
+ *
+ * @param data
+ * @returns all the users
+ *
+ *
+ *
+ */
+
+export const getUsersData = async () => {
+  const result = await selectAllUsers();
+  if (result) {
+    return result;
+  }
+  revalidatePath("/home/admin/users");
+  redirect("/home/admin/users");
+};
+
+export const getLoggedUserFull = async () => {
   const currentSession = await auth();
-  let userEmail: any;
-  if (currentSession && currentSession.user) {
+  let userEmail: string | undefined;
+  if (currentSession && currentSession.user && currentSession.user.email) {
     userEmail = currentSession.user.email;
   }
-  const currentUser = await findUserByEmail(userEmail);
+  const currentUser = await selectUserFull(undefined, userEmail);
+  return currentUser;
+};
+
+export const getUserFull = async (
+  id?: string,
+  email?: string,
+  username?: string
+) => {
+  if (id) {
+    return await selectUserFull(id);
+  } else if (email) {
+    return await selectUserFull(undefined, email);
+  }
+  return await selectUserFull(undefined, undefined, username);
+};
+
+export const getLoggedUser = async () => {
+  const currentSession = await auth();
+  let userEmail: string | undefined;
+  if (currentSession && currentSession.user && currentSession.user.email) {
+    userEmail = currentSession.user.email;
+    //console.log(userEmail);
+  }
+
+  const currentUser = await selectUserLogIn(undefined, userEmail);
+  //console.log(currentUser);
   return currentUser;
 };
 
@@ -82,7 +154,8 @@ export async function registerUser(data: object | any) {
   const hashedPassword = await bcrypt.hash(data.password, 10);
   data.password = hashedPassword;
 
-  const response = await registerUserDb(data);
+  const response = await saveUserDb(data);
+
   ////console.log(response);
   if (response) {
     await sendWelcomeEmail(email, username);
@@ -108,7 +181,7 @@ export const handleDeleteAccount = async (id: string) => {
 };
 
 export const handleDeleteInvite = async (id: string, location: string) => {
-  await deleteInviteById(id);
+  await deleteInvite(id);
   if (location === "dashboard") {
     revalidatePath("/home/dashboard");
     redirect("/home/dashboard");
@@ -128,34 +201,70 @@ export const handleEditQualification = async (data: FormData) => {
   redirect(`/home/dashboard/qualification/${qualificationId}`);
 };
 
-export const editUser = async (data: any) => {
-  data.updatedAt = new Date().toISOString();
-  const response = await updateUser(data);
-  if (response) {
-    revalidatePath("/home/admin/users");
-    redirect("/home/admin/users");
-  } else {
-    return "Something went wrong";
+/**
+ *
+ * @param data
+ * @returns
+ */
+export const editUser = async (
+  userPersonalInfo?: PersonalInfoType,
+  userAccount?: UserType,
+  userSocial?: SocialType
+) => {
+  //console.log(userPersonalInfo, userAccount, userSocial);
+  if (userPersonalInfo) {
+    userPersonalInfo.updated_at = new Date(Date.now());
+    const response = await updateUser(userPersonalInfo);
+    console.log(response);
+    if (response) {
+      revalidatePath("/home/admin/users");
+      redirect("/home/admin/users");
+    } else {
+      return "Something went wrong";
+    }
+  } else if (userAccount) {
+    userAccount.updated_at = new Date(Date.now());
+    const response = await updateUser(undefined, userAccount);
+    if (response) {
+      revalidatePath("/home/admin/users");
+      redirect("/home/admin/users");
+    } else {
+      return "Something went wrong";
+    }
+  } else if (userSocial) {
+    const response = await updateUser(undefined, undefined, userSocial);
+    if (response) {
+      revalidatePath("/home/admin/users");
+      redirect("/home/admin/users");
+    } else {
+      return "Something went wrong";
+    }
   }
 };
 
-export const editProfile = async (data: any) => {
-  data.updatedAt = new Date().toISOString();
-  //console.log(data);
-  const response = await updateUser(data);
-  if (response) {
-    revalidatePath("/home/dashboard/profile");
-    redirect("/home/dashboard/profile");
-  } else {
-    return "Something went wrong";
-  }
-};
+// export const editProfile = async (
+//   userAccount?: UserType,
+//   userPersonalInfo?: PersonalInfoType,
+//   userSocials?: SocialType
+// ) => {
+//   if (userAccount) {
+//     userAccount.updated_at = new Date(Date.now());
+//     //console.log(data);
+//     const response = await updateUser(userAccount);
+//     if (response) {
+//       revalidatePath("/home/dashboard/profile");
+//       redirect("/home/dashboard/profile");
+//     } else {
+//       return "Something went wrong";
+//     }
+//   }
+// };
 
 export const updateInviteById = async (id: any) => {
-  const updatedAt = new Date(Date.now()).toISOString();
+  const updated_at = new Date(Date.now());
   const data = {
     id: id,
-    updatedAt: updatedAt,
+    opened_at: updated_at,
     opened: true,
   };
   const response = await updateInvite(data);
@@ -166,13 +275,12 @@ export const updateInviteById = async (id: any) => {
   }
 };
 
-export const updateUserPassword = async (data: any) => {
-  data.updatedAt = new Date().toISOString();
-  const { password } = data;
+export const updateUserDbPassword = async (data: any) => {
+  data.updated_at = new Date(Date.now());
   const hashedPassword = await bcrypt.hash(data.password, 10);
   data.password = hashedPassword;
-  data.resetToken = cuid2();
-  const response = await updateUser(data);
+  data.reset_token = cuid2();
+  const response = await updateUser(undefined, data);
   if (response) {
     redirect("/login");
   } else {
@@ -181,28 +289,28 @@ export const updateUserPassword = async (data: any) => {
 };
 
 // Experience
-export async function addExperience(data: any) {
+export async function addExperience(data: CreateExperience) {
   const response = await saveExperience(data);
   if (!response) {
     return "Something went wrong";
   } else {
-    revalidatePath("/home/dashboard/experience");
-    redirect("/home/dashboard/experience");
+    revalidatePath("/home/dashboard/experiences");
+    redirect("/home/dashboard/experiences");
   }
 }
 
 //qualification
-export async function addQualification(data: any) {
+export async function addQualification(data: CreateEducationType) {
   const response = await saveQualification(data);
   if (!response) {
     return "Something went wrong";
   } else {
-    revalidatePath("/home/dashboard/qualification");
-    redirect("/home/dashboard/qualification");
+    revalidatePath("/home/dashboard/qualifications");
+    redirect("/home/dashboard/qualifications");
   }
 }
 
-export const editQualification = async (data: any) => {
+export const editQualification = async (data: EditEducationType) => {
   const response = await updateQualification(data);
   if (response) {
     revalidatePath("/home/dashboard/qualification");
@@ -214,11 +322,11 @@ export const editQualification = async (data: any) => {
 
 export const deleteQualification = async (id: string) => {
   const result = await deleteQualificationById(id);
-  revalidatePath("/home/dashboard/qualification");
-  redirect("/home/dashboard/qualification");
+  revalidatePath("/home/dashboard/qualifications");
+  redirect("/home/dashboard/qualifications");
 };
 
-export const editExperience = async (data: any) => {
+export const editExperience = async (data: EditExperienceType) => {
   const response = await updateExperience(data);
   if (response) {
     revalidatePath("/home/dashboard/experience");
@@ -235,19 +343,19 @@ export const deleteExperience = async (id: string) => {
 };
 
 export const sendPasswordChangeLink = async (email: string) => {
-  const user = await findUserByEmail(email);
+  const user = await selectUserLogIn(undefined, email);
   if (!user) {
     return "User not found!";
   }
-  const expiryToken = new Date(Date.now() + 1800000).toISOString();
+  const expiryToken = new Date(Date.now() + 1800000);
   const token = cuid2();
   const data = {
     id: user.id,
-    resetToken: token,
-    resetTokenExpiry: expiryToken,
+    reset_token: token,
+    reset_token_expiry: expiryToken,
   };
 
-  const response = await updateUser(data);
+  const response = await updateUser(undefined, data);
   if (!response) {
     return "Something went wrong";
   }
@@ -264,18 +372,19 @@ export const sendInvitationLink = async (
   let invitationCode: any;
   const serial = await inviteSerial();
   //console.log(serial);
-  const expiresAt = new Date(Date.now() + 604800000).toISOString();
+  const expires_at = new Date(Date.now() + 604800000);
   if (serial) {
     invitationCode = `CV-${serial.id + 10000}`;
   }
+  console.log(invitationCode, user.id, expires_at, email, name);
 
   const data = {
     id: invitationCode,
-    userId: user.id,
-    expiresAt: expiresAt,
-    userUserName: user.username,
-    destinationEmail: email,
-    destinationName: name,
+    user_id: user.id,
+    expires_at: expires_at,
+    user_UserName: user.name,
+    destination_email: email,
+    at_company_name: name,
   };
   let response;
   try {
@@ -285,6 +394,7 @@ export const sendInvitationLink = async (
       await updateSerial({ id: serial.id + 1 });
     }
   } catch (error) {
+    console.log(error);
     return "Something went wrong";
   }
 
@@ -307,36 +417,18 @@ export const userData = async () => {
   if (currentSession && currentSession.user) {
     userEmail = currentSession.user.email;
   }
-  const currentUser = await findUserByEmail(userEmail);
+  const currentUser = await selectUserFull(undefined, userEmail);
   if (!currentUser) {
     throw new Error("User not found");
   }
-  const userExperience = await getExperienceById(currentUser.id);
-  const userQualification = await getQualificationById(currentUser.id);
-  const userInvites = await getInvitesByUserId(currentUser.id);
-  const userAbilities = null;
-  return {
-    user: currentUser,
-    experience: userExperience,
-    qualifications: userQualification,
-    Invites: userInvites,
-    Abilities: userAbilities,
-  };
+
+  return currentUser;
 };
 
 export const userDataById = async (id: string) => {
-  const user = await findUserById(id);
-  const userExperience = await getExperienceById(id);
-  const userQualification = await getQualificationById(id);
-  const userInvites = await getInvitesByUserId(id);
-  const userAbilities = null;
-  return {
-    user: user,
-    experience: userExperience,
-    qualifications: userQualification,
-    Invites: userInvites,
-    Abilities: userAbilities,
-  };
+  const user = await selectUserFull(id);
+
+  return user;
 };
 
 export async function sendContactEmail(formData: FormData) {

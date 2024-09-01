@@ -7,11 +7,14 @@ import {
   AtSymbolIcon,
 } from "@heroicons/react/24/outline";
 import { Button } from "../Button";
-import { deleteUserSide, editUserSide } from "@/app/lib/client-actions";
+import { deleteUserSide, editUserAccount } from "@/app/lib/client-actions";
 import { redirectUser } from "@/app/lib/actions";
 import { useState } from "react";
+import { updateUserLast } from "@/app/lib/myDb";
 
 export default function EditUserForm({ user }: any) {
+  // updateUserLast(user.id);
+  console.log(user);
   if (!user) {
     return (
       <div className="flex items-center justify-start">
@@ -29,24 +32,33 @@ export default function EditUserForm({ user }: any) {
     );
   }
 
-  const { firstName, lastName, email, role, id, username } = user;
+  const { email, role, id, username } = user;
 
   const [roleState, setRoleState] = useState(role);
-  const [firstNameState, setFirstNameState] = useState(firstName);
-  const [lastNameState, setLastNameState] = useState(lastName);
+  const [firstNameState, setFirstNameState] = useState(
+    user?.personal_info?.first_name ? user.personal_info.first_name : ""
+  );
+  const [lastNameState, setLastNameState] = useState(
+    user?.persoanl_info?.last_name ? user.persoanl_info.last_name : ""
+  );
   const [emailState, setEmailState] = useState(email);
   const [usernameState, setUsernameState] = useState("");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    await editUserSide({
-      role: roleState,
-      firstName: firstNameState,
-      lastName: lastNameState,
-      email: emailState,
-      username: usernameState,
-      id: id,
-    });
+    await editUserAccount(
+      {
+        user_id: id,
+        first_name: firstNameState,
+        last_name: lastNameState,
+      },
+      {
+        role: roleState,
+        email: emailState,
+        username: usernameState,
+        id: id,
+      }
+    );
   };
 
   const handleDelete = async (e: any) => {
@@ -82,7 +94,11 @@ export default function EditUserForm({ user }: any) {
                 onChange={(e) => setLastNameState(e.target.value)}
                 onFocus={(e) => (e.target.value = lastNameState)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                placeholder={lastName ? lastName : "Numele..."}
+                placeholder={
+                  user?.persoanl_info?.last_name
+                    ? user.persoanl_info.last_name
+                    : "Numele..."
+                }
               />
               <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -101,7 +117,11 @@ export default function EditUserForm({ user }: any) {
                 onChange={(e) => setFirstNameState(e.target.value)}
                 onFocus={(e) => (e.target.value = firstNameState)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                placeholder={firstName ? firstName : "Prenumele..."}
+                placeholder={
+                  user?.persoanl_info?.first_name
+                    ? user.persoanl_info.first_name
+                    : "Prenumele..."
+                }
               />
               <UserIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -188,7 +208,7 @@ export default function EditUserForm({ user }: any) {
                     Admin <StopCircleIcon className="h-4 w-4" />
                   </label>
                 </div>
-                <input type="text" name="userIdF" value={id} readOnly hidden />
+                <input type="text" name="user_idF" value={id} readOnly hidden />
               </div>
             </div>
           </fieldset>
@@ -215,7 +235,7 @@ export default function EditUserForm({ user }: any) {
           handleDelete(e);
         }}
       >
-        <input type="text" name="userId" readOnly hidden value={id} />
+        <input type="text" name="user_id" readOnly hidden value={id} />
         <button
           type="submit"
           className="flex h-9 items-center justify-end rounded-lg bg-rose-100 px-3 text-sm font-medium text-gray-800 transition-colors dark:bg-emerald-300 hover:bg-rose-300 dark:hover:bg-rose-300"

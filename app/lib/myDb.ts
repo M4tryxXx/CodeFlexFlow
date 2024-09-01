@@ -2,10 +2,323 @@
 
 import prisma from "./prisma-cache";
 import { sendWelcomeEmail } from "./mailer";
+import {
+  UserType,
+  UserLogInType,
+  NotificationType,
+  SettingsType,
+  PersonalInfoType,
+  EditEducationType,
+  ExperienceType,
+  SkillType,
+  InviteType,
+  UpdateInviteType,
+  SocialType,
+  CreateUserType,
+  CreateEducationType,
+} from "./types";
 
-export const getUsers = async () => {
+/**
+ * Account querries
+ *
+ *
+ * Create
+ ************************
+ *
+ * @saveUserDb
+ *
+ * Register user to the database
+ */
+
+export const saveUserDb = async (data: CreateUserType) => {
   try {
-    const allUsers = await prisma.user.findMany();
+    const response = await prisma.user.create({
+      data: data,
+    });
+
+    await prisma.user_personal_info.create({
+      data: {
+        user_id: response.id,
+        email: data.email,
+      },
+    });
+
+    await prisma.user_settings.create({
+      data: {
+        user_id: response.id,
+      },
+    });
+
+    await prisma.user_socials.create({
+      data: {
+        user_id: response.id,
+      },
+    });
+
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return null;
+  }
+};
+
+/**
+ *
+ *
+ * Select
+ *
+ * @selectUserLogIn
+ *
+ *   Get user for log in *
+ **/
+
+export const selectUserLogIn = async (
+  id?: string,
+  email?: string,
+  username?: string
+) => {
+  try {
+    let user;
+    if (id) {
+      user = await prisma.user.findUnique({
+        where: {
+          id: id,
+        },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          password: true,
+          role: true,
+          lastLogin_from: true,
+        },
+      });
+    } else if (username) {
+      user = await prisma.user.findUnique({
+        where: {
+          username: username,
+        },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          password: true,
+          role: true,
+          lastLogin_from: true,
+        },
+      });
+    } else if (email) {
+      user = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+        select: {
+          id: true,
+          username: true,
+          email: true,
+          password: true,
+          role: true,
+          lastLogin_from: true,
+        },
+      });
+    }
+    await prisma.$disconnect();
+    return user;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+  }
+};
+
+/**
+ *
+ *
+ *
+ * @selectUserAccount
+ *
+ *
+ * Get user account by id or username or email from the database
+ *
+ *
+ */
+export const selectUserAccount = async (
+  id?: string,
+  email?: string,
+  username?: string
+) => {
+  try {
+    let user;
+    if (id) {
+      user = await prisma.user.findUnique({
+        where: {
+          id: id,
+        },
+        include: {
+          settings: true,
+          notifications: true,
+        },
+      });
+    } else if (username) {
+      user = await prisma.user.findUnique({
+        where: {
+          username: username,
+        },
+        include: {
+          settings: true,
+          notifications: true,
+        },
+      });
+    } else if (email) {
+      user = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+        include: {
+          settings: true,
+          notifications: true,
+        },
+      });
+    }
+    await prisma.$disconnect();
+    return user;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
+/**
+ *
+ *
+ * @selectUserFullLoggedIn
+ *
+ *
+ */
+
+export const selectUserFull = async (
+  id?: string,
+  email?: string,
+  username?: string
+) => {
+  try {
+    if (id) {
+      let user = await prisma.user.findUnique({
+        where: {
+          id: id,
+        },
+        include: {
+          settings: true,
+          notifications: true,
+          personal_info: true,
+          qualifications: true,
+          experiences: true,
+          skills: true,
+          social_media: true,
+          invites: true,
+        },
+      });
+      await prisma.$disconnect();
+
+      return user;
+    } else if (username) {
+      let user = await prisma.user.findUnique({
+        where: {
+          username: username,
+        },
+        include: {
+          settings: true,
+          notifications: true,
+          personal_info: true,
+          qualifications: true,
+          experiences: true,
+          skills: true,
+          social_media: true,
+          invites: true,
+        },
+      });
+      await prisma.$disconnect();
+      return user;
+    } else if (email) {
+      let user = await prisma.user.findUnique({
+        where: {
+          email: email,
+        },
+        include: {
+          settings: true,
+          notifications: true,
+          personal_info: true,
+          qualifications: true,
+          experiences: true,
+          skills: true,
+          social_media: true,
+          invites: true,
+        },
+      });
+      await prisma.$disconnect();
+      return user;
+    }
+    await prisma.$disconnect();
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
+/**
+ *
+ *
+ * @selectUserFullForCv
+ *
+ *
+ */
+
+export const selectUserCvFull = async (id: string) => {
+  try {
+    let user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        personal_info: true,
+        qualifications: true,
+        experiences: true,
+        skills: true,
+        social_media: true,
+      },
+    });
+    await prisma.$disconnect();
+    return user;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+/**
+ *
+ *
+ * @selectAllUsers
+ *
+ *
+ * Get all users from the database, select {id, username, email, role}
+ *
+ *
+ */
+export const selectAllUsers = async () => {
+  try {
+    const allUsers = await prisma.user.findMany({
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        role: true,
+        lastLogin: true,
+      },
+    });
     if (allUsers) {
       await prisma.$disconnect();
       return allUsers;
@@ -18,169 +331,115 @@ export const getUsers = async () => {
   }
 };
 
-export const findUserResetToken = async (token: String | any) => {
+/**
+ *
+ *
+ * Update
+ *
+ * @resetPassword
+ *
+ *
+ * Get User By Token for update password
+ *
+ *
+ */
+export const selectUserPasswordToken = async (token: string) => {
   try {
     const user = await prisma.user.findUnique({
       where: {
-        resetToken: token,
+        reset_token: token,
+      },
+      select: {
+        id: true,
+        username: true,
+        email: true,
+        password: true,
+        role: true,
+        reset_token: true,
+        reset_token_expiry: true,
       },
     });
     await prisma.$disconnect();
     return user;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    console.log(err);
   }
 };
-
-export const findUserByEmail = async (email: String | any) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        email: email,
-      },
-    });
-    await prisma.$disconnect();
-    return user;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-  }
-};
-
-export const findUserByUsername = async (username: String | any) => {
-  try {
-    const user = await prisma.user.findUnique({
-      where: {
-        username: username,
-      },
-    });
-
-    if (user) {
+/**
+ *
+ *
+ * Update
+ *
+ * @Update
+ *
+ *   Update user
+ *
+ *
+ **/
+export const updateUser = async (
+  personalInfo?: PersonalInfoType,
+  account?: UserType,
+  social?: SocialType
+) => {
+  if (personalInfo) {
+    try {
+      const response = await prisma.user_personal_info.update({
+        where: {
+          user_id: personalInfo.user_id,
+        },
+        data: personalInfo,
+      });
       await prisma.$disconnect();
-      return user;
-    } else {
+      return response;
+    } catch (err) {
       await prisma.$disconnect();
+      //console.log(err);
       return null;
     }
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
+  } else if (account) {
+    try {
+      const response = await prisma.user.update({
+        where: {
+          id: account.id,
+        },
+        data: account,
+      });
+      await prisma.$disconnect();
+      return response;
+    } catch (err) {
+      await prisma.$disconnect();
+      //console.log(err);
+      return null;
+    }
+  } else if (social) {
+    try {
+      const response = await prisma.user_socials.update({
+        where: {
+          user_id: social.user_id,
+        },
+        data: social,
+      });
+      await prisma.$disconnect();
+      return response;
+    } catch (err) {
+      await prisma.$disconnect();
+      //console.log(err);
+      return null;
+    }
   }
 };
 
-export const findUserById = async (id: string) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      id: id,
-    },
-  });
-  await prisma.$disconnect();
-  if (user) {
-    return user;
-  } else {
-    return null;
-  }
-};
-
-export const registerUserDb = async (data: any) => {
-  try {
-    const response = await prisma.user.create({
-      data: data,
-    });
-    //console.log(data);
-    await prisma.$disconnect();
-    return response;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return null;
-  }
-};
-
-export const deleteUserById = async (id: string) => {
-  // await prisma.qualification.deleteMany({
-  //   where: {
-  //     userId: id,
-  //   },
-  // });
-  // await prisma.experience.deleteMany({
-  //   where: {
-  //     userId: id,
-  //   },
-  // });
-  // await prisma.invites.deleteMany({
-  //   where: {
-  //     userId: id,
-  //   },
-  // });
-
-  try {
-    await prisma.user.delete({
-      where: {
-        id: id,
-      },
-    });
-    await prisma.$disconnect();
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return "Something went wrong! ";
-  }
-};
-
-export const deleteInviteById = async (id: string) => {
-  try {
-    await prisma.invites.deleteMany({
-      where: {
-        id: id,
-      },
-    });
-    await prisma.$disconnect();
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return "Something went wrong! ";
-  }
-};
-
-export const updateUser = async (data: any) => {
+/**
+ *
+ *
+ *
+ * Update User last login date
+ *
+ *
+ */
+export const updateUserDbOnLogin = async (data: UserType) => {
   const { id } = data;
-  try {
-    const response = await prisma.user.update({
-      where: {
-        id: id,
-      },
-      data: data,
-    });
-    await prisma.$disconnect();
-    return response;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return null;
-  }
-};
-
-export const updateInvite = async (data: any) => {
-  const { id } = data;
-  try {
-    const response = await prisma.invites.update({
-      where: {
-        id: id,
-      },
-      data: data,
-    });
-    await prisma.$disconnect();
-    return response;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return null;
-  }
-};
-
-export const updateLogin = async (id: string, data: any) => {
   try {
     await prisma.user.update({
       where: {
@@ -196,31 +455,53 @@ export const updateLogin = async (id: string, data: any) => {
   }
 };
 
-export const getQualificationById = async (id: any) => {
+/**
+ *
+ * @deleteUser
+ *
+ * Delete user from the database
+ *
+ */
+export const deleteUserById = async (id: string) => {
   try {
-    const result = await prisma.qualification.findMany({
+    await prisma.user.delete({
       where: {
-        userId: {
-          equals: id,
-        },
+        id: id,
       },
     });
     await prisma.$disconnect();
-    return result;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
-    return null;
+    console.log(err);
+    return "Something went wrong! ";
   }
 };
 
-export const saveQualification = async (data: any) => {
+/**
+ *
+ *
+ * @deleteInviteById
+ *
+ *
+ */
+
+/**
+ *
+ *
+ * @createInvite
+ *
+ *
+ * Create invite for user
+ *
+ */
+
+export const createInvite = async (data: InviteType) => {
   try {
-    const result = await prisma.qualification.create({
+    const response = await prisma.user_invites.create({
       data: data,
     });
     await prisma.$disconnect();
-    return result;
+    return response;
   } catch (err) {
     await prisma.$disconnect();
     //console.log(err);
@@ -228,10 +509,41 @@ export const saveQualification = async (data: any) => {
   }
 };
 
-export const updateQualification = async (data: any) => {
+/**
+ *
+ *
+ * @deleteInviteById
+ *
+ *
+ */
+
+export const deleteInvite = async (id: string) => {
+  try {
+    await prisma.user_invites.deleteMany({
+      where: {
+        id: id,
+      },
+    });
+    await prisma.$disconnect();
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return "Something went wrong! ";
+  }
+};
+
+/**
+ *
+ *
+ * @updatenviteById
+ *
+ *
+ */
+
+export const updateInvite = async (data: UpdateInviteType) => {
   const { id } = data;
   try {
-    const response = await prisma.qualification.update({
+    const response = await prisma.user_invites.update({
       where: {
         id: id,
       },
@@ -246,140 +558,17 @@ export const updateQualification = async (data: any) => {
   }
 };
 
-export const deleteQualificationById = async (id: string) => {
-  try {
-    const result = await prisma.qualification.delete({
-      where: {
-        id: id,
-      },
-    });
-    await prisma.$disconnect();
-    return result;
-  } catch (err) {
-    await prisma.$disconnect();
-    return null;
-  }
-};
-
-export const deleteExperienceById = async (id: string) => {
-  try {
-    const result = await prisma.experience.delete({
-      where: {
-        id: id,
-      },
-    });
-    await prisma.$disconnect();
-    return result;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return null;
-  }
-};
-
-export const getAllQualifications = async () => {
-  try {
-    const data = await prisma.qualification.findMany();
-    await prisma.$disconnect();
-    return data;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return null;
-  }
-};
-
-export const saveExperience = async (data: any) => {
-  try {
-    const response = await prisma.experience.create({
-      data: data,
-    });
-    await prisma.$disconnect();
-    return response;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return null;
-  }
-};
-
-export const updateExperience = async (data: any) => {
-  const { id } = data;
-  try {
-    const response = await prisma.experience.update({
-      where: {
-        id: id,
-      },
-      data: data,
-    });
-    await prisma.$disconnect();
-    return response;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return null;
-  }
-};
-
-export const getExperienceById = async (id: any) => {
-  try {
-    const result = await prisma.experience.findMany({
-      where: {
-        userId: {
-          equals: id,
-        },
-      },
-    });
-    await prisma.$disconnect();
-    return result;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return null;
-  }
-};
-
-export const getAllExperience = async () => {
-  try {
-    const data = await prisma.experience.findMany();
-    await prisma.$disconnect();
-    return data;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return null;
-  }
-};
-
-export const createInvitation = async (data: any) => {
-  try {
-    const response = await prisma.invites.create({
-      data: data,
-    });
-    await prisma.$disconnect();
-    return response;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return null;
-  }
-};
-
-export const getAllInvites = async () => {
-  try {
-    const allInvites = await prisma.invites.findMany();
-    await prisma.$disconnect();
-    return allInvites;
-  } catch (err) {
-    await prisma.$disconnect();
-    //console.log(err);
-    return "Something went wrong!";
-  }
-};
+/**
+ *
+ *
+ * Because i dont want to use uuid or cuid for invitation id as i will try to implement sending a seriaal number to user it is usefull to have a serial number for invitations! It's temporary and will be removed in the future!
+ *@returns serial number!
+ *
+ */
 
 export const inviteSerial = async () => {
   try {
-    const response = await prisma.inviteId.findUnique({
+    const response = await prisma.invite_id.findUnique({
       where: {
         name: "invite",
       },
@@ -393,9 +582,18 @@ export const inviteSerial = async () => {
   }
 };
 
+/**
+ *
+ * @param data {id: string}
+ *
+ * After sending the serial number to the user we need to update the serial number in the database to prevent sending the same serial number to another user!
+ *
+ * @returns
+ */
+
 export const updateSerial = async (data: any) => {
   try {
-    const response = await prisma.inviteId.update({
+    const response = await prisma.invite_id.update({
       where: {
         name: "invite",
       },
@@ -410,11 +608,21 @@ export const updateSerial = async (data: any) => {
   }
 };
 
-export const getInvitesByUserId = async (id: any) => {
+/**
+ *
+ *
+ * @param id: string
+ *
+ *
+ * Get invitation by user_id
+ * @deprecated use getUserFull instead
+ *
+ */
+export const getInvitesByuser_id = async (id: string) => {
   try {
-    const result = await prisma.invites.findMany({
+    const result = await prisma.user_invites.findMany({
       where: {
-        userId: {
+        user_id: {
           equals: id,
         },
       },
@@ -428,9 +636,144 @@ export const getInvitesByUserId = async (id: any) => {
   }
 };
 
-export const getInvitesById = async (id: any) => {
+/**
+ *
+ *
+ * @param id: string
+ *
+ *
+ * Get invitation by id
+ *
+ */
+
+export const getInvitesById = async (id: string) => {
   try {
-    const result = await prisma.invites.findUnique({
+    const result = await prisma.user_invites.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    await prisma.$disconnect();
+    return result;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return null;
+  }
+};
+//
+//
+//Qualifications
+/**
+ *
+ *
+ * @param id: string
+ *
+ *
+ * Get qualifications by id string
+ *
+ */
+
+export const selectQualifications = async (id: string) => {
+  try {
+    const result = await prisma.user_qualifications.findMany({
+      where: {
+        user_id: {
+          equals: id,
+        },
+      },
+    });
+    await prisma.$disconnect();
+    return result;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return null;
+  }
+};
+
+/**
+ *
+ * @param data
+ *
+ * @returns
+ *
+ */
+
+export const saveQualification = async (data: CreateEducationType) => {
+  try {
+    const result = await prisma.user_qualifications.create({
+      data: data,
+    });
+    await prisma.$disconnect();
+    return result;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
+/**
+ *
+ * @param data
+ *
+ * @returns
+ *
+ */
+
+export const updateQualification = async (data: EditEducationType) => {
+  const { id } = data;
+  try {
+    const response = await prisma.user_qualifications.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    });
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return null;
+  }
+};
+
+/**
+ *
+ * @param id
+ *
+ * @returns
+ *
+ */
+
+export const deleteQualificationById = async (id: string) => {
+  try {
+    const result = await prisma.user_qualifications.delete({
+      where: {
+        id: id,
+      },
+    });
+    await prisma.$disconnect();
+    return result;
+  } catch (err) {
+    await prisma.$disconnect();
+    return null;
+  }
+};
+
+/**
+ *
+ * @param id
+ *
+ * @returns
+ *
+ */
+
+export const deleteExperienceById = async (id: string) => {
+  try {
+    const result = await prisma.user_experiences.delete({
       where: {
         id: id,
       },
@@ -444,9 +787,184 @@ export const getInvitesById = async (id: any) => {
   }
 };
 
-export interface User {
-  id: string;
-  username: string;
-  password: string;
-  lastLogin?: Date | null;
-}
+/**
+ *
+ *
+ * @returns
+ *
+ *
+ */
+
+export const getAllQualifications = async () => {
+  try {
+    const data = await prisma.user_qualifications.findMany();
+    await prisma.$disconnect();
+    return data;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return null;
+  }
+};
+//--------------------------------
+//Experiences
+/**
+ *
+ * @param data
+ *
+ * @returns
+ *
+ */
+
+export const saveExperience = async (data: any) => {
+  try {
+    const response = await prisma.user_experiences.create({
+      data: data,
+    });
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return null;
+  }
+};
+
+/**
+ *
+ * @param data
+ *
+ *
+ * @returns
+ */
+
+export const updateExperience = async (data: any) => {
+  const { id } = data;
+  try {
+    const response = await prisma.user_experiences.update({
+      where: {
+        id: id,
+      },
+      data: data,
+    });
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return null;
+  }
+};
+
+/**
+ *
+ * @param id
+ *
+ * @returns
+ *
+ */
+
+export const getExperienceById = async (id: any) => {
+  try {
+    const result = await prisma.user_experiences.findMany({
+      where: {
+        user_id: {
+          equals: id,
+        },
+      },
+    });
+    await prisma.$disconnect();
+    return result;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return null;
+  }
+};
+
+/**
+ *
+ * @returns
+ *
+ *
+ */
+
+export const getAllExperience = async () => {
+  try {
+    const data = await prisma.user_experiences.findMany();
+    await prisma.$disconnect();
+    return data;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return null;
+  }
+};
+
+//  CV invitation
+/**
+ *
+ * @param data
+ *
+ * @returns
+ *
+ */
+
+export const createInvitation = async (data: any) => {
+  try {
+    const response = await prisma.user_invites.create({
+      data: data,
+    });
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
+/**
+ *
+ * @param data
+ *
+ * @returns
+ *
+ */
+
+export const getAllInvites = async () => {
+  try {
+    const allInvites = await prisma.user_invites.findMany();
+    await prisma.$disconnect();
+    return allInvites;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return "Something went wrong!";
+  }
+};
+
+export const updateUserLast = async (id: string) => {
+  try {
+    await prisma.user_personal_info.create({
+      data: {
+        user_id: id,
+      },
+    });
+    await prisma.user_settings.create({
+      data: {
+        user_id: id,
+      },
+    });
+    await prisma.user_socials.create({
+      data: {
+        user_id: id,
+      },
+    });
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+  }
+
+  await prisma.$disconnect();
+};

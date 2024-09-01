@@ -18,7 +18,9 @@ import "../ui/css/loadingSpinner.css";
 import { getUserLocation } from "../lib/client-actions";
 
 export default function LoginForm() {
-  const location = getUserLocation();
+  const location = Intl.DateTimeFormat()
+    .resolvedOptions()
+    .timeZone.split("/")[1];
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");

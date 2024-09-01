@@ -3,7 +3,7 @@
 import React from "react";
 import Contact from "../Contact/Contact";
 
-export default async function Footer() {
+export default function Footer() {
   return (
     <footer className="w-full mt-10  py-2 bg-stone-100 text-black dark:bg-emerald-900 dark:text-white">
       <div className="container mx-auto text-center">

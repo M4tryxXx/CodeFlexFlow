@@ -1,10 +1,10 @@
-import { getUsersData } from "@/app/lib/actions";
+import { selectUserFull } from "@/app/lib/myDb";
 import UsersTable from "@/app/ui/admin/UsersTable";
 import { Suspense } from "react";
 import LoadingUser from "@/app/ui/skeletons";
 
 export default async function Users() {
-  const response = await getUsersData();
+  const response = await selectUserFull();
 
   return (
     <>

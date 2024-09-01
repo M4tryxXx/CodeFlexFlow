@@ -1,6 +1,6 @@
 import EditProfileForm from "@/app/ui/profile/MyCv/EditProfileForm";
 import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
-import { findUserById } from "@/app/lib/myDb";
+import { selectUserFull } from "@/app/lib/myDb";
 import EditUserFormNew from "@/app/ui/admin/new-edit-user-form";
 
 export default async function EditProfilePage({
@@ -9,7 +9,8 @@ export default async function EditProfilePage({
   params: { profileId: string };
 }) {
   const { profileId } = params;
-  const user = await findUserById(profileId);
+
+  const user = await selectUserFull(profileId);
 
   return (
     <main>

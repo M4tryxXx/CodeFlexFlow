@@ -1,6 +1,6 @@
 import SideNavAdmin from "@/app/ui/admin/sidenavAdmin";
 import { myStyles } from "@/app/styles";
-import { userId } from "@/app/lib/actions";
+import { getLoggedUser } from "@/app/lib/actions";
 import Link from "next/link";
 import { redirectUser } from "@/app/lib/actions";
 import Footer from "@/app/ui/Footer/Footer";
@@ -10,7 +10,7 @@ export default async function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const user = (await userId()) || "";
+  const user = (await getLoggedUser()) || "";
 
   const actionUser = async () => {
     if (!user || user.role !== "admin") {

@@ -16,9 +16,9 @@ import "../css/loadingSpinner.css";
 
 export default function AddExperienceForm({ id }: { id: string }) {
   const [company, setCompany] = useState("");
-  const [title, setTitle] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [position, setPosition] = useState("");
+  const [start_date, setStart_date] = useState("");
+  const [end_date, setEnd_date] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -27,12 +27,12 @@ export default function AddExperienceForm({ id }: { id: string }) {
     e.preventDefault();
     await addDataUserSide({
       company: company,
-      title: title,
-      from: from,
-      to: to,
+      position: position,
+      start_date: new Date(start_date),
+      end_date: end_date ? new Date(end_date) : null,
       description: description,
-      stillWorking: status,
-      userId: id,
+      working_now: status,
+      user_id: id,
     });
     setIsLoading(false);
   };
@@ -68,16 +68,16 @@ export default function AddExperienceForm({ id }: { id: string }) {
 
           <div className="mb-4">
             <label
-              htmlFor="title"
+              htmlFor="position"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
               Postul Ocupat
             </label>
             <div className="relative">
               <input
-                id="title"
-                name="title"
-                onChange={(e) => setTitle(e.target.value)}
+                id="position"
+                name="position"
+                onChange={(e) => setPosition(e.target.value)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 placeholder="Postul Ocupat..."
               />
@@ -96,7 +96,7 @@ export default function AddExperienceForm({ id }: { id: string }) {
                 <input
                   id="from"
                   name="from"
-                  onChange={(e) => setFrom(e.target.value)}
+                  onChange={(e) => setStart_date(e.target.value)}
                   type="date"
                   min={new Date("1975-01-01").toISOString().split("T")[0]}
                   max={new Date().toISOString().split("T")[0]}
@@ -118,7 +118,7 @@ export default function AddExperienceForm({ id }: { id: string }) {
                 <input
                   id="to"
                   name="to"
-                  onChange={(e) => setTo(e.target.value)}
+                  onChange={(e) => setEnd_date(e.target.value)}
                   type="date"
                   min={new Date("1975-01-01").toISOString().split("T")[0]}
                   max={new Date().toISOString().split("T")[0]}
@@ -171,8 +171,8 @@ export default function AddExperienceForm({ id }: { id: string }) {
                   </label>
                 </div>
                 <input
-                  id="userId"
-                  name="userId"
+                  id="user_id"
+                  name="user_id"
                   type="text"
                   value={id}
                   readOnly

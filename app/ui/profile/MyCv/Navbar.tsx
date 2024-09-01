@@ -7,9 +7,9 @@ import clsx from "clsx";
 import { poppins } from "../../fonts";
 
 const Navbar = ({ user, userAbilities }: any) => {
-  console.log(userAbilities);
+  //console.log(userAbilities);
   let abilities: any;
-  if (userAbilities) {
+  if (userAbilities.length > 0) {
     abilities = { id: "abilities", title: "Abilities" };
   }
 

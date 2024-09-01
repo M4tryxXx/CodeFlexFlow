@@ -5,6 +5,7 @@ import { getLoggedUser } from "@/app/lib/actions";
 
 export default async function AddQualification() {
   const session_user_id = await getLoggedUser();
+  //(session_user_id);
   return (
     <main>
       <Breadcrumbs

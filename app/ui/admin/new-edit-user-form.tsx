@@ -18,10 +18,10 @@ export default function EditUserFormNew({ user }: any) {
     username,
     password,
     role,
-    resetToken,
-    resetTokenExpiry,
+    reset_token,
+    reset_tokenExpiry,
     verified,
-    verifiedAt,
+    verified_at,
     verifiyToken,
     verifiyTokenExpiry,
     mobile,
@@ -48,11 +48,11 @@ export default function EditUserFormNew({ user }: any) {
   const [usernameState, setUsernameState] = useState(username);
   const [passwordState, setPasswordState] = useState(password);
   const [roleState, setRoleState] = useState(role);
-  const [resetTokenState, setResetTokenState] = useState(resetToken);
-  const [resetTokenExpiryState, setResetTokenExpiryState] =
-    useState(resetTokenExpiry);
+  const [reset_tokenState, setreset_tokenState] = useState(reset_token);
+  const [reset_tokenExpiryState, setreset_tokenExpiryState] =
+    useState(reset_tokenExpiry);
   const [verifiedState, setVerifiedState] = useState(verified);
-  const [verifiedAtState, setVerifiedAtState] = useState(verifiedAt);
+  const [verified_atState, setverified_atState] = useState(verified_at);
   const [verifiyTokenState, setVerifiyTokenState] = useState(verifiyToken);
   const [verifiyTokenExpiryState, setVerifiyTokenExpiryState] =
     useState(verifiyTokenExpiry);
@@ -82,10 +82,10 @@ export default function EditUserFormNew({ user }: any) {
       username: usernameState,
       password: passwordState,
       role: roleState,
-      resetToken: resetTokenState,
-      resetTokenExpiry: resetTokenExpiryState,
+      reset_token: reset_tokenState,
+      reset_tokenExpiry: reset_tokenExpiryState,
       verified: verifiedState,
-      verifiedAt: verifiedAtState,
+      verified_at: verified_atState,
       verifiyToken: verifiyTokenState,
       verifiyTokenExpiry: verifiyTokenExpiryState,
       mobile: mobileState,
@@ -230,8 +230,8 @@ export default function EditUserFormNew({ user }: any) {
             <div className="relative">
               <input
                 type="text"
-                value={resetTokenState}
-                onChange={(e) => setResetTokenState(e.target.value)}
+                value={reset_tokenState}
+                onChange={(e) => setreset_tokenState(e.target.value)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 placeholder="Reset Token"
               />
@@ -247,8 +247,8 @@ export default function EditUserFormNew({ user }: any) {
             <div className="relative">
               <input
                 type="datetime-local"
-                value={resetTokenExpiryState}
-                onChange={(e) => setResetTokenExpiryState(e.target.value)}
+                value={reset_tokenExpiryState}
+                onChange={(e) => setreset_tokenExpiryState(e.target.value)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 placeholder="Reset Token Expiry"
               />
@@ -281,8 +281,8 @@ export default function EditUserFormNew({ user }: any) {
               Verified
               <input
                 type="number"
-                value={verifiedAtState}
-                onChange={(e) => setVerifiedAtState(e.target.value)}
+                value={verified_atState}
+                onChange={(e) => setverified_atState(e.target.value)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 placeholder="Verified At"
               />

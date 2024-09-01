@@ -16,11 +16,12 @@ import { addDataUserSide } from "@/app/lib/client-actions";
 import "../css/loadingSpinner.css";
 
 export default function QualificationForm({ id }: { id: string }) {
-  const [name, setName] = useState("");
+  const [school, setSchool] = useState("");
   const [city, setCity] = useState("");
-  const [qualification, setQualification] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [degree, setDegree] = useState("");
+  const [field, setField] = useState("");
+  const [start_date, setStart_date] = useState("");
+  const [end_date, setEnd_date] = useState("");
   const [description, setDescription] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const handleSubmit = async (e: any) => {
@@ -28,13 +29,14 @@ export default function QualificationForm({ id }: { id: string }) {
     setIsLoading(true);
     try {
       await addDataUserSide({
-        name: name,
+        school: school,
         city: city,
-        qualification: qualification,
-        from: from,
-        to: to,
+        degree: degree,
+        field: field,
+        start_date: new Date(start_date),
+        end_date: end_date ? new Date(end_date) : null,
         description: description,
-        userId: id,
+        user_id: id,
       });
       setIsLoading(false);
     } catch (err: any) {
@@ -60,13 +62,13 @@ export default function QualificationForm({ id }: { id: string }) {
               htmlFor="name"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              Numele institutiei
+              School
             </label>
             <div className="relative">
               <input
                 id="name"
                 name="name"
-                onChange={(e) => setName(e.target.value)}
+                onChange={(e) => setSchool(e.target.value)}
                 required
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
                 placeholder="Scoala..."
@@ -79,7 +81,7 @@ export default function QualificationForm({ id }: { id: string }) {
               htmlFor="city"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              Localitatea
+              City
             </label>
             <div className="relative">
               <input
@@ -88,7 +90,7 @@ export default function QualificationForm({ id }: { id: string }) {
                 onChange={(e) => setCity(e.target.value)}
                 required
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white "
-                placeholder="Localitatea..."
+                placeholder="City..."
               />
               <MapIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -96,19 +98,38 @@ export default function QualificationForm({ id }: { id: string }) {
 
           <div className="mb-4">
             <label
-              htmlFor="qualification"
+              htmlFor="degree"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              Profilul
+              Degree
             </label>
             <div className="relative">
               <input
-                id="qualification"
-                onChange={(e) => setQualification(e.target.value)}
+                id="degree"
+                onChange={(e) => setDegree(e.target.value)}
                 required
-                name="qualification"
+                name="degree"
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                placeholder="Specializarea..."
+                placeholder="Degree..."
+              />
+              <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
+            </div>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="field"
+              className="mb-2 block text-sm font-medium dark:text-white"
+            >
+              Field
+            </label>
+            <div className="relative">
+              <input
+                id="field"
+                onChange={(e) => setField(e.target.value)}
+                required
+                name="field"
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                placeholder="Field..."
               />
               <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -119,14 +140,14 @@ export default function QualificationForm({ id }: { id: string }) {
               htmlFor="from"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              De la
+              Started date
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
                 <input
                   id="from"
                   name="from"
-                  onChange={(e) => setFrom(e.target.value)}
+                  onChange={(e) => setStart_date(e.target.value)}
                   min={new Date("1975-01-01").toISOString().split("T")[0]}
                   max={new Date().toISOString().split("T")[0]}
                   required
@@ -142,14 +163,14 @@ export default function QualificationForm({ id }: { id: string }) {
               htmlFor="to"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              Pana la
+              Ended date
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
                 <input
                   id="to"
                   name="to"
-                  onChange={(e) => setTo(e.target.value)}
+                  onChange={(e) => setEnd_date(e.target.value)}
                   type="date"
                   min={new Date("1975-01-01").toISOString().split("T")[0]}
                   max={new Date().toISOString().split("T")[0]}
@@ -165,7 +186,7 @@ export default function QualificationForm({ id }: { id: string }) {
               htmlFor="description"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              Detalii
+              More details
             </label>
             <div className="relative">
               <textarea
@@ -173,13 +194,13 @@ export default function QualificationForm({ id }: { id: string }) {
                 name="description"
                 onChange={(e) => setDescription(e.target.value)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                placeholder="Descriere activitati si aptitudini..."
+                placeholder="More details..."
               />
               <DocumentCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
           </div>
         </div>
-        <input type="text" name="userId" value={id} readOnly hidden />
+        <input type="text" name="user_id" value={id} readOnly hidden />
         <div className="mt-6 flex justify-end gap-4">
           <Link
             href="/home/dashboard/qualification"
@@ -187,7 +208,7 @@ export default function QualificationForm({ id }: { id: string }) {
           >
             Cancel
           </Link>
-          <Button type="submit">Salveaza</Button>
+          <Button type="submit">Save</Button>
         </div>
       </form>
       {isLoading && (

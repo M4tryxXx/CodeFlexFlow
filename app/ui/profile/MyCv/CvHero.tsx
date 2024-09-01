@@ -24,14 +24,16 @@ const Hero = ({ user }: any) => {
             className={`font-black text-white lg:text-[80px] sm:text-[60px] xs:text-[50px] text-[40px] lg:leading-[98px] mt-2`}
           >
             Hi, I'm{" "}
-            <span className="text-[#915eff]">{user.user.firstName}</span>
+            <span className="text-[#915eff]">
+              {user.personal_info.first_name}
+            </span>
           </h1>
           <p
             className={`text-[#dfd9ff] font-medium lg:text-[30px] sm:text-[26px] xs:text-[20px] text-[16px] lg:leading-[40px] mt-2 text-white-100`}
           >
             I am a{" "}
-            {user.qualifications[0]?.qualification
-              ? user.qualifications[0]?.qualification
+            {user.qualifications[0]?.degree
+              ? user.qualifications[0]?.degree
               : "Missing Information"}
           </p>
           <About user={user} />

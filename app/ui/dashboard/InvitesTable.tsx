@@ -52,12 +52,12 @@ export default function InvitesTable(invitations: any) {
   if (invites && invites.length > 0) {
     invites.map((invite: any) => {
       // Format the date
-      const formattedDate = formatDateToLocal(invite.createdAt, "en-GB");
-      const formattedDateOpened = formatDateToLocal(invite.updatedAt, "en-GB");
+      const formattedDate = formatDateToLocal(invite.created_at, "en-GB");
+      const formattedDateOpened = formatDateToLocal(invite.opened_at, "en-GB");
       let expires: any;
-      let expiresFormatted = formatDateMed(invite.expiresAt);
+      let expiresFormatted = formatDateMed(invite.expires_at);
       let remainingTime = Math.floor(
-        (Date.parse(invite.expiresAt) - Date.now()) / 1000 / 60 / 60
+        (Date.parse(invite.expires_at) - Date.now()) / 1000 / 60 / 60
       );
 
       // Convert remaining time to days and hours
@@ -69,7 +69,7 @@ export default function InvitesTable(invitations: any) {
 
       // Check if the invite has expired
       if (invite) {
-        expires = new Date(invite?.expiresAt);
+        expires = new Date(invite?.expires_at);
       }
 
       // Create the invite info div and the table row for each invite in the invites array if the invite has expired
@@ -81,9 +81,9 @@ export default function InvitesTable(invitations: any) {
           className="border border-solid border-stone-700 p-3 rounded-md absolute  z-50 invite-options bg-white text-black dark:bg-gray-800 dark:text-white hidden drop-shadow-xl"
         >
           {role === "admin" ? <p>Invite sent by: {invite.userUserName}</p> : ""}
-          <h1 className="text-lg font-semibold">{invite.destinationName}</h1>
+          <h1 className="text-lg font-semibold">{invite.destination_name}</h1>
           <hr className="w-full border-[.3mm] border-gray-200 dark:border-emerald-800 rounded-md my-1" />
-          <p>At: {invite.destinationEmail}</p>
+          <p>At: {invite.destination_email}</p>
           <p>Sent: {formattedDate}</p>
           {invite.opened ? (
             <p> Opened: {formattedDateOpened}</p>
@@ -113,13 +113,13 @@ export default function InvitesTable(invitations: any) {
       if (Date.now() > Date.parse(expires)) {
         dataArr.push(
           <tr
-            key={invite.id + invite.destinationName}
+            key={invite.id + invite.destination_name}
             className=" hover:bg-rose-200 bg-rose-100 dark:bg-rose-700 dark:bg-opacity-35 dark:hover:bg-rose-700 dark:hover:bg-opacity-25"
           >
             <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 decoration-slice decoration-black decoration-2">
               <p>
-                <span className="line-through">{invite.destinationName}</span> -
-                Expired
+                <span className="line-through">{invite.destination_name}</span>{" "}
+                - Expired
               </p>
             </td>
 
@@ -198,11 +198,11 @@ export default function InvitesTable(invitations: any) {
       } else {
         dataArr.push(
           <tr
-            key={invite.id + invite.destinationName}
+            key={invite.id + invite.destination_name}
             className="odd:bg-white even:bg-gray-100 hover:bg-gray-100 dark:odd:bg-transparent dark:even:bg-transparent dark:hover:bg-stone-700 dark:hover:bg-opacity-25"
           >
             <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200">
-              {invite.destinationName}
+              {invite.destination_name}
             </td>
 
             <td className="px-2 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 w-10">

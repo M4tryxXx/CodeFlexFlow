@@ -10,8 +10,8 @@ import { getUserLocation } from "../lib/client-actions";
 import { useState } from "react";
 import "../ui/css/loadingSpinner.css";
 
-export default function PasswordResetForm({ userId }: any) {
-  const userLocation = "Bucharest"; //getUserLocation();
+export default function PasswordResetForm({ user_id }: any) {
+  const userLocation = getUserLocation();
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -22,7 +22,7 @@ export default function PasswordResetForm({ userId }: any) {
     setIsLoading(true);
     e.preventDefault();
     const response = await updatePassword({
-      id: userId,
+      id: user_id,
       password: password,
       confirmPassword: confirmPassword,
     });

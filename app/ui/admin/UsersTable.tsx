@@ -11,24 +11,19 @@ import toast from "react-hot-toast";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { formatDateToLocal } from "@/app/lib/utils";
 
-export default function UsersTable(usersData: any) {
+export default function UsersTable({ usersData }: any) {
   const [loading, setLoading] = useState(false);
   let data: any;
   let dataArr: any = [];
-  const response = usersData.usersData;
+  const response = usersData;
 
   if (response && response.length > 0 && typeof response !== "string") {
     data = response.map((user: any) => {
-      const formattedDate = formatDateToLocal(user.createdAt);
-
       dataArr.push(
         <tr
           key={user.id}
           className="odd:bg-white even:bg-gray-100 hover:bg-gray-100 dark:odd:bg-transparent dark:even:bg-transparent dark:hover:bg-stone-700 dark:hover:bg-opacity-25"
         >
-          <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200 hidden md:block ">
-            {formattedDate}
-          </td>
           <td className="px-6 py-4 whitespace-nowrap text-md font-medium text-gray-800 dark:text-neutral-200">
             {user.username}
           </td>
@@ -95,12 +90,6 @@ export default function UsersTable(usersData: any) {
               <table className="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
                 <thead>
                   <tr>
-                    <th
-                      scope="col"
-                      className="px-6 py-3 text-start text-xs font-medium text-gray-600 uppercase dark:text-neutral-300 hidden md:block"
-                    >
-                      Created
-                    </th>
                     <th
                       scope="col"
                       className="px-6 py-3 text-start text-xs font-medium text-gray-600 uppercase dark:text-neutral-300"

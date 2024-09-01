@@ -9,25 +9,46 @@ import { formatDateToLocal } from "@/app/lib/utils";
 export default function ProfileTable({ user }: any) {
   let dataArr = [];
   let a = 0;
+  let unorderedList: React.ReactNode[] = [];
+
+  for (let [key, value] of Object.entries(user.personal_info)) {
+    if (key === "created_at" || key === "updated_at" || key === "lastLogin") {
+      value = formatDateToLocal(value as string, "en-GB");
+    }
+    unorderedList.push(
+      <div key={key} className="flex flex-row justify-between items-center">
+        <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
+          {key}
+        </span>
+        <span className="text-lg font-semibold text-gray-800 dark:text-gray-200 opacity-75">
+          {`${value}`}
+        </span>
+      </div>
+    );
+  }
 
   if (user) {
+    let tempList = [];
+
     for (let [key, value] of Object.entries(user)) {
-      const date = new Date(user.createdAt);
+      const date = new Date(user.created_at);
       const formattedDate = date.toLocaleString();
       if (
         key === "password" ||
         key === "id" ||
-        key === "resetToken" ||
-        key === "verifyToken" ||
-        key === "resetTokenExpiry" ||
-        key === "verifyTokenExpiry"
+        key === "reset_token" ||
+        key === "verify_token" ||
+        key === "reset_tokenExpiry" ||
+        key === "verify_token_expiry"
       ) {
         continue;
       }
-      if (key === "createdAt" || key === "updatedAt" || key === "lastLogin") {
+      if (key === "created_at" || key === "updated_at" || key === "lastLogin") {
         value = formatDateToLocal(value as string, "en-GB");
       }
 
+      if (key === "personal_info") {
+      }
       dataArr.push(
         <tr
           key={user.id + a}

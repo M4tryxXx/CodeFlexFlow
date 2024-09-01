@@ -32,12 +32,12 @@ export default function Motion({ title, subTitle, duration, delay }: any) {
       style={{ y: -50, opacity: 0 }}
     >
       <p
-        className={`sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider text-center`}
+        className={`text-white sm:text-[18px] text-[14px] text-secondary uppercase tracking-wider text-center`}
       >
         {subTitle}
       </p>
       <h2
-        className={`dark:text-white text-black font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px] text-center`}
+        className={`text-white  font-black md:text-[60px] sm:text-[50px] xs:text-[40px] text-[30px] text-center`}
       >
         {title}
       </h2>

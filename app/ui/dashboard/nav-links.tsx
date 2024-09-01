@@ -23,12 +23,12 @@ const links = [
   { name: "Dashboard", href: "/home/dashboard", icon: ComputerDesktopIcon },
   {
     name: "Qualifications",
-    href: "/home/dashboard/qualification",
+    href: "/home/dashboard/qualifications",
     icon: DocumentDuplicateIcon,
   },
   {
     name: "Experience",
-    href: "/home/dashboard/experience",
+    href: "/home/dashboard/experiences",
     icon: UserGroupIcon,
   },
   {

@@ -17,22 +17,23 @@ import { editQualification } from "@/app/lib/actions";
 export default function EditExperienceForm({ id }: any) {
   const { exprienceId } = id;
   const [company, setCompany] = useState("");
-  const [title, setTitle] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
+  const [position, setPosition] = useState("");
+  const [start_date, setStart_date] = useState("");
+  const [end_date, setEnd_date] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState("");
+  const [working_now, setWorking_now] = useState("");
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     await editDataUserSide({
       editExperience: "true",
-      title: title,
+      position: position,
       company: company,
-      from: from,
-      to: to,
+      start_date: start_date,
+      end_date: end_date,
       description: description,
-      stillWorking: status,
+      working_now: working_now,
+      updated_at: new Date(Date.now()),
       id: id,
     });
   };
@@ -56,7 +57,7 @@ export default function EditExperienceForm({ id }: any) {
               htmlFor="company"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              Numele Companiei
+              Company
             </label>
             <div className="relative">
               <input
@@ -72,35 +73,35 @@ export default function EditExperienceForm({ id }: any) {
 
           <div className="mb-4">
             <label
-              htmlFor="title"
+              htmlFor="position"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
               Postul Ocupat
             </label>
             <div className="relative">
               <input
-                id="title"
-                name="title"
-                onChange={(e) => setTitle(e.target.value)}
+                id="position"
+                name="position"
+                onChange={(e) => setPosition(e.target.value)}
                 className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                placeholder="Postul Ocupat..."
+                placeholder="Position..."
               />
               <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
           </div>
           <div className="mb-4">
             <label
-              htmlFor="from"
+              htmlFor="start_date"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              De la
+              Start date
             </label>
             <div className="mb-2 block text-sm font-medium dark:text-white">
               <div className="relative">
                 <input
-                  id="from"
-                  name="from"
-                  onChange={(e) => setFrom(e.target.value)}
+                  id="start_date"
+                  name="start_date"
+                  onChange={(e) => setStart_date(e.target.value)}
                   type="date"
                   min={new Date("1975-01-01").toISOString().split("T")[0]}
                   max={new Date().toISOString().split("T")[0]}
@@ -112,17 +113,17 @@ export default function EditExperienceForm({ id }: any) {
           </div>
           <div className="mb-4">
             <label
-              htmlFor="to"
+              htmlFor="end_date"
               className="mb-2 block text-sm font-medium dark:text-white"
             >
-              Pana la
+              End date
             </label>
             <div className="relative mt-2 rounded-md">
               <div className="relative">
                 <input
-                  id="to"
-                  name="to"
-                  onChange={(e) => setTo(e.target.value)}
+                  id="end_date"
+                  name="end_date"
+                  onChange={(e) => setEnd_date(e.target.value)}
                   type="date"
                   min={new Date("1975-01-01").toISOString().split("T")[0]}
                   max={new Date().toISOString().split("T")[0]}
@@ -155,7 +156,7 @@ export default function EditExperienceForm({ id }: any) {
           {/* Invoice Status */}
           <fieldset>
             <legend className="mb-2 block text-sm font-medium">
-              Inca mai lucrezi aici?
+              Still working here?
             </legend>
             <div className="rounded-md border border-gray-200 bg-white px-[14px] py-3 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white">
               <div className="flex gap-4">
@@ -164,7 +165,7 @@ export default function EditExperienceForm({ id }: any) {
                     id="pending"
                     name="status"
                     type="radio"
-                    onChange={(e) => setStatus(e.target.value)}
+                    onChange={(e) => setWorking_now(e.target.value)}
                     value="true"
                     className="h-4 w-4 cursor-pointer border-emerald-100 dark:bg-gray-800 bg-gray-100 text-gray-600 focus:ring-2"
                   />
@@ -177,8 +178,8 @@ export default function EditExperienceForm({ id }: any) {
                   </label>
                 </div>
                 <input
-                  id="userId"
-                  name="userId"
+                  id="user_id"
+                  name="user_id"
                   type="text"
                   value={exprienceId}
                   readOnly
@@ -190,7 +191,7 @@ export default function EditExperienceForm({ id }: any) {
                     id="no"
                     name="status"
                     type="radio"
-                    onChange={(e) => setStatus(e.target.value)}
+                    onChange={(e) => setWorking_now(e.target.value)}
                     value="no"
                     className="h-4 w-4 cursor-pointer border-emerald-100 dark:bg-gray-800 bg-gray-100 text-gray-600 focus:ring-2"
                   />

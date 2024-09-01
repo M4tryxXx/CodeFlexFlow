@@ -1,5 +1,5 @@
-import { getInvitesById } from "@/app/lib/myDb";
-import { userDataById, updateInviteById } from "@/app/lib/actions";
+import { updateInviteById } from "@/app/lib/actions";
+import { selectUserCvFull, getInvitesById } from "@/app/lib/myDb";
 import "react-vertical-timeline-component/style.min.css";
 import ExperienceCv from "@/app/ui/profile/MyCv/ExperienceCv";
 import QualificationsCv from "@/app/ui/profile/MyCv/QualificationsCv";
@@ -7,7 +7,6 @@ import Motion from "@/app/ui/profile/MyCv/Motion";
 import Hero from "@/app/ui/profile/MyCv/CvHero";
 import Navbar from "@/app/ui/profile/MyCv/Navbar";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import ContactMe from "@/app/ui/Contact/ContactMe";
 import EarthCanvas from "@/app/ui/profile/MyCv/Earth";
 import ContactCard from "@/app/ui/profile/MyCv/Contact";
 import StarsCanvas from "@/app/ui/profile/MyCv/Stars";
@@ -17,10 +16,11 @@ export default async function CvPage({
   params: { invitationId: string };
 }) {
   const { invitationId } = params;
+
   const invite = await getInvitesById(invitationId);
   let expires: any;
   if (invite) {
-    expires = new Date(invite?.expiresAt);
+    expires = new Date(invite?.expires_at);
   }
   if (Date.now() > Date.parse(expires)) {
     return (
@@ -38,7 +38,7 @@ export default async function CvPage({
   }
   let user: any;
   if (invite) {
-    user = await userDataById(invite.userId);
+    user = await selectUserCvFull(invite.user_id);
     await updateInviteById(invitationId);
   }
 
@@ -56,11 +56,12 @@ export default async function CvPage({
       </main>
     );
   }
+  //console.log("User: ", user);
   return (
     <main className="w-[100vw] h-full bg-[#050816] -z-40 m-0 scroll-smooth">
       <div>
         <div className="bg-[url('./images/herobg.png')] bg-cover bg-no-repeat bg-center">
-          <Navbar user={user.user} userAbilities={user.Abilities} />
+          <Navbar user={user} userAbilities={user.skills} />
           <Hero user={user} />
         </div>
         <div className="m-5"></div>
@@ -106,7 +107,7 @@ export default async function CvPage({
             <div className="absolute bottom-20 left-[5px] w-[200px] h-[200px] md:w-[400px] md:h-[400px] md:bottom-5 ">
               <EarthCanvas url="../../planet/scene.gltf" />
             </div>
-            <ContactCard user={user} />
+            <ContactCard user={user.personal_info} />
           </div>
         </div>
       </div>

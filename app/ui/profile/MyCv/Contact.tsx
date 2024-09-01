@@ -33,11 +33,11 @@ export default function ContactCard({ user }: any) {
       // }}
       viewport={{ once: true }}
     >
-      <div className="flex justify-end  ">
+      <div className="flex justify-end  z-70">
         <div className="container md:mr-[10%] mb-8 w-64 md:w-[400px] p-4">
           <div className=" max-w-lg mx-auto">
             <h2 className="text-2xl font-bold mb-4">
-              {user.user.firstName} {user.user.lastName}
+              {user.first_name} {user.last_name}
             </h2>
           </div>
           <div className=" max-w-lg mx-auto green-pink-gradient p-[2px] rounded-[20px] dark:shadow-md">
@@ -45,19 +45,19 @@ export default function ContactCard({ user }: any) {
               <p className="mb-2">
                 <strong className="text-sm md:text-lg">Email:</strong>{" "}
                 <a
-                  href={`mailto:${user.user.email}`}
+                  href={`mailto:${user.email}`}
                   className="text-blue-400 text-sm md:text-lg"
                 >
-                  &nbsp;{user.user.email}
+                  &nbsp;{user.email}
                 </a>
               </p>
               <p className="mb-2">
                 <strong className="text-sm md:text-lg">Phone:</strong>{" "}
                 <a
-                  href={`tel:${user.user.mobile}`}
+                  href={`tel:${user.phone}`}
                   className="text-blue-400 text-sm md:text-lg"
                 >
-                  &nbsp;{user.user.mobile}
+                  &nbsp;{user.phone}
                 </a>
               </p>
               <div className="mb-2 flex fel-row justify-start gap-2">
@@ -66,23 +66,21 @@ export default function ContactCard({ user }: any) {
                 </div>
                 <div>
                   <span className="text-sm md:text-lg">
-                    {user.user.city ? ` ${user.user.city}` : ""}
-                    {user.user.city ? <br /> : ""}
-                    {user.user.address ? ` ${user.user.address}` : ""}
-                    {user.user.city ? <br /> : ""}
-                    {user.user.street ? ` ${user.user.street}` : ""}{" "}
-                    {user.user.street ? <br /> : ""}
-                    {user.user.house ? ` ${user.user.house}` : ""}{" "}
-                    {user.user.house ? <br /> : ""}
-                    {user.user.state ? ` ${user.user.state}` : ""}{" "}
-                    {user.user.state ? <br /> : ""}
-                    {user.user.zip ? ` ${user.user.zip}` : ""}{" "}
+                    {user.city ? ` ${user.city}` : ""}
+                    {user.city ? <br /> : ""}
+                    {/* {user.address ? ` ${user.address}` : ""}
+                    {user.city ? <br /> : ""}
+                    {user.street ? ` ${user.user.street}` : ""}{" "}
+                    {user.street ? <br /> : ""}
+                    {user.house ? ` ${user.house}` : ""}{" "} */}
+                    {user.house ? <br /> : ""}
+                    {user.state ? ` ${user.state}` : ""}{" "}
+                    {user.state ? <br /> : ""}
+                    {user.zip ? ` ${user.zip}` : ""}{" "}
                   </span>
                 </div>
               </div>
-              <p className="text-xs md:text-sm">
-                Tap and hold for zoom, move it so you can see the earth!
-              </p>
+              <p className="text-xs md:text-sm">Tap and hold for zoom!</p>
             </div>
           </div>
         </div>

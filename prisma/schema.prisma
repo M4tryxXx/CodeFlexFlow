@@ -8,130 +8,219 @@ datasource db {
   shadowDatabaseUrl = env("SHADDOW_DATABASE_URL")
 }
 
-model Qualification {
-  id            String   @id @default(cuid())
-  userId        String
-  name          String
-  qualification String
-  city          String?
-  description   String?  @db.Text
-  from          String?
-  to            String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @default(now())
-  image         String?
-  User          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+//**
+//    * Account models *
+//    * User model *
+//**
 
-  @@index([userId], map: "Qualification_userId_fkey")
+model user {
+  id                  String                @id @default(cuid())
+  email               String                @unique
+  username            String                @unique
+  password            String
+  role                String                @default("user")
+  reset_token         String?               @unique
+  reset_token_expiry  DateTime?
+  verified            Boolean               @default(false)
+  verified_at         DateTime?
+  verify_token        String?               @unique
+  verify_token_expiry DateTime?
+  avatar              String?
+  created_at          DateTime?             @default(now())
+  updated_at          DateTime?             @default(now())
+  lastLogin           DateTime?
+  lastLogin_from      String?
+  settings            user_settings?
+  notifications       user_notifications[]
+  qualifications      user_qualifications[]
+  experiences         user_experiences[]
+  skills              user_skills[]
+  invites             user_invites[]
+  personal_info       user_personal_info?
+  social_media        user_socials?
 }
 
-model Experience {
+//**
+//    * Account models *
+//    * User Notifications Model *
+//**
+
+model user_notifications {
+  id           String   @id @default(cuid())
+  user_id      String  
+  notification String
+  type         String
+  read         Boolean? @default(false)
+  created_at   DateTime @default(now())
+  user         user     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id], map: "UserNotification_user_id_fkey")
+}
+
+//**
+//    * Account models *
+//    * User Settings Model *
+//**
+
+model user_settings {
+  id         String    @id @default(cuid())
+  user_id    String    @unique
+  setting    String?
+  value      String?
+  setting1   String?
+  value1     String?
+  setting2   String?
+  value2     String?
+  setting3   String?
+  value3     String?
+  setting4   String?
+  value4     String?
+  setting5   String?
+  value5     String?
+  updated_at DateTime? @default(now())
+  user       user      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id], map: "UserSetting_user_id_fkey")
+}
+
+//**
+//    * CV models *
+//    * Personal Information model *
+//**
+
+model user_personal_info {
+  id         String    @id @default(cuid())
+  user_id    String    @unique
+  first_name String?
+  last_name  String?
+  age        Int?
+  city       String?
+  state      String?
+  country    String?
+  zip        String?
+  bio        String?   @db.Text
+  phone      String?
+  email      String?
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  image      String?
+  user       user      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id], map: "PersonalInfo_user_id_fkey")
+}
+
+//**
+//    * Cv models *
+//    * Social model *
+
+model user_socials {
+  id         String    @id @default(cuid())
+  user_id    String    @unique
+  website    String?
+  linkedin   String?
+  twitter    String?
+  facebook   String?
+  instagram  String?
+  github     String?
+  youtube    String?
+  twitch     String?
+  discord    String?
+  snapchat   String?
+  tiktok     String?
+  created_at DateTime? @default(now())
+  updated_at DateTime? @default(now())
+  user       user      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id], map: "Social_user_id_fkey")
+}
+
+//**
+//    * Cv models *
+//    * Qualification model *
+//**
+
+model user_qualifications {
+  id          String    @id @default(cuid())
+  user_id     String
+  school      String
+  city        String
+  degree      String
+  field       String
+  description String?   @db.Text
+  start_date  DateTime
+  end_date    DateTime?
+  created_at  DateTime? @default(now())
+  updated_at  DateTime? @default(now())
+  image       String?
+  user        user      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id], map: "Qualification_user_id_fkey")
+}
+
+//**
+//    * Cv models *
+//    * Experience model *
+//**
+
+model user_experiences {
   id           String    @id @default(cuid())
-  userId       String
-  title        String
+  user_id      String
+  position     String
   company      String
-  from         String
-  to           String?
+  start_date   DateTime
+  end_date     DateTime?
   description  String?   @db.Text
-  stillWorking String    @default("false")
-  image        String?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime? @default(now())
-  User         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  working_now  Boolean?  @default(false)
+  company_logo String?
+  created_at   DateTime? @default(now())
+  updated_at   DateTime? @default(now())
+  user         user      @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
-  @@index([userId], map: "Experience_userId_fkey")
+  @@index([user_id], map: "Experience_user_id_fkey")
 }
 
-model Invites {
-  id               String   @id
-  createdAt        DateTime @default(now())
-  expiresAt        DateTime
-  updatedAt        DateTime?
-  userId           String
-  userUserName     String?
-  destinationEmail String
-  destinationName  String?
-  opened           Boolean  @default(false)
-  User             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+//**
+//    * CV models *
+//    * User Abilities model *
+//**
 
-  @@index([userId], map: "Invites_userId_fkey")
+model user_skills {
+  id          String    @id @default(cuid())
+  user_id     String
+  name        String
+  description String?   @db.Text
+  level       Int?      @default(0)
+  created_at  DateTime? @default(now())
+  user        user      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id], map: "UserAbilities_user_id_fkey")
 }
 
-model User {
-  id                String          @id @default(cuid())
-  email             String          @unique
-  firstName         String?
-  lastName          String?
-  username          String          @unique
-  password          String
-  role              String          @default("user")
-  resetToken        String?         @unique
-  resetTokenExpiry  DateTime?
-  verified          Boolean         @default(false)
-  verifiedAt        Int?
-  verifyToken       String?         @unique
-  verifyTokenExpiry Int?
-  mobile            String?
-  avatar            String?
-  address           String?
-  street            String?
-  house             String?
-  city              String?
-  state             String?
-  country           String?
-  zip               String?
-  address2          String?
-  bio               String?        @db.Text
-  website           String?
-  linkedin          String?
-  twitter           String?
-  facebook          String?
-  instagram         String?
-  github            String?
-  youtube           String?
-  twitch            String?
-  discord           String?
-  age               Int?
-  createdAt         DateTime?       @default(now())
-  updatedAt         DateTime?       @default(now())
-  lastLogin         DateTime?
-  lastLoginFrom     String?
-  Experience        Experience[]
-  Invite            Invites[]
-  Qualifications    Qualification[]
-  UserNotifications UserNotification[]
-  UserSettings      UserSetting[]
+//**
+//    * Invite models *
+//    * Invites sent *
+//**
+
+model user_invites {
+  id                String    @id
+  user_id           String
+  created_at        DateTime  @default(now())
+  expires_at        DateTime
+  opened_at         DateTime?
+  user_userName     String?
+  destination_email String
+  at_company_name  String?
+  opened            Boolean   @default(false)
+  user              user      @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id], map: "Invites_user_id_fkey")
 }
 
+// The model invite_id is defined in the schema to save the serial number of the invite so they will not overlap.  This is used to generate the invite code.
 
-// The model inviteId is defined in the schema to save the serial number of the invite. This is used to generate the invite code.
-
-model inviteId {
-  id        Int   
-  name      String @default("invite") @unique
+model invite_id {
+  id   Int
+  name String @unique @default("invite")
 }
 
-model UserNotification {
-  id        String   @id @default(cuid())
-  userId    String
-  message   String
-  type      String
-  read      Boolean  @default(false)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId], map: "UserNotification_userId_fkey")
-}
-
-model UserSetting {
-  id        String   @id @default(cuid())
-  userId    String
-  setting   String
-  value     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId], map: "UserSetting_userId_fkey")
-}
+//********************************************************************************

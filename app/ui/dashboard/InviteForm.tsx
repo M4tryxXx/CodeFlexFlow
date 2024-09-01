@@ -19,11 +19,18 @@ import { useState } from "react";
 import clsx from "clsx";
 import "../../ui/css/loadingSpinner.css";
 
+const shareData = {
+  title: "MDN",
+  text: "Learn web development on MDN!",
+  url: "https://developer.mozilla.org",
+};
+
 export default function InvitationForm({ user }: any) {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [invitationInfo, setInvitationInfo] = useState("");
+
   const handleSubmit = async (e: any) => {
     setLoading(true);
     e.preventDefault();
@@ -32,10 +39,10 @@ export default function InvitationForm({ user }: any) {
       setLoading(false);
       return;
     }
-    const destinationEmail = verifyEmailSchema.safeParse({ email: email });
-    if (!destinationEmail.success) {
+    const destination_email = verifyEmailSchema.safeParse({ email: email });
+    if (!destination_email.success) {
       let errorMessage = "";
-      destinationEmail.error.errors.forEach((issue: any) => {
+      destination_email.error.errors.forEach((issue: any) => {
         errorMessage =
           errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
       });
@@ -151,6 +158,41 @@ export default function InvitationForm({ user }: any) {
           </div>
         </div>
       )}
+      <p>
+        <button
+          onClick={async () => {
+            const shareData = {
+              title: "MDN",
+              text: "Learn web development on MDN!",
+              url: "https://developer.mozilla.org",
+            };
+            const resultPara = document.querySelector(".result");
+
+            try {
+              if (!navigator.share) {
+                if (resultPara) {
+                  resultPara.textContent =
+                    "You need to use a browser that supports the Web Share API";
+                }
+                return;
+              }
+              await navigator.share(shareData);
+              if (resultPara) {
+                resultPara.textContent = "MDN shared successfully";
+              }
+            } catch (err) {
+              if (resultPara) {
+                resultPara.textContent = `Error: ${err}`;
+              }
+            }
+          }}
+        >
+          Share MDN!
+        </button>
+      </p>
+      <p className="result"></p>
     </>
   );
 }
+
+// Share must be triggered by "user activation"

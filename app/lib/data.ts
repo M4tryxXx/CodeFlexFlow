@@ -9,5 +9,5 @@ if (currentSession && currentSession.user) {
   userEmail = currentSession.user.email;
 }
 const currentUser = await findUserByEmail(userEmail);
-export const userActivId = currentUser?.id;
+export const session_user_id = currentUser?.id;
 const allRegUsers = await getUsers();

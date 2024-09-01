@@ -9,12 +9,12 @@ import { DocumentIcon } from "@heroicons/react/24/outline";
 import { formatDateYearMonth } from "@/app/lib/utils";
 
 export default function ExperienceCv({ user }: any) {
-  if (user.experience.length > 0) {
-    let experienceElements = user.experience.map((exp: any, index: any) => {
-      const experienceDate = formatDateYearMonth(exp.from, exp.to);
+  if (user.experiences.length > 0) {
+    let experienceElements = user.experiences.map((exp: any, index: any) => {
+      const experienceDate = formatDateYearMonth(exp.start_date, exp.end_date);
       const { from, to } = experienceDate;
 
-      if (index === user.experience.length - 1) {
+      if (index === user.experiences.length - 1) {
         return (
           <>
             <VerticalTimelineElement
@@ -36,7 +36,7 @@ export default function ExperienceCv({ user }: any) {
                 className="vertical-timeline-element-title"
                 id="qualification"
               >
-                {exp.title}
+                {exp.position}
               </h3>
               <h4 className="vertical-timeline-element-subtitle">
                 {exp.company}
@@ -65,7 +65,9 @@ export default function ExperienceCv({ user }: any) {
               iconClassName={"dark:bg-emerald-950"}
               dateClassName={"mx-5 font-bold text-lg"}
             >
-              <h3 className="vertical-timeline-element-title">{exp.title}</h3>
+              <h3 className="vertical-timeline-element-title">
+                {exp.position}
+              </h3>
               <h4 className="vertical-timeline-element-subtitle">
                 {exp.company}
               </h4>

@@ -37,6 +37,7 @@ export default function RegisterForm() {
         email: email,
         confirmPassword: confirmPassword,
       });
+
       if (!response) {
         setIsLoading(false);
       }

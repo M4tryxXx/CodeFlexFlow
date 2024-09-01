@@ -10,13 +10,12 @@ import {
   editUser,
   handleDelete,
   sendPasswordChangeLink,
-  updateUserPassword,
-  editProfile,
+  updateUserDbPassword,
   handleDeleteAccount,
 } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import z from "zod";
-import { findUserByUsername, findUserByEmail } from "./myDb";
+import { selectUserLogIn } from "./myDb";
 import { comparePassword } from "./server-side-utils";
 import {
   verifyEmailSchema,
@@ -27,72 +26,180 @@ import {
   editUserSchema,
   registerUserSchema,
   editExperienceSchema,
-  updateUserPasswordSchema,
+  updateUserDbPasswordSchema,
+  PersonalInfoSchema,
+  EditSocialData,
 } from "./zod-schemas";
 import { sendWelcomeEmail, sendContactMeEmail } from "./mailer";
-import { updateLogin } from "../lib/myDb";
+import { updateUserDbOnLogin } from "../lib/myDb";
+import { PersonalInfoType, SocialType, UserType } from "./types";
 
-export const editUserSide = async (data: any) => {
-  let obj: any = {};
+// export const editUserSide = async (data: any) => {
+//   let obj: any = {};
 
-  for (const [key, value] of Object.entries(data)) {
-    if (value) {
-      obj[key] = value;
+//   for (const [key, value] of Object.entries(data)) {
+//     if (value) {
+//       obj[key] = value;
+//     }
+//   }
+//   if (Object.keys(obj).length < 3) {
+//     toast.error("The forms are empty!", { duration: 4000 });
+//     return;
+//   }
+//   const dataToUpdate = editUserSchema.safeParse(obj);
+//   if (!dataToUpdate.success) {
+//     let errorMessage = "";
+//     dataToUpdate.error.errors.forEach((issue) => {
+//       errorMessage =
+//         errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
+//     });
+//     toast.error(errorMessage, { duration: 5000 });
+//     return;
+//   }
+//   const response = await editUser(dataToUpdate.data);
+//   if (response === "Something went wrong") {
+//     toast.error("Something went wrong!", { duration: 5000 });
+//     return;
+//   }
+//   toast.success("Details has been succesfully updated!");
+// };
+
+/**
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * @param userPersonalInfo
+ * @param userAccount
+ * @param userSocial
+ * @returns
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+export const editUserAccount = async (
+  userPersonalInfo?: PersonalInfoType,
+  userAccount?: UserType,
+  userSocial?: SocialType
+) => {
+  if (userPersonalInfo) {
+    let obj: any = {};
+
+    for (const [key, value] of Object.entries(userPersonalInfo)) {
+      if (value) {
+        obj[key] = value;
+      }
+    }
+    if (Object.keys(obj).length < 2) {
+      toast.error("The forms are empty!", { duration: 4000 });
+      return;
+    }
+    const dataToUpdate = PersonalInfoSchema.safeParse(obj);
+    if (!dataToUpdate.success) {
+      let errorMessage = "";
+      dataToUpdate.error.errors.forEach((issue) => {
+        errorMessage =
+          errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
+      });
+      toast.error(errorMessage, { duration: 5000 });
+      return;
+    }
+
+    //console.log(dataToUpdate.data);
+    const updated_at = new Date(Date.now());
+    dataToUpdate.data.updated_at = updated_at;
+    const response = await editUser(dataToUpdate.data);
+    if (response === "Something went wrong") {
+      toast.error("Something went wrong!", { duration: 5000 });
+      return;
+    }
+  } else if (userAccount) {
+    let obj: any = {};
+
+    for (const [key, value] of Object.entries(userAccount)) {
+      if (value) {
+        obj[key] = value;
+      }
+    }
+    if (Object.keys(obj).length < 2) {
+      toast.error("The forms are empty!", { duration: 4000 });
+      return;
+    }
+    const dataToUpdate = editUserSchema.safeParse(obj);
+    if (!dataToUpdate.success) {
+      let errorMessage = "";
+      dataToUpdate.error.errors.forEach((issue) => {
+        errorMessage =
+          errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
+      });
+      toast.error(errorMessage, { duration: 5000 });
+      return;
+    }
+
+    const updated_at = new Date(Date.now());
+    dataToUpdate.data.updated_at = updated_at;
+    //console.log(dataToUpdate.data);
+    const response = await editUser(undefined, dataToUpdate.data);
+    if (response === "Something went wrong") {
+      toast.error("Something went wrong!", { duration: 5000 });
+      return;
+    }
+  } else if (userSocial) {
+    let obj: any = {};
+
+    for (const [key, value] of Object.entries(userSocial)) {
+      if (value) {
+        obj[key] = value;
+      }
+    }
+    if (Object.keys(obj).length < 2) {
+      toast.error("The forms are empty!", { duration: 4000 });
+      return;
+    }
+    const dataToUpdate = EditSocialData.safeParse(obj);
+    if (!dataToUpdate.success) {
+      let errorMessage = "";
+      dataToUpdate.error.errors.forEach((issue) => {
+        errorMessage =
+          errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
+      });
+      toast.error(errorMessage, { duration: 5000 });
+      return;
+    }
+
+    //console.log(dataToUpdate.data);
+    const response = await editUser(dataToUpdate.data);
+    if (response === "Something went wrong") {
+      toast.error("Something went wrong!", { duration: 5000 });
+      return;
     }
   }
-  if (Object.keys(obj).length < 3) {
-    toast.error("The forms are empty!", { duration: 4000 });
-    return;
-  }
-  const dataToUpdate = editUserSchema.safeParse(obj);
-  if (!dataToUpdate.success) {
-    let errorMessage = "";
-    dataToUpdate.error.errors.forEach((issue) => {
-      errorMessage =
-        errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
-    });
-    toast.error(errorMessage, { duration: 5000 });
-    return;
-  }
-  const response = await editUser(dataToUpdate.data);
-  if (response === "Something went wrong") {
-    toast.error("Something went wrong!", { duration: 5000 });
-    return;
-  }
+
   toast.success("Details has been succesfully updated!");
 };
 
-export const editProfileUserSide = async (data: any) => {
-  let obj: any = {};
-
-  for (const [key, value] of Object.entries(data)) {
-    if (value) {
-      obj[key] = value;
-    }
-  }
-  if (Object.keys(obj).length < 3) {
-    toast.error("The forms are empty!", { duration: 4000 });
-    return;
-  }
-  const dataToUpdate = editUserSchema.safeParse(obj);
-  if (!dataToUpdate.success) {
-    let errorMessage = "";
-    dataToUpdate.error.errors.forEach((issue) => {
-      errorMessage =
-        errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
-    });
-    toast.error(errorMessage, { duration: 5000 });
-    return;
-  }
-
-  //console.log(dataToUpdate.data);
-  const response = await editProfile(dataToUpdate.data);
-  if (response === "Something went wrong") {
-    toast.error("Something went wrong!", { duration: 5000 });
-    return;
-  }
-  toast.success("Details has been succesfully updated!");
-};
+/**
+ *
+ *
+ *
+ *
+ *
+ * @param id
+ * @param method
+ *
+ *
+ *
+ *
+ *
+ */
 
 export const deleteUserSide = async (id: string, method: string) => {
   if (method === "admin") {
@@ -127,8 +234,8 @@ export const loginUserSide = async (
     .safeParse(credentials);
   if (parsedCredentials.success) {
     const { username, password } = parsedCredentials.data;
-    const user = await findUserByUsername(username);
-    ////console.log(user);
+    const user = await selectUserLogIn(undefined, undefined, username);
+    //console.log(user);
     if (!user) {
       //
       throw "Username not found!";
@@ -144,15 +251,17 @@ export const loginUserSide = async (
       formData.append(key, credentials[key]);
     }
     authenticate(formData);
-    updateLogin(user.id, {
-      lastLogin: new Date(Date.now()).toISOString(),
-      lastLoginFrom: loginFrom,
+
+    updateUserDbOnLogin({
+      id: user.id,
+      lastLogin: new Date(Date.now()),
+      lastLogin_from: loginFrom,
     });
   }
 };
 
 export const checkUsernameLive = async (username: string) => {
-  const checkUsername = await findUserByUsername(username);
+  const checkUsername = await selectUserLogIn(undefined, undefined, username);
   if (checkUsername) {
     toast.error(`${username} is already in use!`, { duration: 4000 });
     return true;
@@ -169,7 +278,7 @@ export const checkUsernameLive = async (username: string) => {
 };
 
 export const checkEmailLive = async (email: string) => {
-  const checkEmail = await findUserByEmail(email);
+  const checkEmail = await selectUserLogIn(undefined, email, undefined);
   if (checkEmail) {
     toast.error(`${email} is already in use!`, { duration: 5000 });
     return true;
@@ -188,7 +297,7 @@ export const checkEmailLive = async (email: string) => {
 };
 
 export const checkUserEmail = async (email: string) => {
-  const checkEmail = await findUserByEmail(email);
+  const checkEmail = await selectUserLogIn(undefined, email, undefined);
   if (checkEmail) {
     return true;
   }
@@ -273,7 +382,7 @@ export async function addDataUserSide(data: any) {
     toast.error("No changes was made!");
     return;
   }
-  if (keys[0] === "name") {
+  if (keys[0] === "school") {
     let dataToUpdate = addQualificationSchema.safeParse(obj);
     if (!dataToUpdate.success) {
       let errorMessage = "";
@@ -284,6 +393,7 @@ export async function addDataUserSide(data: any) {
       toast.error(errorMessage);
       return;
     }
+    //console.log(obj);
     const response = await addQualification(obj);
     if (response === "Something went wrong") {
       toast.error("Something went wrong!");
@@ -384,7 +494,7 @@ export const updatePassword = async (data: any) => {
     return "Passwords do not match!";
   }
 
-  const dataToRegister = updateUserPasswordSchema.safeParse(data);
+  const dataToRegister = updateUserDbPasswordSchema.safeParse(data);
   if (!dataToRegister.success) {
     let errorMessage = "";
     dataToRegister.error.errors.forEach((issue) => {
@@ -397,7 +507,7 @@ export const updatePassword = async (data: any) => {
     });
     throw errorMessage;
   }
-  const response = await updateUserPassword({ id: id, password: password });
+  const response = await updateUserDbPassword({ id: id, password: password });
 
   if (response) {
     toast.error("Update Failed, please try again!!", { duration: 5000 });

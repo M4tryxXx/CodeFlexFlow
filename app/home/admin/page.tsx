@@ -2,7 +2,7 @@ import { myStyles } from "@/app/styles";
 import InvitesTable from "@/app/ui/dashboard/InvitesTable";
 import { allInvites } from "@/app/lib/actions";
 import {
-  getUsers,
+  selectAllUsers as getUsers,
   getAllQualifications,
   getAllExperience,
 } from "@/app/lib/myDb";

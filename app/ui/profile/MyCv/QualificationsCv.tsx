@@ -13,7 +13,10 @@ export default function QualificationsCv({ user }: any) {
   if (user.qualifications.length > 0) {
     let qualificationElements = user.qualifications.map(
       (qual: any, index: any) => {
-        const experienceDate = formatDateYearMonth(qual.from, qual.to);
+        const experienceDate = formatDateYearMonth(
+          qual.start_date,
+          qual.end_date
+        );
         const { from, to } = experienceDate;
 
         if (index === user.qualifications.length - 1) {

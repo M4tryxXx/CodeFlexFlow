@@ -9,9 +9,10 @@ interface LoadIndicatorProps {
 const LoadIndicator: React.FC<LoadIndicatorProps> = ({ number }) => {
   //console.log(number);
   // Ensure the number is within the range of 0 to 12
-  const clampedNumber = Math.max(0, Math.min(number, 12));
+  const clampedNumber = Math.max(0, Math.min(number, 13));
+  console.log(clampedNumber);
   // Calculate the percentage
-  const percentage = 100 - (clampedNumber / 12) * 100;
+  const percentage = 100 - (clampedNumber / 13) * 100;
 
   return (
     <div className="w-[90%] mx-auto bg-gray-200 rounded-full h-4 md:h-6 mb-4">

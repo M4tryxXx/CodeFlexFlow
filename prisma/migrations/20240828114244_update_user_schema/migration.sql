@@ -1,4 +1,0 @@
--- AlterTable
-ALTER TABLE `User` ADD COLUMN `discord` VARCHAR(191) NULL,
-    ADD COLUMN `twitch` VARCHAR(191) NULL,
-    ADD COLUMN `youtube` VARCHAR(191) NULL;

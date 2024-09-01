@@ -1,4 +1,4 @@
-import { findUserResetToken } from "@/app/lib/myDb";
+import { selectUserPasswordToken } from "@/app/lib/myDb";
 import PasswordResetForm from "@/app/ui/Password-reset-form";
 import AcmeLogo from "@/app/ui/acme-logo";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
@@ -9,7 +9,7 @@ interface Params {
 }
 
 export default async function PasswordRecovery({ params }: { params: Params }) {
-  const user = await findUserResetToken(params.resetPasswToken);
+  const user = await selectUserPasswordToken(params.resetPasswToken);
   if (!user) {
     return (
       <>
@@ -30,7 +30,7 @@ export default async function PasswordRecovery({ params }: { params: Params }) {
     );
   }
   const now = Date.now();
-  const tokenExp = Date.parse(`${user.resetTokenExpiry}`);
+  const tokenExp = Date.parse(`${user.reset_token_expiry}`);
   if (now > tokenExp) {
     return (
       <>
@@ -66,7 +66,7 @@ export default async function PasswordRecovery({ params }: { params: Params }) {
                 <AcmeLogo />
               </div>
             </div>
-            <PasswordResetForm userId={user.id} />
+            <PasswordResetForm user_id={user.id} />
           </div>
         </div>
       </main>
