@@ -133,6 +133,7 @@ export default function InvitationForm({ user }: any) {
           setInvitationInfo("You canceled the share! ");
           toast.error("Sharing canceled by user!");
           setLoading(false);
+          return;
         }
 
         const response = await shareInvitationLink(
