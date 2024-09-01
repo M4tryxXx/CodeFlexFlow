@@ -27,14 +27,14 @@ export default function Card({ data, delay }: any) {
     >
       <div className="dark:bg-[#151030] bg-stone-100 rounded-[20px] flex items-center flex-col w-full h-full m-0">
         <div className=" bg-rose-200 dark:bg-emerald-900 w-full rounded-t-[20px] text-center mt-0 py-3">
-          <h1 className="text-2xl font-bold">{title_position}</h1>
+          <h1 className="text-2xl font-bold">{company_school}</h1>
         </div>
         <div className=" text-center  w-full mt-2">
           <h1 className="text-lg font-bold">{dates}</h1>
         </div>
         <hr className="mt-2 border-[.3mm] border-gray-500 w-[90%]" />
         <div className=" flex flex-col justify-between py-4 px-6 w-full h-full ">
-          <h1 className="text-lg font-bold">{company_school}</h1>
+          <h1 className="text-lg font-bold">{title_position}</h1>
           <h1 className="text-md font-bold">{field}</h1>
 
           <hr className="mt-2 border-[.3mm] border-gray-500 w-full " />
