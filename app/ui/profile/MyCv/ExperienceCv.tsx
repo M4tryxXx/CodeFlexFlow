@@ -32,16 +32,23 @@ export default function ExperienceCv({ user }: any) {
               iconClassName={"dark:bg-emerald-950"}
               dateClassName={"mx-5 font-bold text-lg"}
             >
+              <h1 className="text-2xl text-white font-bold">{exp.company}</h1>
               <h3
-                className="vertical-timeline-element-title"
                 id="qualification"
+                className="text-xl text-white underline-2 underline underline-offset-4"
               >
                 {exp.position}
               </h3>
-              <h4 className="vertical-timeline-element-subtitle">
-                {exp.company}
-              </h4>
-              <p>{exp.description}</p>
+              <p className="text-md font-bold">{exp.field}</p>
+              {exp.description ? (
+                <>
+                  <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
+                    {exp.description}
+                  </p>
+                </>
+              ) : (
+                ""
+              )}
             </VerticalTimelineElement>
           </>
         );
@@ -63,15 +70,22 @@ export default function ExperienceCv({ user }: any) {
               iconStyle={{ background: "#000", color: "#fff" }}
               icon={<DocumentIcon />}
               iconClassName={"dark:bg-emerald-950"}
-              dateClassName={"mx-5 font-bold text-lg"}
+              dateClassName={"mx-5 font-bold text-2xl"}
             >
-              <h3 className="vertical-timeline-element-title">
+              <h1 className="text-2xl text-white font-bold">{exp.company}</h1>
+              <h3 className="text-xl text-white underline-2 underline underline-offset-4">
                 {exp.position}
               </h3>
-              <h4 className="vertical-timeline-element-subtitle">
-                {exp.company}
-              </h4>
-              <p>{exp.description}</p>
+              <p className="text-md font-bold">{exp.field}</p>
+              {exp.description ? (
+                <>
+                  <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
+                    {exp.description}
+                  </p>
+                </>
+              ) : (
+                ""
+              )}
             </VerticalTimelineElement>
           </>
         );

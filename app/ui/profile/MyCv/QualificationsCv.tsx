@@ -29,7 +29,7 @@ export default function QualificationsCv({ user }: any) {
                   boxShadow: " 0 4px 0 0 #11e5b4",
                   border: "2px solid #220c22",
                 }}
-                contentArrowStyle={{ borderRight: "7px solid  #232631" }}
+                contentArrowStyle={{ borderRight: "7px solid  #fff" }}
                 key={qual.id + qual.name}
                 date={`${from.month} ${from.year} - ${to.month} ${to.year}`}
                 iconStyle={{ background: "#000", color: "#fff" }}
@@ -37,16 +37,23 @@ export default function QualificationsCv({ user }: any) {
                 iconClassName={"dark:bg-emerald-950"}
                 dateClassName={"mx-5 font-bold text-lg"}
               >
-                <h3 className="vertical-timeline-element-title">
-                  {qual.qualification}
-                </h3>
-                <h4
-                  className="vertical-timeline-element-subtitle"
+                <h1 className="text-2xl text-white font-bold">{qual.school}</h1>
+                <h3
                   id="contactme"
+                  className="text-xl text-white underline-2 underline underline-offset-4"
                 >
-                  {qual.name}
-                </h4>
-                <p>{qual.description}</p>
+                  {qual.degree}
+                </h3>
+                <p className="text-md font-bold">{qual.field}</p>
+                {qual.description ? (
+                  <>
+                    <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
+                      {qual.description}
+                    </p>
+                  </>
+                ) : (
+                  ""
+                )}
               </VerticalTimelineElement>
             </>
           );
@@ -60,7 +67,7 @@ export default function QualificationsCv({ user }: any) {
                   boxShadow: " 0 4px 0 0 #11e5b4",
                   border: "2px solid #220c22",
                 }}
-                contentArrowStyle={{ borderRight: "7px solid  #232631" }}
+                contentArrowStyle={{ borderRight: "7px solid  #fff" }}
                 key={qual.id + qual.name}
                 date={`${from.month} ${from.year} - ${to.month} ${to.year}`}
                 iconStyle={{ background: "#000", color: "#fff" }}
@@ -68,13 +75,20 @@ export default function QualificationsCv({ user }: any) {
                 iconClassName={"dark:bg-emerald-950"}
                 dateClassName={"mx-5 font-bold text-lg"}
               >
-                <h3 className="vertical-timeline-element-title">
-                  {qual.qualification}
+                <h1 className="text-2xl text-white font-bold">{qual.school}</h1>
+                <h3 className="text-xl text-white underline-2 underline underline-offset-4">
+                  {qual.degree}
                 </h3>
-                <h4 className="vertical-timeline-element-subtitle">
-                  {qual.name}
-                </h4>
-                <p>{qual.description}</p>
+                <p className="text-md font-bold">{qual.field}</p>
+                {qual.description ? (
+                  <>
+                    <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
+                      {qual.description}
+                    </p>
+                  </>
+                ) : (
+                  ""
+                )}
               </VerticalTimelineElement>
             </>
           );

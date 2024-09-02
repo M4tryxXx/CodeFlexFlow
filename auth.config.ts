@@ -11,14 +11,12 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const isHome = nextUrl.pathname.startsWith("/home");
       const isPlanet = nextUrl.pathname.startsWith("/planet");
-      const isRegister = nextUrl.pathname.startsWith("/register");
-      const isForgotPassword = nextUrl.pathname.startsWith("/reset-password");
-      const isResetPassword = nextUrl.pathname.startsWith("/recovery");
+      const isCv = nextUrl.pathname.startsWith("/cv");
 
       if (isHome) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page
-      } else if (isLoggedIn && !isPlanet) {
+      } else if (isLoggedIn && !isPlanet && !isCv) {
         return Response.redirect(new URL("/home", nextUrl));
       }
       return true;

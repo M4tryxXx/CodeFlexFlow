@@ -60,7 +60,10 @@ export default async function CvPage({
   return (
     <main className="w-[100vw] h-full bg-[#050816] -z-40 m-0 scroll-smooth">
       <div>
-        <div className="bg-[url('./images/herobg.png')] bg-cover bg-no-repeat bg-center">
+        <div
+          className="bg-[url('./images/herobg.png')] bg-cover bg-no-repeat bg-center"
+          id="about"
+        >
           <Navbar user={user} userAbilities={user.skills} />
           <Hero user={user} />
         </div>

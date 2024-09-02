@@ -1,8 +1,3 @@
-import React, { Suspense } from "react";
-import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
-import { Html, useProgress } from "@react-three/drei";
-
 export const formatDateToLocal = (
   dateStr: string,
   locale: string = "en-US"
@@ -20,6 +15,9 @@ export const formatDateToLocal = (
 };
 
 export const formatDateYearMonth = (dateFrom: string, dateTo: string) => {
+  if (!dateTo) {
+    dateTo = String(new Date(Date.now()));
+  }
   const fromFormatted = new Date(dateFrom);
   //console.log(fromFormatted);
   const toFormatted = new Date(dateTo);
@@ -201,4 +199,3 @@ export const firstToCapital = (str: any) => {
 };
 
 //Three.js utils
-
