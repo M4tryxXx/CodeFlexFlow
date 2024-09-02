@@ -56,12 +56,12 @@ export default function Page() {
               </div>
             </div>
 
-            <section className="flex flex-col gap-4 p-4">
+            <article className="flex flex-col gap-4 p-4">
               <h1 className="text-3xl font-bold mb-6 md:mx-10 text-gray-800 dark:text-gray-200 opacity-75">
                 Bine ați venit!
               </h1>
               <div className=" flex flex-col md:flex-row justify-between">
-                <article className="md:w-[50%] p-4">
+                <section className="md:w-[50%] p-4">
                   <p className="indent-7">
                     <span className="text-4xl ">B</span>ine ai venit la
                     CodeFlexFlow! Platforma noastră îți permite să creezi și să
@@ -72,12 +72,12 @@ export default function Page() {
                     simplificată. Alătură-te nouă și preia controlul asupra
                     carierei tale chiar astăzi!
                   </p>
-                </article>
+                </section>
                 <div className="flex-col md:flex-row p-4  justify-center items-center flex flex-wrap gap-3">
                   <ExampleCard data={dataRomania} delay={0.5} />
                 </div>
               </div>
-            </section>
+            </article>
           </div>
         </main>
         <Footer />
