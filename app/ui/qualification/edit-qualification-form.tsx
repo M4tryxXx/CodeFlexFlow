@@ -30,13 +30,14 @@ export default function EditQualificationForm({ id }: any) {
       school: school,
       city: city,
       field: field,
-      start_date: from,
-      end_date: to,
+      start_date: new Date(from),
+      end_date: new Date(to),
       description: description,
       id: id,
       updated_at: new Date(Date.now()),
     });
   };
+
   return (
     <>
       <div className="relative my-5 bg-sky-100 rounded-md border">
