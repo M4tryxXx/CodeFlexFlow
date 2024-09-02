@@ -56,12 +56,12 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 p-4">
+            <section className="flex flex-col gap-4 p-4">
               <h1 className="text-3xl font-bold mb-6 md:mx-10 text-gray-800 dark:text-gray-200 opacity-75">
                 Bine ați venit!
               </h1>
               <div className=" flex flex-col md:flex-row justify-between">
-                <div className="md:w-[50%] p-4">
+                <article className="md:w-[50%] p-4">
                   <p className="indent-7">
                     <span className="text-4xl ">B</span>ine ai venit la
                     CodeFlexFlow! Platforma noastră îți permite să creezi și să
@@ -72,12 +72,12 @@ export default function Page() {
                     simplificată. Alătură-te nouă și preia controlul asupra
                     carierei tale chiar astăzi!
                   </p>
-                </div>
+                </article>
                 <div className="flex-col md:flex-row p-4  justify-center items-center flex flex-wrap gap-3">
                   <ExampleCard data={dataRomania} delay={0.5} />
                 </div>
               </div>
-            </div>
+            </section>
           </div>
         </main>
         <Footer />
@@ -112,12 +112,12 @@ export default function Page() {
               </div>
             </div>
 
-            <div className="flex flex-col gap-4 p-4">
+            <section className="flex flex-col gap-4 p-4">
               <h1 className="text-3xl font-bold mb-6 md:mx-10 text-gray-800 dark:text-gray-200 opacity-75">
                 Welcome to CodeFlexFlow!
               </h1>
               <div className=" flex flex-col md:flex-row justify-between">
-                <div className="md:w-[50%] p-4">
+                <article className="md:w-[50%] p-4">
                   <p className="indent-7">
                     <span className="text-4xl ">W</span>elcome to CodeFlexFlow!
                     Our platform empowers you to create and send digital
@@ -127,12 +127,12 @@ export default function Page() {
                     insights and a streamlined digital experience. Join us and
                     take control of your career journey today!
                   </p>
-                </div>
+                </article>
                 <div className="flex-col md:flex-row p-4  justify-center items-center flex flex-wrap gap-3">
                   <ExampleCard data={data} delay={0.5} />
                 </div>
               </div>
-            </div>
+            </section>
           </div>
         </main>
         <Footer />
