@@ -300,8 +300,8 @@ export const selectUserCvFull = async (id: string) => {
       },
       include: {
         personal_info: true,
-        qualifications: true,
-        experiences: true,
+        qualifications: {orderBy: {start_date: 'desc'}},
+        experiences: {orderBy: { start_date: 'desc'}},
         skills: true,
         social_media: true,
       },
