@@ -9,6 +9,7 @@
   "dependencies": {
     "@clerk/nextjs": "^5.2.12",
     "@heroicons/react": "^2.1.4",
+    "@nextui-org/button": "^2.0.38",
     "@nextui-org/card": "^2.0.33",
     "@nextui-org/input": "^2.2.4",
     "@nextui-org/react": "^2.4.6",
@@ -21,6 +22,7 @@
     "@tailwindcss/forms": "^0.5.7",
     "@types/react-vertical-timeline-component": "^3.3.6",
     "@vercel/postgres": "^0.8.0",
+    "add": "^2.0.6",
     "autoprefixer": "10.4.19",
     "clsx": "^2.1.1",
     "cuid": "^3.0.0",
@@ -30,6 +32,7 @@
     "next-auth": "5.0.0-beta.20",
     "next-themes": "^0.3.0",
     "nodemailer": "^6.9.14",
+    "pnpm": "^9.12.2",
     "postcss": "8.4.38",
     "react": "19.0.0-rc-f38c22b244-20240704",
     "react-admin": "^5.1.1",

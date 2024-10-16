@@ -82,9 +82,9 @@ export default function ContactCard({ user }: any) {
                 </div>
               </div>
               <p className="text-xs md:text-sm">Tap and hold for zoom!</p>
-              <Button color="danger" variant="bordered">
+              {/* <Button color="danger" variant="bordered">
                 Animate
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
