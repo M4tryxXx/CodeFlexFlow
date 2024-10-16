@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Button, ButtonGroup } from "@nextui-org/button";
 
 export default function ContactCard({ user }: any) {
   return (
@@ -9,10 +10,10 @@ export default function ContactCard({ user }: any) {
       layout
       initial={{ opacity: 0, scale: 0.1 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      whileTap={{
-        scale: 1.5,
-        transition: { duration: 0.2 },
-      }}
+      // whileTap={{
+      //   scale: 1.5,
+      //   transition: { duration: 0.2 },
+      // }}
       transition={{
         duration: 3,
         ease: [0, 0.71, 0.2, 1.01],
@@ -81,6 +82,9 @@ export default function ContactCard({ user }: any) {
                 </div>
               </div>
               <p className="text-xs md:text-sm">Tap and hold for zoom!</p>
+              <Button color="danger" variant="bordered">
+                Animate
+              </Button>
             </div>
           </div>
         </div>

@@ -20,10 +20,13 @@ export default function Card({ data, delay }: any) {
   } = data;
   return (
     <motion.div
-      variants={fadeIn("up", "spring", delay, 0.75)}
+      variants={fadeIn("right", "spring", delay, 0.50 )}
       initial="hidden"
       className="w-full min-h-[250px] m-6 md:w-[400px] green-pink-gradient p-[2px] rounded-[20px] dark:shadow-card"
-      whileInView="show"
+      whileInView={"show"}
+
+      
+
     >
       <div className="dark:bg-[#151030] bg-stone-100 rounded-[20px] flex items-center flex-col w-full h-full m-0">
         <div className=" bg-rose-200 dark:bg-emerald-900 w-full rounded-t-[20px] text-center mt-0 py-3">

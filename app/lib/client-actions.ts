@@ -371,17 +371,23 @@ export const registerFunction = async (data: any) => {
 };
 
 export async function addDataUserSide(data: any) {
+
+  //Initialize an empty object
   let obj: any = {};
   for (let [key, value] of Object.entries(data)) {
     if (value) {
       obj[key] = value;
     }
   }
+
+  //Get the keys of the obj object
   const keys = Object.keys(obj);
   if (keys.length === 1) {
     toast.error("No changes was made!");
     return;
   }
+
+  //Check if the first key in the keys array is "school" as this would mean that the user is trying to add a qualification
   if (keys[0] === "school") {
     let dataToUpdate = addQualificationSchema.safeParse(obj);
     if (!dataToUpdate.success) {
@@ -400,7 +406,10 @@ export async function addDataUserSide(data: any) {
       return;
     }
     toast.success("Qualification added!");
-  } else if (keys[0] === "company") {
+  } 
+
+  //Check if the first key in the keys array is "company" as this would mean that the user is trying to add an experience
+  else if (keys[0] === "company") {
     let dataToUpdate = addExperienceSchema.safeParse(obj);
     if (!dataToUpdate.success) {
       let errorMessage = "";
@@ -421,18 +430,28 @@ export async function addDataUserSide(data: any) {
 }
 
 export async function editDataUserSide(data: any) {
+
+  //Initialize an empty object
   let obj: any = {};
+
+  //Iterate through the data object and add the key value pairs to the obj object
   for (let [key, value] of Object.entries(data)) {
     if (value) {
       obj[key] = value;
     }
   }
+
+  //Get the keys of the obj object
   const keys = Object.keys(obj);
 
+
+  //Check if the keys array has only one element
   if (keys.length === 1) {
     toast.error("No changes was made!");
     return;
   }
+
+  //Check if the first key in the keys array is "school" as this would mean that the user is trying to edit a qualification
   if (keys[0] === "editQualification") {
     let dataToUpdate = editQualificationSchema.safeParse(obj);
     if (!dataToUpdate.success) {
@@ -451,7 +470,11 @@ export async function editDataUserSide(data: any) {
       return;
     }
     toast.success("Qualification updated!");
-  } else if (keys[0] === "editExperience") {
+
+  } 
+  
+  //Check if the first key in the keys array is "company" as this would mean that the user is trying to edit an experience
+  else if (keys[0] === "editExperience") {
     let dataToUpdate = editExperienceSchema.safeParse(obj);
     if (!dataToUpdate.success) {
       let errorMessage = "";

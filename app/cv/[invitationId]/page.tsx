@@ -16,6 +16,11 @@ export default async function CvPage({
   params: { invitationId: string };
 }) {
   const { invitationId } = params;
+  let contactVisible: boolean = false;
+
+  const toggleContactVisibility = () => {
+   contactVisible = !contactVisible;
+  };
 
   const invite = await getInvitesById(invitationId);
   let expires: any;
@@ -110,7 +115,23 @@ export default async function CvPage({
             <div className="absolute bottom-20 left-[5px] w-[200px] h-[200px] md:w-[400px] md:h-[400px] md:bottom-5 ">
               <EarthCanvas url="../../planet/scene.gltf" />
             </div>
-            <ContactCard user={user.personal_info} />
+            <button
+            onClick={toggleContactVisibility}
+            className={`toggle-button ${contactVisible ? "bg-purple-500" : "opacity-50"}`}
+            style={{
+              padding: "10px 20px",
+              borderRadius: "5px",
+              color: "white",
+              cursor: "pointer",
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+            }}
+          >
+            {contactVisible ? "Hide Contact" : "Show Contact"}
+          </button>
+          {contactVisible && <ContactCard user={user.personal_info} />}
+
           </div>
         </div>
       </div>

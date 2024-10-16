@@ -5,7 +5,7 @@ const {
   VerticalTimelineElement,
 } = require("react-vertical-timeline-component");
 import "react-vertical-timeline-component/style.min.css";
-import { DocumentIcon } from "@heroicons/react/24/outline";
+import { DocumentIcon, UserIcon, BriefcaseIcon} from "@heroicons/react/24/outline";
 import { formatDateYearMonth } from "@/app/lib/utils";
 
 export default function ExperienceCv({ user }: any) {
@@ -28,7 +28,7 @@ export default function ExperienceCv({ user }: any) {
               contentArrowStyle={{ borderRight: "7px solid  #fff" }}
               date={`${from.month} ${from.year} - ${to.month} ${to.year}`}
               iconStyle={{ background: "#000", color: "#fff" }}
-              icon={<DocumentIcon />}
+              icon={<BriefcaseIcon />}
               iconClassName={"dark:bg-emerald-950"}
               dateClassName={"mx-5 font-bold text-lg"}
             >
@@ -68,7 +68,7 @@ export default function ExperienceCv({ user }: any) {
               key={exp.id}
               date={`${from.month} ${from.year} - ${to.month} ${to.year}`}
               iconStyle={{ background: "#000", color: "#fff" }}
-              icon={<DocumentIcon />}
+              icon={<BriefcaseIcon />}
               iconClassName={"dark:bg-emerald-950"}
               dateClassName={"mx-5 font-bold text-2xl"}
             >

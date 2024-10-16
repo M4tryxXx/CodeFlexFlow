@@ -12,9 +12,16 @@ import ContactMe from "@/app/ui/Contact/ContactMe";
 import EarthCanvas from "@/app/ui/profile/MyCv/Earth";
 import ContactCard from "@/app/ui/profile/MyCv/Contact";
 import StarsCanvas from "@/app/ui/profile/MyCv/Stars";
+import ToggleButton from "@/app/ui/toggleButton/toggleButton";
 
 export default async function MyCvPage() {
   const user = await userData();
+  let contactVisible: boolean = false;
+
+  const toggleContactVisibility = () => {
+    contactVisible = !contactVisible;
+  };
+
   //console.log(user);
   return (
     <div className="relative h-full bg-[#050816]">
@@ -66,6 +73,7 @@ export default async function MyCvPage() {
           <div className="absolute bottom-20 left-[5px] w-[200px] h-[200px] md:w-[400px] md:h-[400px] md:bottom-5 -z-50">
             <EarthCanvas url="../../../planet/scene.gltf" />
           </div>
+
           <ContactCard user={user.personal_info} />
         </div>
       </div>

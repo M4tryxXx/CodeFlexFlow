@@ -984,3 +984,19 @@ export const updateUserLast = async (id: string) => {
 
   await prisma.$disconnect();
 };
+
+export const getQualificationById = async (id: string) => {
+  try {
+    const result = await prisma.user_qualifications.findUnique({
+      where: {
+        id: id,
+      },
+    });
+    await prisma.$disconnect();
+    return result;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return null;
+  }
+}

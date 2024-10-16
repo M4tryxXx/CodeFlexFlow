@@ -13,8 +13,10 @@ import {
 } from "@heroicons/react/24/outline";
 import { Button } from "../Button";
 import { editDataUserSide } from "@/app/lib/client-actions";
+import { set } from "zod";
 
-export default function EditQualificationForm({ id }: any) {
+export default function EditQualificationForm({ id, data }: any) {
+  
   const [school, setSchool] = useState("");
   const [city, setCity] = useState("");
   const [degree, setDegree] = useState("");
@@ -63,9 +65,15 @@ export default function EditQualificationForm({ id }: any) {
               <input
                 id="degree"
                 onChange={(e) => setDegree(e.target.value)}
+                onFocus={(e) => {
+                  if (data){ 
+                  e.target.value = data.degree;
+                  setDegree(data.degree);
+                  }
+                }}
                 name="degree"
-                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                placeholder="Specializarea..."
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-gray"
+                placeholder={data ? data.degree : "Qualification..."}
               />
               <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -83,10 +91,16 @@ export default function EditQualificationForm({ id }: any) {
                   id="from"
                   name="from"
                   onChange={(e) => setFrom(e.target.value)}
+                  onFocus={(e) => {
+                    if (data) {
+                      e.target.value = data.start_date;
+                      setFrom(data.start_date);
+                    }
+                  }}
                   type="date"
                   min={new Date("1975-01-01").toISOString().split("T")[0]}
                   max={new Date().toISOString().split("T")[0]}
-                  className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                  className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-gray"
                 />
                 <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
               </div>
@@ -104,10 +118,16 @@ export default function EditQualificationForm({ id }: any) {
                 id="to"
                 name="to"
                 onChange={(e) => setTo(e.target.value)}
+                onFocus={(e) => {
+                  if (data) {
+                    e.target.value = data.end_date;
+                    setTo(data.end_date);
+                  }
+                }}
                 type="date"
                 min={new Date("1975-01-01").toISOString().split("T")[0]}
                 max={new Date().toISOString().split("T")[0]}
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
+                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-gray"
               />
               <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -124,8 +144,14 @@ export default function EditQualificationForm({ id }: any) {
                 id="school"
                 name="school"
                 onChange={(e) => setSchool(e.target.value)}
-                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                placeholder="Scoala..."
+                onFocus={(e) => {
+                  if (data) {
+                    e.target.value = data.school;
+                    setSchool(data.school);
+                  }
+                }}
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-gray"
+                placeholder={data ? data.school : "School..."}
               />
               <BuildingLibraryIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -141,9 +167,15 @@ export default function EditQualificationForm({ id }: any) {
               <input
                 id="field"
                 onChange={(e) => setField(e.target.value)}
+                onFocus={(e) => {
+                  if (data) {
+                    e.target.value = data.field;
+                    setField(data.field);
+                  }
+                }}
                 name="field"
-                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                placeholder="Profil..."
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-gray"
+                placeholder={data ? data.field : "Field..."}
               />
               <IdentificationIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -160,8 +192,14 @@ export default function EditQualificationForm({ id }: any) {
                 id="city"
                 name="city"
                 onChange={(e) => setCity(e.target.value)}
-                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white "
-                placeholder="City..."
+                onFocus={(e) => {
+                  if (data) {
+                    e.target.value = data.city;
+                    setCity(data.city);
+                  }
+                }}
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-gray"
+                placeholder={data ? data.city : "City..."}
               />
               <MapIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
@@ -179,8 +217,14 @@ export default function EditQualificationForm({ id }: any) {
                 id="description"
                 name="description"
                 onChange={(e) => setDescription(e.target.value)}
-                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-white"
-                placeholder="Descriere competente si aptitudini..."
+                onFocus={(e) => {
+                  if (data) {
+                    e.target.value = data.description;
+                    setDescription(data.description);
+                  }
+                }}
+                className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500 dark:bg-stone-700 dark:text-gray-100 dark:peer-focus:text-white dark:placeholder-gray"
+                placeholder={data ? data.description : "Describe what have you learned..."}
               />
               <DocumentCheckIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900 dark:text-gray-100 dark:peer-focus:text-white" />
             </div>
