@@ -128,7 +128,7 @@ export default function Notifications({ user_id }: any) {
       </div>
       <div
         ref={notificationRef}
-        className={`absolute bg-rose-200 text-rose-900 dark:text-yellow-300 dark:bg-emerald-800 w-[400px] h-auto md:w-[600px] md:h-auto flex-col justify-start p-2 rounded-md z-50 transition-all duration-300 ease-in-out right-6 top-40 ${
+        className={`absolute bg-rose-200 text-rose-900 dark:text-yellow-300 dark:bg-emerald-800 w-[400px] h-auto md:w-[600px] md:h-auto flex-col justify-start p-2 rounded-md z-50 transition-all duration-300 ease-in-out right-5 top-40 ${
           visible ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
         }`}
         style={{ overflow: "hidden" }}
