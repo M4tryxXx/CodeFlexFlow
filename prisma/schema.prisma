@@ -31,7 +31,8 @@ model user {
   lastLogin           DateTime?
   lastLogin_from      String?
   settings            user_settings?
-  notifications       user_notifications[]
+  notifications       user_notifications[] @relation("ToUser")
+  sent_notifications  user_notifications[] @relation("FromUser")
   qualifications      user_qualifications[]
   experiences         user_experiences[]
   skills              user_skills[]
@@ -47,14 +48,20 @@ model user {
 
 model user_notifications {
   id           String   @id @default(cuid())
-  user_id      String  
-  notification String
-  type         String
+  from_user_id      String? 
+  to_user_id        String 
+  subject     String
+  message String
+  type         String?
   read         Boolean? @default(false)
   created_at   DateTime @default(now())
-  user         user     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  from        String?
+  from_user         user?     @relation("FromUser", fields: [from_user_id], references: [id], onDelete: Cascade)
+  to_user           user     @relation("ToUser", fields: [to_user_id], references: [id], onDelete: Cascade)
 
-  @@index([user_id], map: "UserNotification_user_id_fkey")
+  @@index([from_user_id], map: "Notification_from_user_id_fkey")
+  @@index([to_user_id], map: "Notification_to_user_id_fkey")
+
 }
 
 //**

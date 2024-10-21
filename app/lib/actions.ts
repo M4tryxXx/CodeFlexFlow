@@ -34,6 +34,7 @@ import {
   selectUserLogIn,
   selectUserAccount,
   selectAllUsers,
+  send_message,
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
@@ -160,10 +161,16 @@ export async function registerUser(data: object | any) {
 
   const response = await saveUserDb(data);
 
-  ////console.log(response);
+  console.log(response);
   if (response) {
     await sendWelcomeEmail(email, username);
     await sendContactMeEmail(email, username, " Just created an account :)!");
+    await send_message({
+      subject: "Welcome",
+      message: "Welcome to the CV App",
+      to_user_id: response.id,
+      from: "Admin",
+    });
     revalidatePath("/home/admin/users");
     redirect("/login");
   } else {
@@ -481,3 +488,14 @@ export async function sendContactEmail(formData: FormData) {
   }
   revalidatePath("/home/dashboard");
 }
+
+export const sendMessage = async (data: any) => {
+  try {
+    const response = await send_message(data);
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+  revalidatePath("/home/admin/users");
+  redirect("/home/admin/users");
+};

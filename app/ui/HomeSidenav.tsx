@@ -10,8 +10,10 @@ import { signOut } from "@/auth";
 import { lusitana } from "@/app/ui/fonts";
 import { Tooltip } from "@nextui-org/react";
 import ThemeSwitch from "./ThemeSwitch";
+import Notifications from "./Notifications/Notifications";
 
-export default function HomeSideNav({ user }: any) {
+export default async function HomeSideNav({ user }: any) {
+  // console.log("User: ", user);
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
       <Link
@@ -96,6 +98,7 @@ export default function HomeSideNav({ user }: any) {
               </button>
             </Tooltip>
           </form>
+          <Notifications user_id={user?.id} />
         </div>
       </div>
     </div>

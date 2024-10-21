@@ -12,7 +12,7 @@ import ContactMe from "@/app/ui/Contact/ContactMe";
 import EarthCanvas from "@/app/ui/profile/MyCv/Earth";
 import ContactCard from "@/app/ui/profile/MyCv/Contact";
 import StarsCanvas from "@/app/ui/profile/MyCv/Stars";
-import ToggleButton from "@/app/ui/toggleButton/toggleButton";
+import ToggleButton from "@/app/ui/Notifications/Notifications";
 
 export default async function MyCvPage() {
   const user = await userData();

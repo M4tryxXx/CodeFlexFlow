@@ -116,3 +116,11 @@ export const EditSocialData = z.object({
   tiktok: z.string().optional(),
   updated_at: z.date(),
 });
+
+export const sendMessageSchema = z.object({
+  subject: z.string().min(3),
+  message: z.string().min(3),
+  from_user_id: z.string().optional(),
+  to_user_id: z.string(),
+  from: z.string(),
+});

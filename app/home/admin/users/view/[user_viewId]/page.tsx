@@ -5,6 +5,7 @@ import { formatDateToLocal } from "@/app/lib/utils";
 import UsersTable from "@/app/ui/admin/UsersTable";
 import UsersTableView from "@/app/ui/admin/UsersTable";
 import ProfileTable from "@/app/ui/profile/MyCv/Profile";
+import Link from "next/link";
 
 export default async function EditUserPage({
   params,
@@ -24,6 +25,9 @@ export default async function EditUserPage({
           <div className="-m-1.5 overflow-x-auto">
             <div className="p-1.5 min-w-full inline-block align-middle">
               <div className="overflow-hidden"></div>
+              <Link href={`/home/admin/users/view/${user_viewId}/send_message`}>
+                <p className="text-blue-500">Send a Message</p>
+              </Link>
               <ProfileTable user={user} />
             </div>
           </div>

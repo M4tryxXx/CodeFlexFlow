@@ -12,6 +12,7 @@ import {
   sendPasswordChangeLink,
   updateUserDbPassword,
   handleDeleteAccount,
+  sendMessage,
 } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import z from "zod";
@@ -29,6 +30,7 @@ import {
   updateUserDbPasswordSchema,
   PersonalInfoSchema,
   EditSocialData,
+  sendMessageSchema,
 } from "./zod-schemas";
 import { sendWelcomeEmail, sendContactMeEmail } from "./mailer";
 import { updateUserDbOnLogin } from "../lib/myDb";
@@ -371,7 +373,6 @@ export const registerFunction = async (data: any) => {
 };
 
 export async function addDataUserSide(data: any) {
-
   //Initialize an empty object
   let obj: any = {};
   for (let [key, value] of Object.entries(data)) {
@@ -406,7 +407,7 @@ export async function addDataUserSide(data: any) {
       return;
     }
     toast.success("Qualification added!");
-  } 
+  }
 
   //Check if the first key in the keys array is "company" as this would mean that the user is trying to add an experience
   else if (keys[0] === "company") {
@@ -430,7 +431,6 @@ export async function addDataUserSide(data: any) {
 }
 
 export async function editDataUserSide(data: any) {
-
   //Initialize an empty object
   let obj: any = {};
 
@@ -443,7 +443,6 @@ export async function editDataUserSide(data: any) {
 
   //Get the keys of the obj object
   const keys = Object.keys(obj);
-
 
   //Check if the keys array has only one element
   if (keys.length === 1) {
@@ -470,9 +469,8 @@ export async function editDataUserSide(data: any) {
       return;
     }
     toast.success("Qualification updated!");
+  }
 
-  } 
-  
   //Check if the first key in the keys array is "company" as this would mean that the user is trying to edit an experience
   else if (keys[0] === "editExperience") {
     let dataToUpdate = editExperienceSchema.safeParse(obj);
@@ -547,4 +545,29 @@ export const getUserLocation = () => {
     .resolvedOptions()
     .timeZone.split("/")[1];
   return response;
+};
+
+export const sendUserMessage = async (data: any) => {
+  // const dest_email = data.email;
+  // const name = data.name;
+  // const from = data.from;
+  const dataToSend = sendMessageSchema.safeParse(data);
+  if (!dataToSend.success) {
+    let errorMessage = "";
+    dataToSend.error.errors.forEach((issue) => {
+      errorMessage =
+        errorMessage + `The Field '${issue.path[0]}' is ${issue.message}`;
+    });
+    toast.error(errorMessage, { duration: 5000 });
+    return;
+  }
+
+  const response = await sendMessage(dataToSend.data);
+  if (response) {
+    toast.error("Failed to send message, please try again!", {
+      duration: 5000,
+    });
+    return;
+  }
+  toast.success("Message sent successfully!", { duration: 5000 });
 };

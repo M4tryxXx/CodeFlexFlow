@@ -153,6 +153,7 @@ export const selectUserAccount = async (
         include: {
           settings: true,
           notifications: true,
+          sent_notifications: true,
         },
       });
     } else if (username) {
@@ -163,6 +164,7 @@ export const selectUserAccount = async (
         include: {
           settings: true,
           notifications: true,
+          sent_notifications: true,
         },
       });
     } else if (email) {
@@ -173,6 +175,7 @@ export const selectUserAccount = async (
         include: {
           settings: true,
           notifications: true,
+          sent_notifications: true,
         },
       });
     }
@@ -207,6 +210,7 @@ export const selectUserFull = async (
         include: {
           settings: true,
           notifications: true,
+          sent_notifications: true,
           personal_info: true,
           qualifications: true,
           experiences: true,
@@ -226,6 +230,7 @@ export const selectUserFull = async (
         include: {
           settings: true,
           notifications: true,
+          sent_notifications: true,
           personal_info: true,
           qualifications: true,
           experiences: true,
@@ -244,9 +249,10 @@ export const selectUserFull = async (
         include: {
           settings: true,
           notifications: true,
+          sent_notifications: true,
           personal_info: true,
-          qualifications:  {orderBy: {start_date: 'desc'}},
-          experiences:  {orderBy: {start_date: 'desc'}},
+          qualifications: true,
+          experiences: true,
           skills: true,
           social_media: true,
           invites: true,
@@ -300,8 +306,8 @@ export const selectUserCvFull = async (id: string) => {
       },
       include: {
         personal_info: true,
-        qualifications: {orderBy: {start_date: 'desc'}},
-        experiences: {orderBy: { start_date: 'desc'}},
+        qualifications: { orderBy: { start_date: "desc" } },
+        experiences: { orderBy: { start_date: "desc" } },
         skills: true,
         social_media: true,
       },
@@ -999,4 +1005,69 @@ export const getQualificationById = async (id: string) => {
     //console.log(err);
     return null;
   }
-}
+};
+
+export const getInboxNotifications = async (id: string) => {
+  try {
+    const result = await prisma.user_notifications.findMany({
+      where: {
+        to_user_id: id,
+      },
+    });
+    await prisma.$disconnect();
+    return result;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return [];
+  }
+};
+
+export const send_message = async (data: any) => {
+  try {
+    const response = await prisma.user_notifications.create({
+      data: data,
+    });
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
+export const mark_message = async (id: string) => {
+  try {
+    const response = await prisma.user_notifications.updateMany({
+      where: {
+        id: id,
+      },
+      data: {
+        read: true,
+      },
+    });
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
+
+export const delete_message = async (id: string) => {
+  try {
+    const response = await prisma.user_notifications.delete({
+      where: {
+        id: id,
+      },
+    });
+    await prisma.$disconnect();
+    return response;
+  } catch (err) {
+    await prisma.$disconnect();
+    console.log(err);
+    return null;
+  }
+};
