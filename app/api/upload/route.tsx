@@ -22,7 +22,7 @@ export async function POST(request: NextRequest, res: any) {
 
   const pathDist: string = join(process.cwd(), "/public/images");
   const relativeUploadDir = dateFormatter.formatDate(new Date());
-  const uploadDir = join(pathDist, relativeUploadDir);
+  const uploadDir = join(pathDist);
 
   try {
     await stat(uploadDir);
