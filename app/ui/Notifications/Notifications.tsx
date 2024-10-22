@@ -45,7 +45,7 @@ export default function Notifications({ user_id }: any) {
     };
     fetchNotifications(); // Fetch notifications immediately when the page loads
 
-    const interval = setInterval(fetchNotifications, 5000); // Fetch notifications every 30 seconds
+    const interval = setInterval(fetchNotifications, 30000); // Fetch notifications every 30 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [user_id]);
