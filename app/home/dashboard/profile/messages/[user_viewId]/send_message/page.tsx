@@ -19,7 +19,7 @@ const SendMessagePage = async ({
     from: currentUser?.username,
   };
 
-  console.log("currentUser: ", currentUser);
+  // console.log("currentUser: ", currentUser);
 
   return (
     <div className="container mx-auto p-4">

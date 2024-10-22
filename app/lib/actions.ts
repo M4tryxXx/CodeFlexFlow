@@ -502,7 +502,6 @@ export const sendMessage = async (data: any) => {
   revalidatePath("/home/admin/users");
   redirect("/home/dashboard/profile/messages");
 };
-
 export const mark_message_read = async (id: string) => {
   const response = await mark_message(id);
   if (response) {

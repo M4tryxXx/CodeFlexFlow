@@ -187,7 +187,7 @@ export default function Messages({ messages_data }: any) {
                           : "To " + selectedMessage.to}
                         :
                       </p>
-                      <div className="flex flex-col rounded-3xl dark:bg-gray-700 p-6 bg-rose-300 w-[70%] gap-6 h-auto">
+                      <div className="flex flex-col rounded-3xl dark:bg-gray-700 p-6 bg-rose-300 w-[70%] gap-6 h-auto shadow-md dark:shaddow-yellow-300 shaddow-black">
                         <div className="flex flex-row gap-2 justify-start">
                           <p className="text-lg font-bold">
                             {selectedMessage.message}
@@ -207,8 +207,7 @@ export default function Messages({ messages_data }: any) {
                     >
                       <div className="flex flex-row gap-2 justify-between">
                         <div className="relative">
-                          <input
-                            type="text"
+                          <textarea
                             placeholder="Type your message here"
                             className="bg-rose-200 dark:bg-emerald-800 dark:text-yellow-300 text-rose-900 rounded-md p-2 focus:outline-[0.2mm] focus:ring-2 focus:ring-rose-500 dark:focus:ring-yellow-300 focus:border-rose-500 dark:focus:border-yellow-300 border-[0.2mm] dark:border-yellow-300 border-rose-300"
                             value={message}

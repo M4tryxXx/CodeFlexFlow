@@ -24,7 +24,7 @@ export default async function MessagesPage() {
     delete_message: delete_message,
   };
 
-  console.log("currentUser: ", currentUser);
+  //   console.log("currentUser: ", currentUser);
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-col gap-3">
