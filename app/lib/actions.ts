@@ -517,6 +517,7 @@ export const delete_message_read = async (id: string) => {
   if (response) {
     revalidatePath("/home/dashboard/profile/messages");
     revalidatePath("/home/admin/users");
+    return response;
   } else {
     return "Something went wrong";
   }

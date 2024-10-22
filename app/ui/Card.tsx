@@ -1,6 +1,7 @@
 "use client";
-import { Tilt } from "react-tilt";
-import { motion } from "framer-motion";
+import React, { useEffect } from "react";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import { fadeIn, textVariant } from "../lib/utils";
 import { EditIcon } from "./admin/table/EditIcon";
 import Link from "next/link";
@@ -8,6 +9,18 @@ import DeleteQualification from "./qualification/DeleteQualification";
 import DeleteExperience from "./experience/DeleteExperience";
 
 export default function Card({ data, delay }: any) {
+  const controls = useAnimation();
+  const [ref, inView] = useInView({
+    triggerOnce: true, // Trigger the animation only once
+    threshold: 0.1, // Adjust the threshold as needed
+  });
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("show");
+    }
+  }, [controls, inView]);
+
   const {
     company_school,
     title_position,
@@ -20,13 +33,14 @@ export default function Card({ data, delay }: any) {
   } = data;
   return (
     <motion.div
-      variants={fadeIn("right", "spring", delay, 0.50 )}
+      ref={ref}
+      variants={{
+        hidden: { opacity: 0, x: 100 },
+        show: { opacity: 1, x: 0, transition: { type: "spring", delay } },
+      }}
       initial="hidden"
+      animate={controls}
       className="w-full min-h-[250px] m-6 md:w-[400px] green-pink-gradient p-[2px] rounded-[20px] dark:shadow-card"
-      whileInView={"show"}
-
-      
-
     >
       <div className="dark:bg-[#151030] bg-stone-100 rounded-[20px] flex items-center flex-col w-full h-full m-0">
         <div className=" bg-rose-200 dark:bg-emerald-900 w-full rounded-t-[20px] text-center mt-0 py-3">

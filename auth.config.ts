@@ -11,12 +11,13 @@ export const authConfig = {
       const isLoggedIn = !!auth?.user;
       const isHome = nextUrl.pathname.startsWith("/home");
       const isPlanet = nextUrl.pathname.startsWith("/planet");
+      const isPublic = nextUrl.pathname.startsWith("/public");
       const isCv = nextUrl.pathname.startsWith("/cv");
 
       if (isHome) {
         if (isLoggedIn) return true;
         return false; // Redirect unauthenticated users to login page
-      } else if (isLoggedIn && !isPlanet && !isCv) {
+      } else if (isLoggedIn && !isPlanet && !isCv && !isPublic) {
         return Response.redirect(new URL("/home", nextUrl));
       }
       return true;

@@ -12,6 +12,7 @@ import { deleteUserSide, editUserAccount } from "@/app/lib/client-actions";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { redirectUser } from "@/app/lib/actions";
+import UploadPhoto from "../../Upload/UploadPhoto";
 
 export default function EditProfileForm({ user }: any) {
   if (!user) {
@@ -728,6 +729,8 @@ export default function EditProfileForm({ user }: any) {
           Delete Account
         </button>
       </form>
+      <hr className="w-full border-[3px] border-gray-200 dark:border-emerald-800 rounded-md my-6" />
+      <UploadPhoto />
     </>
   );
 }

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import Link from "next/link";
 import {
   BellAlertIcon,
   BellIcon,
@@ -14,6 +13,7 @@ import {
 } from "../../lib/myDb";
 import { mark_message_read, delete_message_read } from "@/app/lib/actions";
 import { Tooltip } from "@nextui-org/react";
+import Link from "next/link";
 import toast from "react-hot-toast";
 
 export default function Notifications({ user_id }: any) {
@@ -43,9 +43,10 @@ export default function Notifications({ user_id }: any) {
         console.error("Failed to fetch notifications:", error);
       }
     };
+
     fetchNotifications(); // Fetch notifications immediately when the page loads
 
-    const interval = setInterval(fetchNotifications, 30000); // Fetch notifications every 30 seconds
+    const interval = setInterval(fetchNotifications, 60000); // Fetch notifications every 30 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [user_id]);
@@ -88,6 +89,11 @@ export default function Notifications({ user_id }: any) {
     (notification: any) => notification.read === false
   );
 
+  // This function filters the notifications into read notifications and stores them in a variable
+  const readNotificationsList = notifications?.filter(
+    (notification: any) => notification.read === true
+  );
+
   // This function maps through the unread notifications and creates a list of notifications to be displayed in the notification dropdown
   const notificationsList = unreadNotificationsList?.map(
     (notification: any) => {
@@ -121,6 +127,35 @@ export default function Notifications({ user_id }: any) {
     }
   );
 
+  // This function maps through the read notifications and creates a list of notifications to be displayed in the notification dropdown
+  const readNotifications = readNotificationsList.map((notification: any) => {
+    if (notification.read) {
+      return (
+        <Tooltip
+          key={notification.id}
+          content="Open"
+          placement="bottom-start"
+          className="bg-rose-200 px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-900 border-rose-200 dark:border-yellow-300 dark:border-[0.2mm] dark:shadow-md p-2 hover:cursor-pointer hover:bg-rose-100  my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+        >
+          <div
+            className="flex flex-row justify-between items-center border-b-2 border-rose-200 dark:border-yellow-300 p-2 hover:cursor-pointer hover:bg-rose-100 dark:hover:bg-emerald-900 my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+            key={notification.id}
+            style={{ width: "90%" }}
+            onClick={() => handleNotificationClick(notification)}
+          >
+            <p
+              className={`${
+                notification.read ? "font-light text-sm" : "font-bold text-lg"
+              }`}
+            >
+              {notification.subject}
+            </p>
+            <p>{notification.from}</p>
+          </div>
+        </Tooltip>
+      );
+    }
+  });
   // console.log("Unread Notifications: ", unreadNotifications);
 
   return (
@@ -223,17 +258,33 @@ export default function Notifications({ user_id }: any) {
                   <h2 className="text-lg">No unread notifications</h2>
                 )}
                 <hr className="w-full border-[0.2mm] border-rose-200 dark:border-yellow-300 my-2" />
-                <Link
-                  href="/home/dashboard/profile/messages"
-                  onClick={() => {
-                    setVisible(false);
-                  }}
-                >
-                  <button className="bg-rose-200 px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-900 border-rose-200 dark:border-yellow-300 dark:border-[0.2mm] dark:shadow-md p-2 hover:cursor-pointer hover:bg-rose-100 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300 my-6">
-                    Go To Messages
-                  </button>
-                </Link>
-                <div className="flex flex-row justify-end items-center p-2 my-2 w-full">
+
+                {readNotifications.length > 0 ? (
+                  <>
+                    <h2 className="text-lg">Older Messages</h2>
+                    <div
+                      className="flex flex-row justify-between items-center  p-2 my-2"
+                      style={{ width: "90%" }}
+                    >
+                      <p className="font-light text-sm">Subject</p>
+                      <p>From</p>
+                    </div>
+                    {readNotifications}
+                  </>
+                ) : (
+                  <h2 className="text-lg">No older notifications</h2>
+                )}
+                <div className="flex flex-row justify-between items-center p-2 my-2 w-full">
+                  <Link
+                    href="/home/dashboard/profile/messages"
+                    onClick={() => {
+                      setVisible(false);
+                    }}
+                  >
+                    <button className="bg-rose-200 px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-900 border-rose-200 dark:border-yellow-300 dark:border-[0.2mm] dark:shadow-md p-2 hover:cursor-pointer hover:bg-rose-100 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300 my-6">
+                      Go To Messages
+                    </button>
+                  </Link>
                   <Tooltip
                     content="Delete All Messages"
                     placement="top"
@@ -262,7 +313,9 @@ export default function Notifications({ user_id }: any) {
               </>
             ) : (
               <div className="flex flex-col justify-center items-center">
-                <p className="text-lg">You don't have any new notifications!</p>
+                <p className="text-lg">
+                  You don't have any notifications at the moment!
+                </p>
                 <Link
                   href="/home/dashboard/profile/messages"
                   onClick={() => {

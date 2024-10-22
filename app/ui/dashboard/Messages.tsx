@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { TrashIcon } from "@heroicons/react/24/outline";
 import { formatDate } from "@/app/lib/utils";
-import { mark_message_read } from "@/app/lib/actions";
+import { mark_message_read, delete_message_read } from "@/app/lib/actions";
 import { sendUserMessage } from "@/app/lib/client-actions";
-import { set } from "zod";
+import toast from "react-hot-toast";
 
 export default function Messages({ messages_data }: any) {
   const { title, messages, user, mark_message, delete_message } = messages_data;
@@ -138,6 +139,36 @@ export default function Messages({ messages_data }: any) {
             {title == "Received Messages" ? message.from : message.to}
           </p>
           <p className="text-xs">{formatDate(message.created_at)}</p>
+
+          <div
+            className={` rounded-md p-[1px] dark:hover:text-rose-600 h-6 w-6 flex justify-center items-center hover:bg-rose-200 dark:hover:bg-slate-800 hover:text-rose-600 transition-transform duration-400 ${
+              loading
+                ? "hover:cursor-wait dark:hover:cursor-wait"
+                : "hover:cursor-pointer dark:hover:cursor-pointer"
+            }`}
+            onClick={async (e) => {
+              e.stopPropagation();
+              if (!loading) {
+                setLoading(true);
+                setVisible(false);
+                setStatus("");
+                const response = await delete_message_read(message.id);
+                if (response) {
+                  const newMessagesList = messagesList.filter(
+                    (msg: any) => msg.id !== message.id
+                  );
+                  setMessagesList(newMessagesList);
+                  toast.success("Message deleted!");
+                  setLoading(false);
+                } else {
+                  setLoading(false);
+                  toast.error("Something went wrong. Please try again.");
+                }
+              }
+            }}
+          >
+            <TrashIcon className="w-6" />
+          </div>
         </div>
       </div>
     );
