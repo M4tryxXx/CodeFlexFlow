@@ -104,6 +104,7 @@ export default function Messages({ messages_data }: any) {
   }, []);
 
   const messagesListItems = messagesList.map((message: any) => {
+    message.title = title;
     return (
       <div
         key={message.id}
@@ -123,6 +124,7 @@ export default function Messages({ messages_data }: any) {
               setLoading(true);
               setVisible(!visible);
               setSelectedMessage(message);
+              //   console.log("selectedMessage: ", selectedMessage);
               if (title == "Received Messages") {
                 await mark_message_read(message.id);
               }
