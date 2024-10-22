@@ -13,7 +13,7 @@ export default function Card({ data, delay }: any) {
   const [ref, inView] = useInView({
     triggerOnce: true, // Trigger the animation only once
     threshold: 0.1, // Adjust the threshold as needed
-  });
+  }); // Adjust the threshold as needed
 
   useEffect(() => {
     if (inView) {
