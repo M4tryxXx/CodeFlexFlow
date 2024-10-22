@@ -1,8 +1,9 @@
-import { format } from "date-fns";
-
 const dateFormatter = {
   formatDate: (date: Date): string => {
-    return format(date, "dd-MM-yyyy");
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear().toString();
+    return `${day}-${month}-${year}`;
   },
 };
 
