@@ -123,4 +123,5 @@ export const sendMessageSchema = z.object({
   from_user_id: z.string().optional(),
   to_user_id: z.string(),
   from: z.string(),
+  to: z.string(),
 });

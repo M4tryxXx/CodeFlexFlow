@@ -6,8 +6,9 @@ import { signOut } from "@/auth";
 import NavLinksAdmin from "./nav-links-admin";
 import { lusitana } from "../fonts";
 import { Tooltip } from "@nextui-org/react";
+import Notifications from "../Notifications/Notifications";
 
-export default function SideNavAdmin() {
+export default function SideNavAdmin({ user }: any) {
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
       <Link
@@ -41,6 +42,7 @@ export default function SideNavAdmin() {
               </button>
             </Tooltip>
           </form>
+          <Notifications user_id={user?.id} />
         </div>
       </div>
     </div>

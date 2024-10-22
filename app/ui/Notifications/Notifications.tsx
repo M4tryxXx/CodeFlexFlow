@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import {
   BellAlertIcon,
   BellIcon,
@@ -11,15 +12,18 @@ import {
   mark_message,
   delete_message,
 } from "../../lib/myDb";
+import { mark_message_read, delete_message_read } from "@/app/lib/actions";
 import { Tooltip } from "@nextui-org/react";
 import toast from "react-hot-toast";
 
 export default function Notifications({ user_id }: any) {
+  // Creating state variables to manage the visibility of the notification dropdown and the selected notification
   const [visible, setVisible] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState<any>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
   const [notifications, setNotifications] = useState<any>([]);
 
+  // This function is used to close the notification dropdown when the user clicks outside the notification dropdown
   const handleClickOutside = (event: MouseEvent) => {
     if (
       notificationRef.current &&
@@ -29,6 +33,7 @@ export default function Notifications({ user_id }: any) {
     }
   };
 
+  // This function fetches the notifications from the database and updates the notifications state variable
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
@@ -47,6 +52,8 @@ export default function Notifications({ user_id }: any) {
   }, [user_id]);
 
   // console.log("Notifications: ", notifications);
+
+  // This function is used to handle the click event on the bell container
   const handleBellClick = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
@@ -54,19 +61,22 @@ export default function Notifications({ user_id }: any) {
     setVisible(!visible);
   };
 
+  // This function is used to handle the click event on the notification so that the user can view the clicked notification in detail and in the same div as the notification dropdown also it marks the notification as read if it is unread
   const handleNotificationClick = async (notification: any) => {
     setSelectedNotification(notification);
     if (!notification.read) {
-      await mark_message(notification.id);
+      await mark_message_read(notification.id);
       const notificationsUpdate = await getInboxNotifications(user_id);
       setNotifications(notificationsUpdate);
     }
   };
 
+  // This function is used to handle the click event on the back button in the notification detail view so that the user can go back to the notifications dropdown
   const handleBackClick = () => {
     setSelectedNotification(null);
   };
 
+  // This useEffect hook is used to add an event listener to the document to listen for a click event outside the notification dropdown so that the dropdown can be closed when the user clicks outside the dropdown
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -74,37 +84,42 @@ export default function Notifications({ user_id }: any) {
     };
   }, []);
 
-  const notificationsList = notifications
-    ?.map((notification: any) => {
-      return (
-        <Tooltip
-          key={notification.id}
-          content="Open"
-          placement="bottom-start"
-          className="bg-rose-200 px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-900 border-rose-200 dark:border-yellow-300 dark:border-[0.2mm] dark:shadow-md p-2 hover:cursor-pointer hover:bg-rose-100  my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
-        >
-          <div
-            className="flex flex-row justify-between items-center border-b-2 border-rose-200 dark:border-yellow-300 p-2 hover:cursor-pointer hover:bg-rose-100 dark:hover:bg-emerald-900 my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
-            key={notification.id}
-            style={{ width: "90%" }}
-            onClick={() => handleNotificationClick(notification)}
-          >
-            <p
-              className={`${
-                notification.read ? "font-light text-sm" : "font-bold text-lg"
-              }`}
-            >
-              {notification.subject}
-            </p>
-            <p>{notification.from}</p>
-          </div>
-        </Tooltip>
-      );
-    })
-    .sort((message: any) => (message.read ? 1 : -1));
-
-  const unreadNotifications = notifications?.filter(
+  // This function filters the notifications into unread notifications and stores them in a variable
+  const unreadNotificationsList = notifications?.filter(
     (notification: any) => notification.read === false
+  );
+
+  // This function maps through the unread notifications and creates a list of notifications to be displayed in the notification dropdown
+  const notificationsList = unreadNotificationsList?.map(
+    (notification: any) => {
+      if (!notification.read) {
+        return (
+          <Tooltip
+            key={notification.id}
+            content="Open"
+            placement="bottom-start"
+            className="bg-rose-200 px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-900 border-rose-200 dark:border-yellow-300 dark:border-[0.2mm] dark:shadow-md p-2 hover:cursor-pointer hover:bg-rose-100  my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+          >
+            <div
+              className="flex flex-row justify-between items-center border-b-2 border-rose-200 dark:border-yellow-300 p-2 hover:cursor-pointer hover:bg-rose-100 dark:hover:bg-emerald-900 my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+              key={notification.id}
+              style={{ width: "90%" }}
+              onClick={() => handleNotificationClick(notification)}
+            >
+              <p
+                className={`${
+                  notification.read ? "font-light text-sm" : "font-bold text-lg"
+                }`}
+              >
+                {notification.subject}
+              </p>
+              <p>{notification.from}</p>
+            </div>
+          </Tooltip>
+        );
+      } else {
+      }
+    }
   );
 
   // console.log("Unread Notifications: ", unreadNotifications);
@@ -115,11 +130,12 @@ export default function Notifications({ user_id }: any) {
         className="relative flex flex-col h-8 md:h-7 items-center justify-center rounded-md bg-gray-50 p-1 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 cursor-pointer"
         onClick={handleBellClick}
       >
-        {unreadNotifications && unreadNotifications.length > 0 ? (
+        {/* This component displays the number of new notifications if is not 0 */}
+        {unreadNotificationsList && unreadNotificationsList.length > 0 ? (
           <>
             <BellAlertIcon className="w-10 dark:text-yellow-300 text-rose-500" />
             <div className="absolute top-0 right-0 bg-inherit text-rose-900 dark:text-yellow-300 dark:bg-inherit rounded-full p-1 text-xs ">
-              {unreadNotifications.length}
+              {unreadNotificationsList.length}
             </div>
           </>
         ) : (
@@ -131,7 +147,7 @@ export default function Notifications({ user_id }: any) {
         className={`absolute bg-rose-200 text-rose-900 dark:text-yellow-300 dark:bg-emerald-800 w-[400px] h-auto md:w-[600px] md:h-auto flex-col justify-start p-2 rounded-md z-50 transition-all duration-300 ease-in-out right-5 top-40 ${
           visible ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
         }`}
-        style={{ overflow: "hidden" }}
+        style={{ overflow: "scroll" }}
       >
         <div className="flex flex-row justify-between items-center border-[0.2mm] rounded-md p-[3px] dark:bg-stone-800 bg-gray-100 px-2">
           <p className="text-lg">Notifications</p>
@@ -144,6 +160,7 @@ export default function Notifications({ user_id }: any) {
             <p className="text-lg">X</p>
           </div>
         </div>
+        {/* This component changes the content of the dropdown notification container */}
         {selectedNotification ? (
           <div
             className={`transition-transform duration-1000 transform flex flex-col justify-start items-start border-[0.2mm] rounded-md p-[3px] dark:bg-stone-800 bg-gray-50 px-2 my-2 ${
@@ -158,7 +175,7 @@ export default function Notifications({ user_id }: any) {
               <TrashIcon
                 onClick={async () => {
                   try {
-                    await delete_message(selectedNotification.id);
+                    await delete_message_read(selectedNotification.id);
                     setSelectedNotification(null);
                     const notificationsUpdate = await getInboxNotifications(
                       user_id
@@ -189,16 +206,34 @@ export default function Notifications({ user_id }: any) {
               selectedNotification ? "translate-y-full" : "translate-y-0"
             }`}
           >
-            {notificationsList?.length > 0 ? (
+            {notifications?.length > 0 ? (
               <>
-                <div
-                  className="flex flex-row justify-between items-center border-b-[.2mm] border-rose-200 dark:border-yellow-300 p-2 my-2"
-                  style={{ width: "90%" }}
+                {notificationsList.length > 0 ? (
+                  <>
+                    <h2 className="text-lg">New Messages</h2>
+                    <div
+                      className="flex flex-row justify-between items-center border-b-[.2mm] border-rose-200 dark:border-yellow-300 p-2 my-2"
+                      style={{ width: "90%" }}
+                    >
+                      <p className="font-light text-sm">Subject</p>
+                      <p>From</p>
+                    </div>
+                    {notificationsList}
+                  </>
+                ) : (
+                  <h2 className="text-lg">No unread notifications</h2>
+                )}
+                <hr className="w-full border-[0.2mm] border-rose-200 dark:border-yellow-300 my-2" />
+                <Link
+                  href="/home/dashboard/profile/messages"
+                  onClick={() => {
+                    setVisible(false);
+                  }}
                 >
-                  <p className="font-light text-sm">Subject</p>
-                  <p>From</p>
-                </div>
-                {notificationsList}
+                  <button className="bg-rose-200 px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-900 border-rose-200 dark:border-yellow-300 dark:border-[0.2mm] dark:shadow-md p-2 hover:cursor-pointer hover:bg-rose-100 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300 my-6">
+                    Go To Messages
+                  </button>
+                </Link>
                 <div className="flex flex-row justify-end items-center p-2 my-2 w-full">
                   <Tooltip
                     content="Delete All Messages"
@@ -228,9 +263,17 @@ export default function Notifications({ user_id }: any) {
               </>
             ) : (
               <div className="flex flex-col justify-center items-center">
-                <p className="text-lg">
-                  You don't have any notifications at the moment!
-                </p>
+                <p className="text-lg">You don't have any new notifications!</p>
+                <Link
+                  href="/home/dashboard/profile/messages"
+                  onClick={() => {
+                    setVisible(false);
+                  }}
+                >
+                  <button className="bg-rose-200 px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-900 border-rose-200 dark:border-yellow-300 dark:border-[0.2mm] dark:shadow-md p-2 hover:cursor-pointer hover:bg-rose-100 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300 my-6">
+                    Go To Messages
+                  </button>
+                </Link>
               </div>
             )}
           </div>

@@ -35,6 +35,8 @@ import {
   selectUserAccount,
   selectAllUsers,
   send_message,
+  mark_message,
+  delete_message,
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
@@ -496,6 +498,27 @@ export const sendMessage = async (data: any) => {
     console.log(error);
     throw error;
   }
+  revalidatePath("/home/dashboard/profile/messages");
   revalidatePath("/home/admin/users");
-  redirect("/home/admin/users");
+  redirect("/home/dashboard/profile/messages");
+};
+
+export const mark_message_read = async (id: string) => {
+  const response = await mark_message(id);
+  if (response) {
+    revalidatePath("/home/dashboard/profile/messages");
+    revalidatePath("/home/admin/users");
+  } else {
+    return "Something went wrong";
+  }
+};
+
+export const delete_message_read = async (id: string) => {
+  const response = await delete_message(id);
+  if (response) {
+    revalidatePath("/home/dashboard/profile/messages");
+    revalidatePath("/home/admin/users");
+  } else {
+    return "Something went wrong";
+  }
 };

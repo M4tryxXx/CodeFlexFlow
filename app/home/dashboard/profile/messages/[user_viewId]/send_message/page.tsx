@@ -17,10 +17,9 @@ const SendMessagePage = async ({
     email: destinationUser?.email,
     id: user_viewId,
     from: currentUser?.username,
-    to: destinationUser?.username,
   };
 
-  // console.log("DestUser: ", destinationUser);
+  console.log("currentUser: ", currentUser);
 
   return (
     <div className="container mx-auto p-4">

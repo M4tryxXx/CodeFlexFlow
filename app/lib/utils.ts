@@ -199,3 +199,16 @@ export const firstToCapital = (str: any) => {
 };
 
 //Three.js utils
+
+// Function that format date obj to 01 Jan 2021 16:32 and returns a string
+
+export const formatDate = (date: Date) => {
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  };
+  return new Intl.DateTimeFormat("en-UK", options).format(date);
+};

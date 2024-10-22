@@ -56,6 +56,7 @@ model user_notifications {
   read         Boolean? @default(false)
   created_at   DateTime @default(now())
   from        String?
+  to          String?
   from_user         user?     @relation("FromUser", fields: [from_user_id], references: [id], onDelete: Cascade)
   to_user           user     @relation("ToUser", fields: [to_user_id], references: [id], onDelete: Cascade)
 
