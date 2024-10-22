@@ -20,10 +20,9 @@ export async function POST(request: NextRequest, res: any) {
 
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  const pathDist: string = join(process.cwd(), "/public");
-  console.log("pathDist : " + pathDist);
+  const pathDist: string = join(process.cwd(), "/public/images");
   const relativeUploadDir = dateFormatter.formatDate(new Date());
-  const uploadDir = join(pathDist);
+  const uploadDir = join(pathDist, relativeUploadDir);
 
   try {
     await stat(uploadDir);
