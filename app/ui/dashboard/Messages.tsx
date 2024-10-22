@@ -110,7 +110,7 @@ export default function Messages({ messages_data }: any) {
         className={`p-2 ${
           message.read
             ? "bg-gray-50 dark:bg-emerald-800 font-light"
-            : "bg-rose-100 dark:bg-emerald-900 font-bold"
+            : "bg-rose-100 dark:bg-emerald-900 font-bold text-rose-900 dark:text-yellow-300"
         } shadow-md rounded-lg border-[0.2mm] ${
           loading ? "hover:cursor-wait" : "hover:cursor-pointer"
         } hover:bg-rose-100 dark:hover:bg-emerald-900 my-2 hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300 `}
@@ -217,6 +217,7 @@ export default function Messages({ messages_data }: any) {
                       onSubmit={async (e) => {
                         await handleFormSubmit(e);
                       }}
+                      className=" m-4"
                     >
                       <div className="flex flex-row gap-2 justify-between">
                         <div className="relative">
@@ -227,13 +228,13 @@ export default function Messages({ messages_data }: any) {
                             onChange={(e) => setMessage(e.target.value)}
                           />
                         </div>
-                        <button
-                          type="submit"
-                          className="bg-rose-200 dark:bg-emerald-800 dark:text-yellow-300 text-rose-900 rounded-md p-2 hover:bg-rose-300 hover:text-rose-900 dark:hover:bg-emerald-900 dark:hover:text-yellow-300 transition-transform duration-300"
-                        >
-                          Send
-                        </button>
                       </div>
+                      <button
+                        type="submit"
+                        className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300"
+                      >
+                        Send
+                      </button>
                     </form>
                     <div className="flex flex-row gap-2 justify-end">
                       <p className="text-xs dark:text-white font-semibold text-black">
