@@ -223,18 +223,27 @@ export default function Messages({ messages_data }: any) {
                         <div className="relative">
                           <textarea
                             placeholder="Type your message here"
-                            className="bg-rose-200 dark:bg-emerald-800 dark:text-yellow-300 text-rose-900 rounded-md p-2 focus:outline-[0.2mm] focus:ring-2 focus:ring-rose-500 dark:focus:ring-yellow-300 focus:border-rose-500 dark:focus:border-yellow-300 border-[0.2mm] dark:border-yellow-300 border-rose-300"
+                            className="bg-rose-200 dark:bg-emerald-800 dark:text-yellow-300 text-rose-900 rounded-md p-2 focus:outline-[0.2mm] focus:ring-2 focus:ring-rose-500 dark:focus:ring-yellow-300 focus:border-rose-500 dark:focus:border-yellow-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300"
                             value={message}
                             onChange={(e) => setMessage(e.target.value)}
                           />
                         </div>
                       </div>
-                      <button
-                        type="submit"
-                        className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300"
-                      >
-                        Send
-                      </button>
+                      {message.length >= 3 ? (
+                        <button
+                          type="submit"
+                          className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300"
+                        >
+                          Send
+                        </button>
+                      ) : (
+                        <button
+                          className="bg-gray-200 dark:bg-gray-700 dark:text-gray-500 text-rose-900 rounded-md my-2 px-2 py-1 cursor-not-allowed"
+                          disabled
+                        >
+                          Send
+                        </button>
+                      )}
                     </form>
                     <div className="flex flex-row gap-2 justify-end">
                       <p className="text-xs dark:text-white font-semibold text-black">
