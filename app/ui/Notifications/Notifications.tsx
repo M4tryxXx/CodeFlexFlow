@@ -43,7 +43,6 @@ export default function Notifications({ user_id }: any) {
         console.error("Failed to fetch notifications:", error);
       }
     };
-
     fetchNotifications(); // Fetch notifications immediately when the page loads
 
     const interval = setInterval(fetchNotifications, 5000); // Fetch notifications every 30 seconds

@@ -50,9 +50,15 @@ export default function Messages({ messages_data }: any) {
         setMessage("");
         setLoading(false);
         setStatus("Message sent!");
+        setTimeout(() => {
+          setVisible(false);
+        }, 2000);
       } catch (error) {
         setLoading(false);
         setStatus("Something went wrong. Please try again.");
+        setTimeout(() => {
+          setVisible(false);
+        }, 2000);
         console.error(error);
       }
     } else {
@@ -70,9 +76,15 @@ export default function Messages({ messages_data }: any) {
         setMessage("");
         setLoading(false);
         setStatus("Message sent!");
+        setTimeout(() => {
+          setVisible(false);
+        }, 2000);
       } catch (error) {
         setLoading(false);
         setStatus("Something went wrong. Please try again.");
+        setTimeout(() => {
+          setVisible(false);
+        }, 2000);
         console.error(error);
       }
     }
@@ -107,6 +119,7 @@ export default function Messages({ messages_data }: any) {
           className="flex justify-between items-center "
           onClick={async () => {
             if (!loading) {
+              setStatus("");
               setLoading(true);
               setVisible(!visible);
               setSelectedMessage(message);
