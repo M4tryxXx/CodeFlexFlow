@@ -1,6 +1,7 @@
 import { extname, join } from "path";
 import { stat, mkdir, writeFile } from "fs/promises";
-import * as dateFn from "date-fns";
+// import * as dateFn from "date-fns";
+import dateFormatter from "@/app/lib/dateFormater";
 import { NextRequest, NextResponse } from "next/server";
 
 function sanitizeFilename(filename: string): string {
@@ -20,7 +21,7 @@ export async function POST(request: NextRequest, res: any) {
   const buffer = Buffer.from(await file.arrayBuffer());
 
   const pathDist: string = join(process.cwd(), "/public/images");
-  const relativeUploadDir = `${dateFn.format(Date.now(), "dd-MM-y")}`;
+  const relativeUploadDir = dateFormatter.formatDate(new Date());
   const uploadDir = join(pathDist, relativeUploadDir);
 
   try {
