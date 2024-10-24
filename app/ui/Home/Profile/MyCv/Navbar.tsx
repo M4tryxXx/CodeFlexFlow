@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import clsx from "clsx";
-import { poppins } from "../../../fonts";
 
 const Navbar = ({ user, userAbilities }: any) => {
   //console.log(user);

@@ -13,7 +13,6 @@ import { Tooltip } from "@nextui-org/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import clsx from "clsx";
-import ThemeSwitch from "../../ThemeSwitch";
 import { lusitana } from "@/app/ui/fonts";
 
 // Map of links to display in the side navigation.

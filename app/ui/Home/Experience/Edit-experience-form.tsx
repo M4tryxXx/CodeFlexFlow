@@ -10,9 +10,8 @@ import {
   IdentificationIcon,
   StopCircleIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "../Button";
+import { Button } from "../../Global/Button";
 import { editDataUserSide } from "@/app/lib/client-actions";
-import { editQualification } from "@/app/lib/actions";
 
 export default function EditExperienceForm({ id }: any) {
   const { exprienceId } = id;

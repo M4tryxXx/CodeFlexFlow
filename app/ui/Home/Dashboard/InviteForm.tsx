@@ -3,8 +3,6 @@
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 
 import { Button } from "../../Global/Button";
-import { lusitana } from "../../fonts";
-import { Input } from "@nextui-org/input";
 import {
   AtSymbolIcon,
   InformationCircleIcon,

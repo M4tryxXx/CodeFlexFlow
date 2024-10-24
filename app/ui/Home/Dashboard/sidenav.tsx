@@ -1,7 +1,7 @@
 import Link from "next/link";
 import NavLinks from "@/app/ui/Home/Dashboard/nav-links";
 import CodeFlexFlow_Logo from "@/app/ui/Global/CodeFlexFlow-Logo";
-import { PowerIcon, CommandLineIcon } from "@heroicons/react/24/outline";
+import { PowerIcon } from "@heroicons/react/24/outline";
 import { signOut } from "@/auth";
 import { lusitana } from "@/app/ui/fonts";
 import { Tooltip } from "@nextui-org/react";

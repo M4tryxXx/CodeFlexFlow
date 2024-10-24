@@ -2,7 +2,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import {
-  CheckIcon,
   ClockIcon,
   BuildingLibraryIcon,
   InformationCircleIcon,
@@ -11,7 +10,7 @@ import {
   StopCircleIcon,
   MapIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "../Button";
+import { Button } from "../../Global/Button";
 import { addDataUserSide } from "@/app/lib/client-actions";
 import "../css/loading.css";
 
