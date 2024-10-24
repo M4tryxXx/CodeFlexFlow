@@ -13,7 +13,7 @@ import {
 import { Button } from "../../Global/Button";
 import { useState } from "react";
 import { addDataUserSide } from "@/app/lib/client-actions";
-import "../css/loading.css";
+import "../../css/global.css";
 
 export default function QualificationForm({ id }: { id: string }) {
   const [school, setSchool] = useState("");
