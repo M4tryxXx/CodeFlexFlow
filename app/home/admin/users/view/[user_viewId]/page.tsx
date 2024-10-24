@@ -1,9 +1,4 @@
-import EditUserForm from "@/app/ui/Admin/Edit-user-form";
-import Breadcrumbs from "@/app/ui/Experience/breadcrumbs";
 import { selectUserFull } from "@/app/lib/myDb";
-import { formatDateToLocal } from "@/app/lib/utils";
-import UsersTable from "@/app/ui/Admin/UsersTable";
-import UsersTableView from "@/app/ui/Admin/UsersTable";
 import ProfileTable from "@/app/ui/Home/Profile/MyCv/Profile";
 import Link from "next/link";
 
@@ -14,7 +9,6 @@ export default async function EditUserPage({
 }) {
   const { user_viewId } = params;
 
-  let data: any;
   const user = await selectUserFull(user_viewId);
   //console.log(user);
   return (
