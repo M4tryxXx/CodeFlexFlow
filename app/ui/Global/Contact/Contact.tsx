@@ -9,7 +9,6 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
-import { set } from "zod";
 
 export default function Contact() {
   const [hidden, setHidden] = useState(true);

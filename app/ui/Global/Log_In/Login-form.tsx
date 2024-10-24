@@ -3,16 +3,11 @@
 import { lusitana } from "@/app/ui/fonts";
 import toast from "react-hot-toast";
 import clsx from "clsx";
-import {
-  AtSymbolIcon,
-  KeyIcon,
-  ExclamationCircleIcon,
-  UserIcon,
-} from "@heroicons/react/24/outline";
+import { KeyIcon, UserIcon } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
 import { Button } from "../Button";
 import Link from "next/link";
-import { loginUserSide, getUserLocation } from "../../../lib/client-actions";
+import { loginUserSide } from "../../../lib/client-actions";
 import { useState, useEffect } from "react";
 import "../../css/global.css";
 

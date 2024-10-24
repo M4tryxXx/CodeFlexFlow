@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import { sendContactEmail } from "@/app/lib/actions";
-import { slideIn } from "@/app/lib/utils";
 import { motion } from "framer-motion";
 import {
   UserIcon,
@@ -10,7 +9,6 @@ import {
   EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 import toast from "react-hot-toast";
-import EarthCanvas from "../Profile/MyCv/Earth";
 
 export default function ContactMe() {
   const [hidden, setHidden] = useState(true);
