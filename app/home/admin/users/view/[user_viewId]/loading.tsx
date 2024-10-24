@@ -1,19 +1,7 @@
-const shimmer =
-  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray/60 before:to-transparent";
-import "../../../../../ui/css/loading.css";
-
-export default function LoadingUsers() {
+export default function DashPageSkeleton() {
   return (
-    <div className="flex flex-col w-full h-full">
-      <div className="-m-1.5 overflow-x-auto">
-        <div className="p-1.5 min-w-full inline-block align-middle">
-          <div
-            className={`${shimmer} relative overflow-hidden rounded-xl bg-gray-600 p-2 shadow-sm`}
-          >
-            <h1>Loading...</h1>
-          </div>
-        </div>
-      </div>
+    <div className="flex items-start justify-center mt-10 h-[100vh]">
+      <div className="inline-block md:h-28 md:w-28 h-16 w-16 animate-spin-slow rounded-full mr-4 md:border-8 border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_3s_linear_infinite] dark:text-yellow-300"></div>
     </div>
   );
 }
