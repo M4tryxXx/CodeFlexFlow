@@ -12,7 +12,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Button } from "../../Global/Button";
 import { addDataUserSide } from "@/app/lib/client-actions";
-import "../css/loading.css";
+import "../../css/global.css";
 
 export default function AddExperienceForm({ id }: { id: string }) {
   const [company, setCompany] = useState("");
