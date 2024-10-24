@@ -32,6 +32,15 @@ const config: Config = {
       },
       animation: {
         "spin-slow": "spin 1.5s linear infinite",
+        spin: "spin 1s linear infinite",
+        "spin-slow-reverse": "spin 1.5s linear infinite reverse",
+        shimmer: "shimmer 1s infinite",
+        nul_spinner: "spin 0.01s linear infinite",
+        "pulse-slow": "pulse 2s infinite",
+        "bounce-slow": "bounce 2s infinite",
+        "bounce-slow-reverse": "bounce 2s infinite reverse",
+        "bounce-slow-alternate": "bounce 2s infinite alternate",
+        "bounce-slow-alternate-reverse": "bounce 2s infinite alternate-reverse",
       },
     },
     keyframes: {

@@ -57,31 +57,27 @@ export default async function HomePage() {
   }
   return (
     <>
-      <main className={`${myStyles.mainLayout}`}>
-        <HomeSideNav user={user} />
-        <div className="flex flex-col gap-4 p-4">
-          <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
-            Welcome to CodeFlexFlow!
-          </h1>
-          <div className=" flex flex-col md:flex-row justify-between">
-            <div className="md:w-[400px] p-4">
-              <p className="indent-7">
-                <span className="text-4xl ">W</span>elcome to CodeFlexFlow! Our
-                platform empowers you to create and send digital Curriculum
-                Vitae (CV) effortlessly. Track your CV to see when and if it has
-                been read, along with the exact date and time. Enhance your job
-                application process with real-time insights and a streamlined
-                digital experience. Join us and take control of your career
-                journey today!
-              </p>
-            </div>
-            <div className="flex-col md:flex-row w-full p-4  justify-center items-center flex flex-wrap gap-10">
-              <ExampleCard data={data} delay={0.5} />
-            </div>
+      <div className="flex flex-col gap-4 p-4">
+        <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 opacity-75">
+          Welcome to CodeFlexFlow!
+        </h1>
+        <div className=" flex flex-col md:flex-row justify-between">
+          <div className="md:w-[400px] p-4">
+            <p className="indent-7">
+              <span className="text-4xl ">W</span>elcome to CodeFlexFlow! Our
+              platform empowers you to create and send digital Curriculum Vitae
+              (CV) effortlessly. Track your CV to see when and if it has been
+              read, along with the exact date and time. Enhance your job
+              application process with real-time insights and a streamlined
+              digital experience. Join us and take control of your career
+              journey today!
+            </p>
+          </div>
+          <div className="flex-col md:flex-row w-full p-4  justify-center items-center flex flex-wrap gap-10">
+            <ExampleCard data={data} delay={0.5} />
           </div>
         </div>
-      </main>
-      <Footer />
+      </div>
     </>
   );
 }

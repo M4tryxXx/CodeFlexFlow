@@ -1,5 +1,5 @@
 import SideNav from "@/app/ui/Home/Dashboard/sidenav";
-import { myStyles } from "../../styles";
+import { myStyles } from "../styles";
 import Footer from "@/app/ui/Global/Footer/Footer";
 import { getLoggedUser } from "@/app/lib/actions";
 

@@ -77,6 +77,7 @@ export async function authenticate(formData: FormData) {
     }
     throw error;
   }
+
   redirect("/home");
 }
 
