@@ -9,6 +9,7 @@ import ThemeSwitch from "../../ThemeSwitch";
 import Notifications from "../Notifications/Notifications";
 
 export default function SideNav({ user }: any) {
+  
   return (
     <div className="flex h-full flex-col px-3 py-4 md:px-2">
       <Link
@@ -20,7 +21,7 @@ export default function SideNav({ user }: any) {
         </div>
       </Link>
       <div className="flex flex-row justify-between">
-        <NavLinks />
+        <NavLinks role={user?.role} />
         <div className="flex flex-row gap-1">
           <ThemeSwitch />
           <form

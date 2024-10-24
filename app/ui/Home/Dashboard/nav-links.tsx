@@ -7,6 +7,7 @@ import {
   ClipboardDocumentIcon,
   UserIcon,
   ComputerDesktopIcon,
+  WrenchScrewdriverIcon,
 } from "@heroicons/react/24/outline";
 
 import { Tooltip } from "@nextui-org/react";
@@ -40,13 +41,21 @@ const links = [
     href: "/home/dashboard/profile/my-cv",
     icon: ClipboardDocumentIcon,
   },
+  {
+    name: "Admin",
+    href: "/home/admin",
+    icon: WrenchScrewdriverIcon,
+  },
 ];
 
-export default function NavLinks() {
+export default function NavLinks({ role }: any) {
   const pathname = usePathname();
   return (
     <div className="flex flex-row gap-1">
       {links.map((link) => {
+        if (!role || (role === "user" && link.name === "Admin")) {
+          return null;
+        }
         const LinkIcon = link.icon;
         return (
           <Tooltip

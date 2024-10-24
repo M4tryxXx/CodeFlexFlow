@@ -15,13 +15,6 @@ import { Tooltip } from "@nextui-org/react";
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
 const links = [
-  { name: "Home", href: "/home", icon: HomeIcon },
-  {
-    name: "Dashboard",
-    href: "/home/dashboard",
-    icon: ComputerDesktopIcon,
-  },
-  { name: "Admin", href: "/home/admin", icon: CommandLineIcon },
   {
     name: "Users",
     href: "/home/admin/users",
