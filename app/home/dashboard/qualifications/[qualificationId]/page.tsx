@@ -1,4 +1,4 @@
-import Breadcrumbs from "@/app/ui/Experience/breadcrumbs";
+import Breadcrumbs from "@/app/ui/Home/Experience/Breadcrumbs";
 import EditQualificationForm from "@/app/ui/Home/Qualification/Edit-qualification-form";
 import { getQualificationById } from "@/app/lib/myDb";
 
@@ -10,19 +10,20 @@ export default async function Editqualification({
   const { qualificationId } = params;
   let qualificationData = null;
 
-   const qualification = await getQualificationById(qualificationId);
-   if(qualification) {
-   const { school, city, degree, field, start_date, end_date, description } = qualification;
-    
-   qualificationData = {
-    school,
-    city,
-    degree,
-    field,
-    from: start_date,
-    to: end_date,
-    description,
-  };
+  const qualification = await getQualificationById(qualificationId);
+  if (qualification) {
+    const { school, city, degree, field, start_date, end_date, description } =
+      qualification;
+
+    qualificationData = {
+      school,
+      city,
+      degree,
+      field,
+      from: start_date,
+      to: end_date,
+      description,
+    };
   }
 
   return (

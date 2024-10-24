@@ -1,4 +1,3 @@
-import AcmeLCodeFlexFlow_Logoogo from "@/app/ui/Global/CodeFlexFlow-Logo";
 import { myStyles } from "../styles";
 import { getLoggedUser } from "../lib/actions";
 import HomeSideNav from "../ui/Home/HomeSidenav";

@@ -1,5 +1,5 @@
 import React from "react";
-import MessageForm from "@/app/ui/Notifications/MessageForm";
+import MessageForm from "@/app/ui/Home/Notifications/MessageForm";
 import { getLoggedUser, getUserFull } from "@/app/lib/actions";
 
 const SendMessagePage = async ({
