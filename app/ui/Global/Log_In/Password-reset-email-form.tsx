@@ -13,7 +13,7 @@ import { checkUserEmail, getUserLocation } from "../../../lib/client-actions";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import clsx from "clsx";
-import "../ui/css/loading.css";
+import "../../css/global.css";
 
 export default function ResetPasswordForm() {
   const userLocation = getUserLocation();

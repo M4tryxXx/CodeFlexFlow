@@ -1,22 +1,13 @@
 "use client";
 
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
-
-import { Button } from "../../Global/Button";
 import { lusitana } from "../../fonts";
-import {
-  AtSymbolIcon,
-  InformationCircleIcon,
-  GiftTopIcon,
-  GiftIcon,
-} from "@heroicons/react/24/outline";
+import { InformationCircleIcon, GiftIcon } from "@heroicons/react/24/outline";
 import { verifyInvitationSchema } from "../../../lib/zod-schemas";
-import { sendPasswordChangeLink } from "../../../lib/actions";
-import { checkUserEmail } from "../../../lib/client-actions";
 import toast from "react-hot-toast";
 import { useState } from "react";
 import clsx from "clsx";
-import "../ui/css/loading.css";
+import "../../css/global.css";
 import Link from "next/link";
 
 export default function CvInvitationForm() {
