@@ -128,7 +128,7 @@ export default function Notifications({ user_id }: any) {
   );
 
   // This function maps through the read notifications and creates a list of notifications to be displayed in the notification dropdown
-  const readNotifications = readNotificationsList.map((notification: any) => {
+  const readNotifications = readNotificationsList?.map((notification: any) => {
     if (notification.read) {
       return (
         <Tooltip
