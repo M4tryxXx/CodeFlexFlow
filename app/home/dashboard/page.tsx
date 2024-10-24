@@ -1,8 +1,8 @@
 import { myStyles } from "@/app/styles";
-import InvitationForm from "@/app/ui/dashboard/InviteForm";
-import InvitesTable from "@/app/ui/dashboard/InvitesTable";
+import InvitationForm from "@/app/ui/Home/Dashboard/InviteForm";
+import InvitesTable from "@/app/ui/Home/Dashboard/InvitesTable";
 import { userData } from "@/app/lib/actions";
-import LoadIndicator from "@/app/ui/dashboard/LoadIndex";
+import LoadIndicator from "@/app/ui/Home/Dashboard/LoadIndex";
 import { Link } from "@nextui-org/react";
 import { firstToCapital } from "../../lib/utils";
 

@@ -2,17 +2,13 @@ import "react-vertical-timeline-component/style.min.css";
 
 import { userData } from "@/app/lib/actions";
 import "react-vertical-timeline-component/style.min.css";
-import ExperienceCv from "@/app/ui/profile/MyCv/ExperienceCv";
-import QualificationsCv from "@/app/ui/profile/MyCv/QualificationsCv";
-import Motion from "@/app/ui/profile/MyCv/Motion";
-import Hero from "@/app/ui/profile/MyCv/CvHero";
-import Navbar from "@/app/ui/profile/MyCv/Navbar";
-import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import ContactMe from "@/app/ui/Contact/ContactMe";
-import EarthCanvas from "@/app/ui/profile/MyCv/Earth";
-import ContactCard from "@/app/ui/profile/MyCv/Contact";
-import StarsCanvas from "@/app/ui/profile/MyCv/Stars";
-import ToggleButton from "@/app/ui/Notifications/Notifications";
+import ExperienceCv from "@/app/ui/Home/Profile/MyCv/ExperienceCv";
+import QualificationsCv from "@/app/ui/Home/Profile/MyCv/QualificationsCv";
+import Motion from "@/app/ui/Home/Profile/MyCv/Motion";
+import Hero from "@/app/ui/Home/Profile/MyCv/CvHero";
+import EarthCanvas from "@/app/ui/Home/Profile/MyCv/Earth";
+import ContactCard from "@/app/ui/Home/Profile/MyCv/Contact";
+import StarsCanvas from "@/app/ui/Home/Profile/MyCv/Stars";
 
 export default async function MyCvPage() {
   const user = await userData();
@@ -26,7 +22,7 @@ export default async function MyCvPage() {
   return (
     <div className="relative h-full bg-[#050816]">
       <h1>My CV</h1>
-      <div className="bg-[url('./images/herobg.png')] bg-cover bg-no-repeat bg-center">
+      <div className="bg-hero-background bg-cover bg-no-repeat bg-center">
         {/* <Navbar user={user.user} userAbilities={true} /> */}
         <Hero user={user} />
       </div>

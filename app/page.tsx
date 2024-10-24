@@ -1,12 +1,12 @@
 "use client";
 
 //import dependencies
-import AcmeLogo from "@/app/ui/acme-logo";
+import CodeFlexFlow_Logo from "@/app/ui/Global/CodeFlexFlow-Logo";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import ThemeSwitch from "./ui/ThemeSwitch";
-import ExampleCard from "@/app/ui/ExampleCard";
-import Footer from "@/app/ui/Footer/Footer";
+import ExampleCard from "@/app/ui/Home/ExampleCard";
+import Footer from "@/app/ui/Global/Footer/Footer";
 import { getUserLocation } from "./lib/client-actions";
 
 //export default function Page with a conditional statement
@@ -32,7 +32,7 @@ export default function Page() {
       <>
         <main className="flex min-h-screen flex-col items-center p-6 ">
           <div className="flex h-20 shrink-0 items-center justify-between rounded-lg   p-2 md:h[30px]">
-            <AcmeLogo />
+            <CodeFlexFlow_Logo />
           </div>
           <div className="mt-4 flex grow flex-col gap-2">
             <div className="mt-4 flex grow gap-4 justify-start flex-row mx-10">
@@ -90,7 +90,7 @@ export default function Page() {
       <>
         <main className="flex min-h-screen flex-col items-center p-6 ">
           <div className="flex h-20 shrink-0 items-center justify-between rounded-lg   p-2 md:h[30px]">
-            <AcmeLogo />
+            <CodeFlexFlow_Logo />
           </div>
           <div className="mt-4 flex grow flex-col gap-2">
             <div className="mt-4 flex grow gap-4 justify-start flex-row mx-10">

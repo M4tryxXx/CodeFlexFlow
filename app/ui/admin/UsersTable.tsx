@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { EditIcon } from "../../ui/admin/table/EditIcon";
-import { DeleteIcon } from "../../ui/admin/table/DeleteIcon";
-import { EyeIcon } from "../../ui/admin/table/EyeIcon";
+import { EditIcon } from "./Table/EditIcon";
+import { DeleteIcon } from "./Table/DeleteIcon";
+import { EyeIcon } from "./Table/EyeIcon";
 import { Tooltip } from "@nextui-org/react";
 import { handleDelete } from "@/app/lib/actions";
 import toast from "react-hot-toast";

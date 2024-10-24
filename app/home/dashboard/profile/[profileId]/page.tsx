@@ -1,5 +1,5 @@
-import EditProfileForm from "@/app/ui/profile/MyCv/EditProfileForm";
-import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
+import EditProfileForm from "@/app/ui/Home/Profile/MyCv/EditProfileForm";
+import Breadcrumbs from "@/app/ui/Home/Experience/Breadcrumbs";
 import { selectUserFull } from "@/app/lib/myDb";
 
 export default async function EditProfilePage({

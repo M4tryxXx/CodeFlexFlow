@@ -1,7 +1,7 @@
-import AcmeLogo from "@/app/ui/acme-logo";
+import CodeFlexFlow_Logo from "@/app/ui/Global/CodeFlexFlow-Logo";
 import { myStyles } from "../styles";
 import Link from "next/link";
-import Footer from "../ui/Footer/Footer";
+import Footer from "../ui/Global/Footer/Footer";
 
 export default async function TermsRomanianPage() {
   return (
@@ -13,7 +13,7 @@ export default async function TermsRomanianPage() {
             className="mb-2 flex h-20 items-center justify-between grow rounded-md bg-stone-100 dark:bg-emerald-900 p-4"
           >
             <div className="flex h-20 shrink-0 items-center justify-between rounded-lg   p-2">
-              <AcmeLogo />
+              <CodeFlexFlow_Logo />
             </div>
           </Link>
           <div className="flex flex-col gap-4 p-4">

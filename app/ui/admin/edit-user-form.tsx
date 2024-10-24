@@ -6,7 +6,7 @@ import {
   UserIcon,
   AtSymbolIcon,
 } from "@heroicons/react/24/outline";
-import { Button } from "../Button";
+import { Button } from "../Global/Button";
 import { deleteUserSide, editUserAccount } from "@/app/lib/client-actions";
 import { redirectUser } from "@/app/lib/actions";
 import { useState } from "react";

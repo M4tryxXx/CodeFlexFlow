@@ -1,5 +1,5 @@
 import { getLoggedUserFull } from "@/app/lib/actions";
-import ProfileTable from "@/app/ui/profile/MyCv/Profile";
+import ProfileTable from "@/app/ui/Home/Profile/MyCv/Profile";
 export default async function Profile() {
   const user = await getLoggedUserFull();
 

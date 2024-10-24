@@ -1,5 +1,5 @@
-import AcmeLogo from "@/app/ui/acme-logo";
-import CvInvitationForm from "../ui/Cv-invite-form";
+import CodeFlexFlow_Logo from "@/app/ui/Global/CodeFlexFlow-Logo";
+import CvInvitationForm from "../ui/CV/Invites/Cv-invite-form";
 
 export default function ResetPasswordPage() {
   return (
@@ -8,7 +8,7 @@ export default function ResetPasswordPage() {
         <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 ">
           <div className="flex h-20 w-full items-center justify-center rounded-lg bg-stone-100 dark:bg-emerald-900 p-3 md:h-36">
             <div className="flex h-20 shrink-0 items-center justify-between rounded-lg   p-2 md:h[30px]">
-              <AcmeLogo />
+              <CodeFlexFlow_Logo />
             </div>
           </div>
           <CvInvitationForm />

@@ -1,8 +1,8 @@
-import AcmeLogo from "@/app/ui/acme-logo";
+import AcmeLCodeFlexFlow_Logoogo from "@/app/ui/Global/CodeFlexFlow-Logo";
 import { myStyles } from "../styles";
 import { getLoggedUser } from "../lib/actions";
-import HomeSideNav from "../ui/HomeSidenav";
-import ExampleCard from "../ui/ExampleCard";
+import HomeSideNav from "../ui/Home/HomeSidenav";
+import ExampleCard from "../ui/Home/ExampleCard";
 import Footer from "../ui/Footer/Footer";
 
 export default async function HomePage() {

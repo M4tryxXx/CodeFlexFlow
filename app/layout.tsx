@@ -1,4 +1,4 @@
-import "@/app/ui/global.css";
+import "@/app/ui/css/global.css";
 import { lusitana } from "@/app/ui/fonts";
 import { Toaster } from "react-hot-toast";
 import { Providers } from "./providers";
@@ -26,7 +26,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning={true}>
       <body
-        className={`${lusitana.className} antialiased dark:bg-[url('./images/herobg.png')] dark:bg-cover dark:bg-fixed dark:bg-no-repeat dark:bg-center p-0 m-0`}
+        className={`${lusitana.className} antialiased dark:bg-hero-background dark:bg-cover dark:bg-fixed dark:bg-no-repeat dark:bg-center p-0 m-0`}
         suppressHydrationWarning={true}
       >
         <Providers>

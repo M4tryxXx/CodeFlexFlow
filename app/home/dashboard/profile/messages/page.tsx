@@ -1,7 +1,7 @@
 import React from "react";
 import { getLoggedUserFull } from "@/app/lib/actions";
 import { formatDate } from "../../../../lib/utils";
-import Messages from "@/app/ui/dashboard/Messages";
+import Messages from "@/app/ui/Home/Dashboard/Messages";
 import { delete_message } from "@/app/lib/myDb";
 import { mark_message_read } from "@/app/lib/actions";
 

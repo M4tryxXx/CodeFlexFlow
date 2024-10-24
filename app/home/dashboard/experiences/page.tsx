@@ -2,7 +2,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { getLoggedUserFull } from "@/app/lib/actions";
 import { formatDateYearMonth } from "@/app/lib/utils";
-import Card from "@/app/ui/Card";
+import Card from "@/app/ui/Global/Card";
 
 export default async function Page() {
   const session_user_id = await getLoggedUserFull();

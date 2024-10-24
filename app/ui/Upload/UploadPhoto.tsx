@@ -3,6 +3,8 @@ import React, { useState } from "react";
 const UploadPhoto: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<string>("");
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
+  const [uploadedFile, setUploadedFile] = useState<string>("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -21,27 +23,37 @@ const UploadPhoto: React.FC = () => {
     const formData = new FormData();
     formData.append("file", file);
 
-    try {
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/api/upload", true);
 
-      if (response.ok) {
+    xhr.upload.onprogress = (event) => {
+      if (event.lengthComputable) {
+        const percentComplete = (event.loaded / event.total) * 100;
+        setUploadProgress(percentComplete);
+      }
+    };
+
+    xhr.onload = () => {
+      if (xhr.status === 200) {
         setStatus("File uploaded successfully!");
+        setUploadProgress(0);
         setFile(null);
-        const fileElement = document.getElementById("file") as HTMLInputElement;
-        if (fileElement) {
-          fileElement.value = "";
+        if (xhr.response) {
+          const response = JSON.parse(xhr.responseText);
+          setUploadedFile(response.httpfilepath);
         }
-        console.log(await response.json());
       } else {
         setStatus("Failed to upload file.");
+        setUploadProgress(0);
       }
-    } catch (error) {
-      console.error("Error uploading file:", error);
+    };
+
+    xhr.onerror = () => {
       setStatus("Error uploading file.");
-    }
+      setUploadProgress(0);
+    };
+
+    xhr.send(formData);
   };
 
   return (
@@ -75,6 +87,24 @@ const UploadPhoto: React.FC = () => {
         </button>
       </form>
       {status && <p className="mt-4 text-white">{status}</p>}
+      {uploadProgress > 0 && (
+        <div className="mt-4">
+          <p className="text-white">
+            Upload Progress: {uploadProgress.toFixed(2)}%
+          </p>
+          <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+            <div
+              className="bg-blue-600 h-2.5 rounded-full"
+              style={{ width: `${uploadProgress}%` }}
+            ></div>
+          </div>
+        </div>
+      )}
+      {uploadedFile && (
+        <div className="mt-4">
+          <img src={uploadedFile} alt="Uploaded file" className="w-32 h-32" />
+        </div>
+      )}
     </div>
   );
 };

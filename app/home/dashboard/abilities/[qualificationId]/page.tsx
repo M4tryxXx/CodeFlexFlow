@@ -1,5 +1,5 @@
-import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
-import EditQualificationForm from "@/app/ui/qualification/edit-qualification-form";
+import Breadcrumbs from "@/app/ui/Experience/breadcrumbs";
+import EditQualificationForm from "@/app/ui/Home/Qualification/Edit-qualification-form";
 
 export default function Editqualification({
   params,

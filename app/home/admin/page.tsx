@@ -1,5 +1,5 @@
 import { myStyles } from "@/app/styles";
-import InvitesTable from "@/app/ui/dashboard/InvitesTable";
+import InvitesTable from "@/app/ui/Home/Dashboard/InvitesTable";
 import { allInvites } from "@/app/lib/actions";
 import {
   selectAllUsers as getUsers,

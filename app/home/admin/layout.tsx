@@ -1,4 +1,4 @@
-import SideNavAdmin from "@/app/ui/admin/sidenavAdmin";
+import SideNavAdmin from "@/app/ui/Admin/SidenavAdmin";
 import { myStyles } from "@/app/styles";
 import { getLoggedUser } from "@/app/lib/actions";
 import Link from "next/link";

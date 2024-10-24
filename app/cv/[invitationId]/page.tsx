@@ -1,15 +1,15 @@
 import { updateInviteById } from "@/app/lib/actions";
 import { selectUserCvFull, getInvitesById } from "@/app/lib/myDb";
 import "react-vertical-timeline-component/style.min.css";
-import ExperienceCv from "@/app/ui/profile/MyCv/ExperienceCv";
-import QualificationsCv from "@/app/ui/profile/MyCv/QualificationsCv";
-import Motion from "@/app/ui/profile/MyCv/Motion";
-import Hero from "@/app/ui/profile/MyCv/CvHero";
-import Navbar from "@/app/ui/profile/MyCv/Navbar";
+import ExperienceCv from "@/app/ui/Home/Profile/MyCv/ExperienceCv";
+import QualificationsCv from "@/app/ui/Home/Profile/MyCv/QualificationsCv";
+import Motion from "@/app/ui/Home/Profile/MyCv/Motion";
+import Hero from "@/app/ui/Home/Profile/MyCv/CvHero";
+import Navbar from "@/app/ui/Home/Profile/MyCv/Navbar";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import EarthCanvas from "@/app/ui/profile/MyCv/Earth";
-import ContactCard from "@/app/ui/profile/MyCv/Contact";
-import StarsCanvas from "@/app/ui/profile/MyCv/Stars";
+import EarthCanvas from "@/app/ui/Home/Profile/MyCv/Earth";
+import ContactCard from "@/app/ui/Home/Profile/MyCv/Contact";
+import StarsCanvas from "@/app/ui/Home/Profile/MyCv/Stars";
 export default async function CvPage({
   params,
 }: {
@@ -19,7 +19,7 @@ export default async function CvPage({
   let contactVisible: boolean = false;
 
   const toggleContactVisibility = () => {
-   contactVisible = !contactVisible;
+    contactVisible = !contactVisible;
   };
 
   const invite = await getInvitesById(invitationId);
@@ -66,7 +66,7 @@ export default async function CvPage({
     <main className="w-[100vw] h-full bg-[#050816] -z-40 m-0 scroll-smooth">
       <div>
         <div
-          className="bg-[url('./images/herobg.png')] bg-cover bg-no-repeat bg-center"
+          className="bg-hero-background bg-cover bg-no-repeat bg-center"
           id="about"
         >
           <Navbar user={user} userAbilities={user.skills} />

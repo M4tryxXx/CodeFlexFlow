@@ -1,10 +1,10 @@
-import EditUserForm from "@/app/ui/admin/edit-user-form";
-import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
+import EditUserForm from "@/app/ui/Admin/Edit-user-form";
+import Breadcrumbs from "@/app/ui/Experience/breadcrumbs";
 import { selectUserFull } from "@/app/lib/myDb";
 import { formatDateToLocal } from "@/app/lib/utils";
-import UsersTable from "@/app/ui/admin/UsersTable";
-import UsersTableView from "@/app/ui/admin/UsersTable";
-import ProfileTable from "@/app/ui/profile/MyCv/Profile";
+import UsersTable from "@/app/ui/Admin/UsersTable";
+import UsersTableView from "@/app/ui/Admin/UsersTable";
+import ProfileTable from "@/app/ui/Home/Profile/MyCv/Profile";
 import Link from "next/link";
 
 export default async function EditUserPage({

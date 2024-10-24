@@ -1,8 +1,5 @@
 const shimmer =
   "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-gray/60 before:to-transparent";
-import AcmeLogo from "@/app/ui/acme-logo";
-import { myStyles } from "../../styles";
-import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import "../../ui/css/loading.css";
 
 export default function LoadingUsers() {

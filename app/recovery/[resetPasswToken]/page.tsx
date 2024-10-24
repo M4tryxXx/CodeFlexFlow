@@ -1,8 +1,8 @@
 import { selectUserPasswordToken } from "@/app/lib/myDb";
-import PasswordResetForm from "@/app/ui/Password-reset-form";
-import AcmeLogo from "@/app/ui/acme-logo";
+import PasswordResetForm from "@/app/ui/Global/Log_In/Password-reset-form";
+import CodeFlexFlow_Logo from "@/app/ui/Global/CodeFlexFlow-Logo";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
-import Footer from "@/app/ui/Footer/Footer";
+import Footer from "@/app/ui/Global/Footer/Footer";
 
 interface Params {
   resetPasswToken: string;
@@ -39,7 +39,7 @@ export default async function PasswordRecovery({ params }: { params: Params }) {
             <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 ">
               <div className="flex h-20 w-full items-center justify-center rounded-lg bg-stone-100 dark:bg-emerald-900 p-3 md:h-36">
                 <div className="flex h-20 shrink-0 items-center justify-between rounded-lg   p-2 md:h[30px]">
-                  <AcmeLogo />
+                  <CodeFlexFlow_Logo />
                 </div>
               </div>
               <div className="relative my-5 bg-sky-200 rounded-md border">
@@ -63,7 +63,7 @@ export default async function PasswordRecovery({ params }: { params: Params }) {
           <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 ">
             <div className="flex h-20 w-full items-center justify-center rounded-lg bg-stone-100 dark:bg-emerald-900 p-3 md:h-36">
               <div className="flex h-20 shrink-0 items-center justify-between rounded-lg   p-2 md:h[30px]">
-                <AcmeLogo />
+                <CodeFlexFlow_Logo />
               </div>
             </div>
             <PasswordResetForm user_id={user.id} />

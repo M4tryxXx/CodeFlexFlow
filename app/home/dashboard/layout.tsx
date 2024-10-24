@@ -1,13 +1,13 @@
-import SideNav from "@/app/ui/dashboard/sidenav";
+import SideNav from "@/app/ui/Home/Dashboard/sidenav";
 import { myStyles } from "../../styles";
-import Footer from "@/app/ui/Footer/Footer";
+import Footer from "@/app/ui/Global/Footer/Footer";
 import { getLoggedUser } from "@/app/lib/actions";
 
 export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
-  }) {
+}) {
   const user = await getLoggedUser();
 
   return (

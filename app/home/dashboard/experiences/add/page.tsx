@@ -1,6 +1,6 @@
 "use server";
-import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
-import AddExperienceForm from "@/app/ui/experience/create-experience-form";
+import Breadcrumbs from "@/app/ui/Experience/breadcrumbs";
+import AddExperienceForm from "@/app/ui/Experience/create-experience-form";
 import { getLoggedUser } from "@/app/lib/actions";
 import { signOut } from "@/auth";
 

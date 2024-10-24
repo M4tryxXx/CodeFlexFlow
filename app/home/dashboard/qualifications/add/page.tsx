@@ -1,5 +1,5 @@
-import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
-import QualificationForm from "@/app/ui/qualification/qualification-form";
+import Breadcrumbs from "@/app/ui/Experience/breadcrumbs";
+import QualificationForm from "@/app/ui/Home/Qualification/Qualification-form";
 
 import { getLoggedUser } from "@/app/lib/actions";
 

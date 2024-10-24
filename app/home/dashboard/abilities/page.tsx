@@ -3,7 +3,7 @@ import clsx from "clsx";
 import { selectQualifications } from "@/app/lib/myDb";
 import { getLoggedUserFull } from "@/app/lib/actions";
 import { formatDateYearMonth } from "@/app/lib/utils";
-import Card from "@/app/ui/Card";
+import Card from "@/app/ui/Global/Card";
 import { user } from "@nextui-org/react";
 
 export default async function QualificationPage() {

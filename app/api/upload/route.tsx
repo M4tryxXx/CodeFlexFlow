@@ -47,12 +47,10 @@ export async function POST(request: NextRequest, res: any) {
     const originalFilename = file.name.replace(/\.[^/.]+$/, "");
     const sanitizedFilename = sanitizeFilename(originalFilename);
     const filename = `${sanitizedFilename}_${uniqueSuffix}${fileExtension}`;
-    console.log("filename : " + filename);
     await writeFile(`${uploadDir}/${filename}`, new Uint8Array(buffer));
 
     const finalFilePath =
-      "https://codeflexflow.vercel.app/images/" +
-      `${relativeUploadDir}/${filename}`;
+      "http://localhost:3001/images/" + `${relativeUploadDir}/${filename}`;
     return NextResponse.json(
       { done: "ok", filename: filename, httpfilepath: finalFilePath },
       { status: 200 }

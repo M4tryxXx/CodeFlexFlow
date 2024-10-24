@@ -1,12 +1,12 @@
 import Link from "next/link";
 import ThemeSwitch from "../ThemeSwitch";
-import AcmeLogo from "@/app/ui/acme-logo";
+import CodeFlexFlow_Logo from "@/app/ui/Global/CodeFlexFlow-Logo";
 import { PowerIcon } from "@heroicons/react/24/outline";
 import { signOut } from "@/auth";
-import NavLinksAdmin from "./nav-links-admin";
+import NavLinksAdmin from "./Nav-links-admin";
 import { lusitana } from "../fonts";
 import { Tooltip } from "@nextui-org/react";
-import Notifications from "../Notifications/Notifications";
+import Notifications from "../Home/Notifications/Notifications";
 
 export default function SideNavAdmin({ user }: any) {
   return (
@@ -16,7 +16,7 @@ export default function SideNavAdmin({ user }: any) {
         className="mb-2 flex h-20 items-center justify-between grow rounded-md bg-stone-100 dark:bg-emerald-900 p-4"
       >
         <div className="flex h-20 shrink-0 items-center justify-between rounded-lg   p-2">
-          <AcmeLogo />
+          <CodeFlexFlow_Logo />
         </div>
       </Link>
       <div className="flex flex-row justify-between">

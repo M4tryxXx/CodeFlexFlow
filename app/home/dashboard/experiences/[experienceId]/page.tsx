@@ -1,5 +1,5 @@
-import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
-import EditExperienceForm from "@/app/ui/experience/edit-experience-form";
+import Breadcrumbs from "@/app/ui/Experience/breadcrumbs";
+import EditExperienceForm from "@/app/ui/Experience/edit-experience-form";
 
 export default async function EditExperiencee({
   params,

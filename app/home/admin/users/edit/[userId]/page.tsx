@@ -1,5 +1,5 @@
-import EditUserForm from "@/app/ui/admin/edit-user-form";
-import Breadcrumbs from "@/app/ui/experience/breadcrumbs";
+import EditUserForm from "@/app/ui/Admin/Edit-user-form";
+import Breadcrumbs from "@/app/ui/Experience/breadcrumbs";
 import { selectUserFull } from "@/app/lib/myDb";
 
 export default async function EditUserPage({
