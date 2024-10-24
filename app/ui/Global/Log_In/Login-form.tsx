@@ -10,12 +10,11 @@ import {
   UserIcon,
 } from "@heroicons/react/24/outline";
 import { ArrowRightIcon } from "@heroicons/react/20/solid";
-import { Button } from "./Global/Button";
+import { Button } from "../Button";
 import Link from "next/link";
-import { loginUserSide } from "../lib/client-actions";
+import { loginUserSide, getUserLocation } from "../../../lib/client-actions";
 import { useState, useEffect } from "react";
-import "../ui/css/loading.css";
-import { getUserLocation } from "../lib/client-actions";
+import "../../css/global.css";
 
 export default function LoginForm() {
   const location = Intl.DateTimeFormat()

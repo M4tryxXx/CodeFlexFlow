@@ -3,7 +3,7 @@ import { myStyles } from "../styles";
 import { getLoggedUser } from "../lib/actions";
 import HomeSideNav from "../ui/Home/HomeSidenav";
 import ExampleCard from "../ui/Home/ExampleCard";
-import Footer from "../ui/Footer/Footer";
+import Footer from "../ui/Global/Footer/Footer";
 
 export default async function HomePage() {
   const user = (await getLoggedUser()) || "";

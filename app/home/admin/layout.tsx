@@ -3,7 +3,7 @@ import { myStyles } from "@/app/styles";
 import { getLoggedUser } from "@/app/lib/actions";
 import Link from "next/link";
 import { redirectUser } from "@/app/lib/actions";
-import Footer from "@/app/ui/Footer/Footer";
+import Footer from "@/app/ui/Global/Footer/Footer";
 
 export default async function AdminLayout({
   children,
