@@ -8,7 +8,7 @@ const SendMessagePage = async ({
 }: {
   params: { user_viewId: string };
 }) => {
-  const { user_viewId } = await params;
+  const { user_viewId } = params;
   const session = await auth();
   const currentUser = await getLoggedUser(session?.user?.email);
   const destinationUser = await getUserFull(user_viewId, "", "");
