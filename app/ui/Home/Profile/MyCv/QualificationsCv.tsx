@@ -1,5 +1,5 @@
 "use client";
-
+import React from "react";
 const {
   VerticalTimeline,
   VerticalTimelineElement,
@@ -21,7 +21,7 @@ export default function QualificationsCv({ user }: any) {
 
         if (index === user.qualifications.length - 1) {
           return (
-            <>
+            <React.Fragment key={qual.id + "last"}>
               <VerticalTimelineElement
                 contentStyle={{
                   background: "#1d1836",
@@ -46,20 +46,18 @@ export default function QualificationsCv({ user }: any) {
                 </h3>
                 <p className="text-md font-bold">{qual.field}</p>
                 {qual.description ? (
-                  <>
-                    <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
-                      {qual.description}
-                    </p>
-                  </>
+                  <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
+                    {qual.description}
+                  </p>
                 ) : (
                   ""
                 )}
               </VerticalTimelineElement>
-            </>
+            </React.Fragment>
           );
         } else {
           return (
-            <>
+            <React.Fragment key={qual.id + "notlast"}>
               <VerticalTimelineElement
                 contentStyle={{
                   background: "#1d1836",
@@ -81,16 +79,14 @@ export default function QualificationsCv({ user }: any) {
                 </h3>
                 <p className="text-md font-bold">{qual.field}</p>
                 {qual.description ? (
-                  <>
-                    <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
-                      {qual.description}
-                    </p>
-                  </>
+                  <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
+                    {qual.description}
+                  </p>
                 ) : (
                   ""
                 )}
               </VerticalTimelineElement>
-            </>
+            </React.Fragment>
           );
         }
       }

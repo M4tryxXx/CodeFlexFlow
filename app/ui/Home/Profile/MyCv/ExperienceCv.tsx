@@ -1,11 +1,16 @@
 "use client";
+import React from "react";
 
 const {
   VerticalTimeline,
   VerticalTimelineElement,
 } = require("react-vertical-timeline-component");
 import "react-vertical-timeline-component/style.min.css";
-import { DocumentIcon, UserIcon, BriefcaseIcon} from "@heroicons/react/24/outline";
+import {
+  DocumentIcon,
+  UserIcon,
+  BriefcaseIcon,
+} from "@heroicons/react/24/outline";
 import { formatDateYearMonth } from "@/app/lib/utils";
 
 export default function ExperienceCv({ user }: any) {
@@ -16,7 +21,7 @@ export default function ExperienceCv({ user }: any) {
 
       if (index === user.experiences.length - 1) {
         return (
-          <>
+          <React.Fragment key={exp.id + "last"}>
             <VerticalTimelineElement
               contentStyle={{
                 background: "#1d1836",
@@ -24,7 +29,7 @@ export default function ExperienceCv({ user }: any) {
                 boxShadow: " 0 4px 0 0 #11e5b4",
                 border: "2px solid #220c22",
               }}
-              key={exp.id}
+              key={exp.id + "last"}
               contentArrowStyle={{ borderRight: "7px solid  #fff" }}
               date={`${from.month} ${from.year} - ${to.month} ${to.year}`}
               iconStyle={{ background: "#000", color: "#fff" }}
@@ -41,21 +46,19 @@ export default function ExperienceCv({ user }: any) {
               </h3>
               <p className="text-md font-bold">{exp.field}</p>
               {exp.description ? (
-                <>
-                  <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
-                    {exp.description}
-                  </p>
-                </>
+                <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
+                  {exp.description}
+                </p>
               ) : (
                 ""
               )}
             </VerticalTimelineElement>
-          </>
+          </React.Fragment>
         );
       } else {
         ////console.log(exp);
         return (
-          <>
+          <React.Fragment key={exp.id + "notlast"}>
             <VerticalTimelineElement
               contentStyle={{
                 background: "#1d1836",
@@ -65,7 +68,7 @@ export default function ExperienceCv({ user }: any) {
               }}
               contentAttribute={{ key: `${exp.key}` }}
               contentArrowStyle={{ borderRight: "7px solid  #fff" }}
-              key={exp.id}
+              key={exp.id + "notlast"}
               date={`${from.month} ${from.year} - ${to.month} ${to.year}`}
               iconStyle={{ background: "#000", color: "#fff" }}
               icon={<BriefcaseIcon />}
@@ -78,16 +81,14 @@ export default function ExperienceCv({ user }: any) {
               </h3>
               <p className="text-md font-bold">{exp.field}</p>
               {exp.description ? (
-                <>
-                  <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
-                    {exp.description}
-                  </p>
-                </>
+                <p className="text-gray-200 dark:text-gray-300 indent-6 my-2">
+                  {exp.description}
+                </p>
               ) : (
                 ""
               )}
             </VerticalTimelineElement>
-          </>
+          </React.Fragment>
         );
       }
     });

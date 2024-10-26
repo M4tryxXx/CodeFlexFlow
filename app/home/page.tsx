@@ -3,9 +3,11 @@ import { getLoggedUser } from "../lib/actions";
 import HomeSideNav from "../ui/Home/HomeSidenav";
 import ExampleCard from "../ui/Home/ExampleCard";
 import Footer from "../ui/Global/Footer/Footer";
+import { auth } from "../../auth";
 
 export default async function HomePage() {
-  const user = (await getLoggedUser()) || "";
+  const session = await auth();
+  const user = await getLoggedUser(session?.user?.email);
 
   const data = {
     title: "Code Flex Flow",

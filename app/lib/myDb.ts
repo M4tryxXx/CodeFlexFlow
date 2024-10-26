@@ -1023,6 +1023,33 @@ export const getInboxNotifications = async (id: string) => {
   }
 };
 
+export const getConversation = async (id: string) => {
+  try {
+    const result = await prisma.user_notifications.findMany({
+      where: {
+        OR: [
+          {
+            to_user_id: {
+              equals: id,
+            },
+          },
+          { from_user_id: { equals: id } },
+        ],
+      },
+      orderBy: {
+        created_at: "asc",
+      },
+    });
+
+    await prisma.$disconnect();
+    return result;
+  } catch (err) {
+    await prisma.$disconnect();
+    //console.log(err);
+    return [];
+  }
+};
+
 export const send_message = async (data: any) => {
   try {
     const response = await prisma.user_notifications.create({

@@ -10,11 +10,12 @@ import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import EarthCanvas from "@/app/ui/Home/Profile/MyCv/Earth";
 import ContactCard from "@/app/ui/Home/Profile/MyCv/Contact";
 import StarsCanvas from "@/app/ui/Home/Profile/MyCv/Stars";
-export default async function CvPage({
-  params,
-}: {
-  params: { invitationId: string };
-}) {
+export default async function CvPage(
+  props: {
+    params: Promise<{ invitationId: string }>;
+  }
+) {
+  const params = await props.params;
   const { invitationId } = params;
   let contactVisible: boolean = false;
 

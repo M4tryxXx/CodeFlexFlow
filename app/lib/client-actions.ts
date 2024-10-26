@@ -563,11 +563,13 @@ export const sendUserMessage = async (data: any) => {
   }
 
   const response = await sendMessage(dataToSend.data);
-  if (response) {
+
+  if (!response) {
     toast.error("Failed to send message, please try again!", {
       duration: 5000,
     });
-    return;
+    return null;
   }
   toast.success("Message sent successfully!", { duration: 5000 });
+  return response;
 };

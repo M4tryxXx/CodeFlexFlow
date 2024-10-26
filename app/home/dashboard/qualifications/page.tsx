@@ -3,9 +3,11 @@ import clsx from "clsx";
 import { getLoggedUserFull } from "@/app/lib/actions";
 import { formatDateYearMonth } from "@/app/lib/utils";
 import Card from "@/app/ui/Global/Card";
+import { auth } from "@/auth";
 
 export default async function QualificationPage() {
-  const session_user_id = await getLoggedUserFull();
+  const session = await auth();
+  const session_user_id = await getLoggedUserFull(session?.user?.email);
   const qualifications = session_user_id?.qualifications;
   let qualificationContainer: any;
 

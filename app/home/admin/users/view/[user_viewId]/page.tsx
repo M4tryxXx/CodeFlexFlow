@@ -2,11 +2,12 @@ import { selectUserFull } from "@/app/lib/myDb";
 import ProfileTable from "@/app/ui/Home/Profile/MyCv/Profile";
 import Link from "next/link";
 
-export default async function EditUserPage({
-  params,
-}: {
-  params: { user_viewId: string };
-}) {
+export default async function EditUserPage(
+  props: {
+    params: Promise<{ user_viewId: string }>;
+  }
+) {
+  const params = await props.params;
   const { user_viewId } = params;
 
   const user = await selectUserFull(user_viewId);

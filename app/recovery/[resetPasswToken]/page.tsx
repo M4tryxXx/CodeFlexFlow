@@ -8,7 +8,8 @@ interface Params {
   resetPasswToken: string;
 }
 
-export default async function PasswordRecovery({ params }: { params: Params }) {
+export default async function PasswordRecovery(props: { params: Promise<Params> }) {
+  const params = await props.params;
   const user = await selectUserPasswordToken(params.resetPasswToken);
   if (!user) {
     return (

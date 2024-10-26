@@ -24,17 +24,19 @@ const MessageForm = ({ from_user, to_user }: any) => {
       to: to_user.to,
     };
 
-    try {
+
+      
+    
       await sendUserMessage(data);
       setStatus("Message sent!");
       setSubject("");
       setMessage("");
       setLoading(false);
-    } catch (error) {
-      console.error(error);
+   
+     
       setLoading(false);
       setStatus("Something went wrong. Please try again.");
-    }
+   
     // Replace this with your actual API endpoint
   };
 

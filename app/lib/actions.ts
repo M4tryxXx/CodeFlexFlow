@@ -1,15 +1,16 @@
 "use server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { signIn, signOut } from "@/auth";
+import { signIn, signOut, auth } from "@/auth";
 import { AuthError } from "next-auth";
+import { cookies } from "next/headers";
+
 import {
   sendWelcomeEmail,
   sendResetPasswordEmail,
   sendInvitationEmail,
   sendContactMeEmail,
 } from "./mailer";
-import { auth } from "auth";
 import {
   saveUserDb,
   deleteUserById,
@@ -121,13 +122,8 @@ export const getUsersData = async () => {
   redirect("/home/admin/users");
 };
 
-export const getLoggedUserFull = async () => {
-  const currentSession = await auth();
-  let userEmail: string | undefined;
-  if (currentSession && currentSession.user && currentSession.user.email) {
-    userEmail = currentSession.user.email;
-  }
-  const currentUser = await selectUserFull(undefined, userEmail);
+export const getLoggedUserFull = async (email: any) => {
+  const currentUser = await selectUserFull(undefined, email);
   return currentUser;
 };
 
@@ -144,15 +140,8 @@ export const getUserFull = async (
   return await selectUserFull(undefined, undefined, username);
 };
 
-export const getLoggedUser = async () => {
-  const currentSession = await auth();
-  let userEmail: string | undefined;
-  if (currentSession && currentSession.user && currentSession.user.email) {
-    userEmail = currentSession.user.email;
-    //console.log(userEmail);
-  }
-
-  const currentUser = await selectUserLogIn(undefined, userEmail);
+export const getLoggedUser = async (email: any) => {
+  const currentUser = await selectUserLogIn(undefined, email);
   //console.log(currentUser);
   return currentUser;
 };
@@ -493,15 +482,14 @@ export async function sendContactEmail(formData: FormData) {
 }
 
 export const sendMessage = async (data: any) => {
-  try {
-    const response = await send_message(data);
-  } catch (error) {
-    console.log(error);
-    throw error;
+  const response = await send_message(data);
+  if (response) {
+    revalidatePath("/home/dashboard/profile/messages");
+    revalidatePath("/home/admin/users");
+    return response;
   }
-  revalidatePath("/home/dashboard/profile/messages");
-  revalidatePath("/home/admin/users");
-  redirect("/home/dashboard/profile/messages");
+
+  return "Something went wrong";
 };
 export const mark_message_read = async (id: string) => {
   const response = await mark_message(id);
