@@ -223,3 +223,9 @@ export interface SocialType {
   tiktok?: string;
   snapchat?: string;
 }
+
+export interface PageProps {
+  params: {
+    user_viewId: string;
+  };
+}

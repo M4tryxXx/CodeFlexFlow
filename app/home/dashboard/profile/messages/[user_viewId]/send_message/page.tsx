@@ -2,13 +2,10 @@ import React from "react";
 import MessageForm from "@/app/ui/Home/Notifications/MessageForm";
 import { getLoggedUser, getUserFull } from "@/app/lib/actions";
 import { auth } from "@/auth";
+import { PageProps } from "@/app/lib/types";
 
-const SendMessagePage = async ({
-  params,
-}: {
-  params: { user_viewId: string };
-}) => {
-  const { user_viewId } = params;
+const SendMessagePage: React.FC<PageProps> = async ({ params }) => {
+  const { user_viewId } = await params;
   const session = await auth();
   const currentUser = await getLoggedUser(session?.user?.email);
   const destinationUser = await getUserFull(user_viewId, "", "");
