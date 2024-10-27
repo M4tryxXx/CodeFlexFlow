@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, use } from "react";
 import {
+  ArrowDownIcon,
   CurrencyBangladeshiIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
@@ -18,10 +19,8 @@ import { getConversations } from "@/app/lib/utils";
 
 export default function Messages({ messages_data, conversations }: any) {
   const { title, messages, user, mark_message, delete_message } = messages_data;
-  const [messagesList, setMessagesList] = useState<any>([]);
+  const [activeUser, setActiveUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
-  const [selectedMessage, setSelectedMessage] = useState<any>(null);
-  const [selectedConversation, setSelectedConversation] = useState<any>(null);
   const [activeConversation, setActiveConversation] = useState<any>(null);
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState("");
@@ -29,6 +28,7 @@ export default function Messages({ messages_data, conversations }: any) {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [message, setMessage] = useState<any>("");
   const [conversationsState, setConversationsState] = useState(conversations);
+  const [messagesToShow, setMessagesToShow] = useState(10);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -36,13 +36,11 @@ export default function Messages({ messages_data, conversations }: any) {
       !messageRef.current.contains(event.target as Node)
     ) {
       setVisible(false);
-      setSelectedMessage(null);
       setActiveConversation(null);
     }
   };
 
-  let count = 0;
-
+  
   useEffect(() => {
     setConversationsState(conversations);
   }, [conversations]);
@@ -54,19 +52,57 @@ export default function Messages({ messages_data, conversations }: any) {
   // }, [conversationsState]);
 
   useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setActiveUser(null);
+      } else {
+        setActiveUser(activeConversation);
+        setTimeout(() => {
+          if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 1000);
+      }
+    };
+
+    const handleBlur = () => {
+      setActiveUser(null);
+    };
+
+    const handleFocus = () => {
+      setActiveUser(activeConversation);
+      setTimeout(() => {
+        if (messagesEndRef.current) {
+          messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 1000);
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("focus", handleFocus);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("focus", handleFocus);
+    };
+  }, [activeConversation]);
+
+  useEffect(() => {
     const fetchNotifications = async () => {
-      if (!activeConversation) {
+      if (!activeConversation || !activeUser) {
         return;
       }
       try {
-        console.log("Fetching notifications...");
         const data = await getConversation(user.id);
         const updatedConversations = await getConversations(data, user);
-        console.log("conversations: ", updatedConversations);
+        // console.log("conversations: ", updatedConversations);
         setConversationsState(updatedConversations);
-        setSelectedConversation(
-          formatMessages(conversationsState[activeConversation], user.id)
-        );
+        console.log("conversationsState: ", conversationsState);
+        // setSelectedConversation(
+        //   formatMessages(conversationsState[activeConversation], user.id)
+        // );
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }
@@ -77,10 +113,69 @@ export default function Messages({ messages_data, conversations }: any) {
     const interval = setInterval(fetchNotifications, 3000); // Fetch notifications every second
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, [user.id, activeConversation]);
+  }, [user.id, activeConversation, activeUser]);
 
-  const formatMessages = (messages: any, id: any) => {
-    const formattedMessages = messages.map((message: any) => {
+
+
+  // This function formats the messages to be displayed in the chat window and limits the number of messages to be displayed
+  const formatMessages = (messages: any, id: any, limiter:number) => {
+    let messageToShow:number = 0;
+
+    if (messages.length >= limiter){
+      messageToShow = limiter;
+    } else {
+      messageToShow = messages.length;
+    }
+
+    const formattedMessages = messages.map((message: any, index: number) => {
+      console.log("Index: ", index);
+
+      if(index === messages.length - 5){
+
+        return (
+        <React.Fragment key={message.id + index}>
+          <div
+          className="flex flex-row justify-start items-center sticky bottom-4 m-6"
+          key={index + message.id}
+        >
+          
+            <ArrowDownIcon className="w-8 font-bold dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300 p-1 " onClick ={() => {
+              if (messagesEndRef.current) {
+                messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+              } 
+            }
+            } />
+         
+        </div>
+        <div
+        className={`flex flex-row p-2 m-1 ${
+          id === message.from_user_id ? "justify-start" : "justify-end"
+        }`}
+        key={message.id}
+      >
+        <div
+          className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
+            id !== message.from_user_id
+              ? "dark:bg-gray-700  bg-gray-300"
+              : "dark:bg-blue-800 bg:rose-300"
+          } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto shadow-md dark:shaddow-yellow-300 shaddow-black`}
+        >
+          <div className="flex flex-row gap-2 justify-start">
+            <p className="text-sm md:text-lg">{message.message}</p>
+          </div>
+          <div className="flex flex-row gap-2 justify-end">
+            <p className="text-xs dark:text-white font-thin text-black">
+              {formatDate(message.created_at)}
+            </p>
+          </div>
+        </div>
+      </div>
+      </React.Fragment>
+         
+        
+        );
+      }
+
       return (
         <div
           className={`flex flex-row p-2 m-1 ${
@@ -89,14 +184,14 @@ export default function Messages({ messages_data, conversations }: any) {
           key={message.id}
         >
           <div
-            className={`flex flex-col md:rounded-3xl rounded-lg  p-2 ${
+            className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
               id !== message.from_user_id
                 ? "dark:bg-gray-700  bg-gray-300"
                 : "dark:bg-blue-800 bg:rose-300"
-            } w-[85%] gap-6 h-auto shadow-md dark:shaddow-yellow-300 shaddow-black`}
+            } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto shadow-md dark:shaddow-yellow-300 shaddow-black`}
           >
             <div className="flex flex-row gap-2 justify-start">
-              <p className="text-sm">{message.message}</p>
+              <p className="text-sm md:text-lg">{message.message}</p>
             </div>
             <div className="flex flex-row gap-2 justify-end">
               <p className="text-xs dark:text-white font-thin text-black">
@@ -106,8 +201,31 @@ export default function Messages({ messages_data, conversations }: any) {
           </div>
         </div>
       );
-    });
+    }).reverse().slice(0, messageToShow).reverse();
+
+    if(messageToShow < messages.length){
+      formattedMessages.unshift(
+        <div
+          className="flex flex-row justify-center items-center"
+          key="load-more"
+        >
+          <button
+            className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300"
+            onClick={()=>{
+              loadMoreMessages();
+            }}
+          >
+            Load more
+          </button>
+        </div>
+      );
+    }
+
     return formattedMessages;
+  };
+
+  const loadMoreMessages = () => {
+    setMessagesToShow((prev) => prev + 10);
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -143,9 +261,9 @@ export default function Messages({ messages_data, conversations }: any) {
         const updatedConversations = await getConversations(data, user);
         console.log("conversations: ", updatedConversations);
         setConversationsState(updatedConversations);
-        setSelectedConversation(
-          formatMessages(conversationsState[activeConversation], user.id)
-        );
+        // setSelectedConversation(
+        //   formatMessages(conversationsState[activeConversation], user.id)
+        // );
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }
@@ -184,9 +302,9 @@ export default function Messages({ messages_data, conversations }: any) {
         const updatedConversations = await getConversations(data, user);
         console.log("conversations: ", updatedConversations);
         setConversationsState(updatedConversations);
-        setSelectedConversation(
-          formatMessages(conversationsState[activeConversation], user.id)
-        );
+        // setSelectedConversation(
+        //   formatMessages(conversationsState[activeConversation], user.id)
+        // );
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }
@@ -246,13 +364,12 @@ export default function Messages({ messages_data, conversations }: any) {
               setStatus("");
               setLoading(true);
               setVisible(!visible);
-              setSelectedConversation(
-                formatMessages(conversationsState[conversation], user.id)
-              );
-              setSelectedMessage(
-                formatMessages(conversationsState[conversation], user.id)
-              );
+              // setSelectedConversation(
+              //   formatMessages(conversationsState[conversation], user.id)
+              // );
+
               setActiveConversation(conversation);
+              setActiveUser(conversation);
               setTimeout(() => {
                 if (messagesEndRef.current) {
                   messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
@@ -340,7 +457,7 @@ export default function Messages({ messages_data, conversations }: any) {
     );
   });
 
-  if (!activeConversation) {
+  if (!activeConversation || !activeUser) {
     return (
       <div className="flex flex-col">
         <div className="-m-1.5 overflow-x-auto">
@@ -373,11 +490,11 @@ export default function Messages({ messages_data, conversations }: any) {
     <div className="flex flex-col">
       <div className="-m-1.5 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] ">
-            <div>
+          <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] h-[90vh] overflow-auto">
+            <div className="h-[90vh] overflow-y-scroll">
               {formatMessages(
                 conversationsState[activeConversation] || [],
-                user.id
+                user.id, messagesToShow
               )}
               <form
                 onSubmit={async (e) => {
