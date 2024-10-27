@@ -38,6 +38,7 @@ import {
   send_message,
   mark_message,
   delete_message,
+  getConversation,
 } from "./myDb";
 const bcrypt = require("bcrypt");
 import cuid2 from "cuid";
@@ -491,6 +492,7 @@ export const sendMessage = async (data: any) => {
 
   return "Something went wrong";
 };
+
 export const mark_message_read = async (id: string) => {
   const response = await mark_message(id);
   if (response) {
@@ -509,5 +511,16 @@ export const delete_message_read = async (id: string) => {
     return response;
   } else {
     return "Something went wrong";
+  }
+};
+
+export const getMessages = async (id: string) => {
+  const response = await getConversation(id);
+  if (response) {
+    revalidatePath("/home/dashboard/profile/messages");
+    revalidatePath("/home/admin/users");
+    return response;
+  } else {
+    return null;
   }
 };
