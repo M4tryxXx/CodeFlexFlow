@@ -212,3 +212,25 @@ export const formatDate = (date: Date) => {
   };
   return new Intl.DateTimeFormat("en-UK", options).format(date);
 };
+
+export const getConversations = async (messages: any, currentUser: any) => {
+  let conversations: any = {};
+  if (messages && messages.length > 0) {
+    messages.forEach((message: any) => {
+      if (message.from_user_id == currentUser.id) {
+        if (conversations[message.to]) {
+          conversations[message.to].push(message);
+        } else {
+          conversations[message.to] = [message];
+        }
+      } else if (message.to_user_id == currentUser.id) {
+        if (conversations[message.from]) {
+          conversations[message.from].push(message);
+        } else {
+          conversations[message.from] = [message];
+        }
+      }
+    });
+  }
+  return conversations;
+};

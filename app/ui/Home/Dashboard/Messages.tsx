@@ -9,6 +9,8 @@ import { formatDate } from "@/app/lib/utils";
 import { mark_message_read, delete_message_read } from "@/app/lib/actions";
 import { sendUserMessage } from "@/app/lib/client-actions";
 import toast from "react-hot-toast";
+import { getConversation } from "@/app/lib/myDb";
+import { getConversations } from "@/app/lib/utils";
 
 export default function Messages({ messages_data, conversations }: any) {
   const { title, messages, user, mark_message, delete_message } = messages_data;
@@ -40,6 +42,24 @@ export default function Messages({ messages_data, conversations }: any) {
   useEffect(() => {
     setConversationsState(conversations);
   }, [conversations]);
+
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const data = await getConversation(user.id);
+        const conversations = await getConversations(data, user);
+        setConversationsState(conversations);
+      } catch (error) {
+        console.error("Failed to fetch notifications:", error);
+      }
+    };
+
+    fetchNotifications(); // Fetch notifications immediately when the page loads
+
+    const interval = setInterval(fetchNotifications, 2500); // Fetch notifications every 30 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
+  }, [user.id]);
 
   useEffect(() => {
     if (messagesEndRef.current) {

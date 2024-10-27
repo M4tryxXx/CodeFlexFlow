@@ -4,7 +4,6 @@ import Messages from "@/app/ui/Home/Dashboard/Messages";
 import { delete_message, getConversation } from "@/app/lib/myDb";
 import { mark_message_read } from "@/app/lib/actions";
 import { auth } from "@/auth";
-import { set } from "zod";
 
 export default async function MessagesPage() {
   const session = await auth();
@@ -33,10 +32,10 @@ export default async function MessagesPage() {
 
   const allMessages = await getConversation(currentUser.id);
 
-  const getConversations = async () => {
+  const getConversations = async (messages: any) => {
     let conversations: any = {};
-    if (allMessages) {
-      allMessages.forEach((message: any) => {
+    if (messages && messages.length > 0) {
+      messages.forEach((message: any) => {
         if (message.from_user_id == currentUser.id) {
           if (conversations[message.to]) {
             conversations[message.to].push(message);
@@ -55,10 +54,7 @@ export default async function MessagesPage() {
     return conversations;
   };
 
-  conversations = await getConversations();
-  setTimeout(() => {
-    conversations = getConversations();
-  }, 2500);
+  conversations = await getConversations(allMessages);
 
   //   console.log("currentUser: ", currentUser);
   return (
