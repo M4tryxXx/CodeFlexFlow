@@ -16,6 +16,7 @@ import { sendUserMessage } from "@/app/lib/client-actions";
 import toast from "react-hot-toast";
 import { getConversation } from "@/app/lib/myDb";
 import { getConversations } from "@/app/lib/utils";
+import { motion } from "framer-motion";
 
 export default function Messages({ messages_data, conversations }: any) {
   const { title, messages, user, mark_message, delete_message } = messages_data;
@@ -28,7 +29,7 @@ export default function Messages({ messages_data, conversations }: any) {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [message, setMessage] = useState<any>("");
   const [conversationsState, setConversationsState] = useState(conversations);
-  const [messagesToShow, setMessagesToShow] = useState(10);
+  const [messagesToShow, setMessagesToShow] = useState(5);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -139,7 +140,7 @@ export default function Messages({ messages_data, conversations }: any) {
           key={index + message.id}
         >
           
-            <ArrowDownIcon className="w-8 font-bold dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300 p-1 " onClick ={() => {
+            <ArrowDownIcon className="w-8 font-bold dark:bg-emerald-800  dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-lg shadow-rose-400 dark:shadow-black p-1 " onClick ={() => {
               if (messagesEndRef.current) {
                 messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
               } 
@@ -147,18 +148,34 @@ export default function Messages({ messages_data, conversations }: any) {
             } />
          
         </div>
-        <div
+
+        <motion.div
+        layout
+        initial={{ opacity: 0, scale: 0.1 }}
+        whileInView={{ opacity: 1, scale: 0.95 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 1 }}
+        transition={{
+          duration: 0.7,
+          ease: [0, 0.71, 0.2, 1.01],
+          scale: {
+            type: "spring",
+            damping: 15,
+            stiffness: 100,
+            restDelta: 0.001,
+          },
+        }}viewport={{once: true}}
         className={`flex flex-row p-2 m-1 ${
           id === message.from_user_id ? "justify-start" : "justify-end"
         }`}
         key={message.id}
       >
         <div
-          className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
-            id !== message.from_user_id
-              ? "dark:bg-gray-700  bg-gray-300"
-              : "dark:bg-blue-800 bg:rose-300"
-          } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto shadow-md dark:shaddow-yellow-300 shaddow-black`}
+         className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
+          id !== message.from_user_id
+            ? "dark:bg-gray-700  bg-gray-300 shadow-lg dark:shadow-black shadow-gray-800"
+            : "dark:bg-blue-800 bg-rose-200 shadow-lg shadow-rose-400 dark:shadow-black"
+        } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto`}
         >
           <div className="flex flex-row gap-2 justify-start">
             <p className="text-sm md:text-lg">{message.message}</p>
@@ -169,7 +186,7 @@ export default function Messages({ messages_data, conversations }: any) {
             </p>
           </div>
         </div>
-      </div>
+      </motion.div>
       </React.Fragment>
          
         
@@ -177,18 +194,36 @@ export default function Messages({ messages_data, conversations }: any) {
       }
 
       return (
-        <div
+        
+        <motion.div
+        layout
+        initial={{ opacity: 0, scale: 0.1 }}
+        whileInView={{ opacity: 1, scale: 0.95 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 1 }}
+        transition={{
+          duration: 0.7,
+          ease: [0, 0.71, 0.2, 1.01],
+          scale: {
+            type: "spring",
+            damping: 15,
+            stiffness: 100,
+            restDelta: 0.001,
+          },
+        }}viewport={{once: true}}
+
+
           className={`flex flex-row p-2 m-1 ${
             id === message.from_user_id ? "justify-start" : "justify-end"
           }`}
           key={message.id}
         >
           <div
-            className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
+             className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
               id !== message.from_user_id
-                ? "dark:bg-gray-700  bg-gray-300"
-                : "dark:bg-blue-800 bg:rose-300"
-            } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto shadow-md dark:shaddow-yellow-300 shaddow-black`}
+                ? "dark:bg-gray-700  bg-gray-300 shadow-lg dark:shadow-black shadow-gray-800"
+                : "dark:bg-blue-800 bg-rose-200 shadow-lg shadow-rose-400 dark:shadow-black"
+            } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto`}
           >
             <div className="flex flex-row gap-2 justify-start">
               <p className="text-sm md:text-lg">{message.message}</p>
@@ -199,7 +234,7 @@ export default function Messages({ messages_data, conversations }: any) {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
       );
     }).reverse().slice(0, messageToShow).reverse();
 
@@ -210,8 +245,9 @@ export default function Messages({ messages_data, conversations }: any) {
           key="load-more"
         >
           <button
-            className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300"
-            onClick={()=>{
+            className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-lg shadow-rose-400 dark:shadow-black"
+            onClick={(e)=>{
+              e.preventDefault();
               loadMoreMessages();
             }}
           >
@@ -225,7 +261,7 @@ export default function Messages({ messages_data, conversations }: any) {
   };
 
   const loadMoreMessages = () => {
-    setMessagesToShow((prev) => prev + 10);
+    setMessagesToShow((prev) => prev + 5);
   };
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -465,11 +501,11 @@ export default function Messages({ messages_data, conversations }: any) {
             <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-10 border-[0.2mm] ">
               {conversationsListItems.length > 0 ? (
                 <>
-                  <div className="p-2">
-                    <div className="flex justify-between">
+                  <div className="p-1">
+                    <div className="flex justify-between text-xs">
                       <p>With</p>
                       <p>Last Message on</p>
-                      <p>Delete conversation</p>
+                      <p>Delete</p>
                     </div>
                   </div>
                   {conversationsListItems}
@@ -490,8 +526,8 @@ export default function Messages({ messages_data, conversations }: any) {
     <div className="flex flex-col">
       <div className="-m-1.5 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] h-[90vh] overflow-auto">
-            <div className="h-[90vh] overflow-y-scroll">
+          <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] h-[50vh] overflow-auto">
+            <div >
               {formatMessages(
                 conversationsState[activeConversation] || [],
                 user.id, messagesToShow
@@ -502,7 +538,7 @@ export default function Messages({ messages_data, conversations }: any) {
                 }}
                 className=" m-4"
               >
-                <div ref={messagesEndRef} className="mt-20" />
+                <div ref={messagesEndRef} className="mt-4" />
                 <div className="flex flex-row gap-2 justify-between">
                   <div className="relative w-full">
                     <textarea
@@ -542,9 +578,10 @@ export default function Messages({ messages_data, conversations }: any) {
                       Send
                     </button>
                     <button
-                      className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300"
+                      className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-md shadow-rose-400 dark:shadow-black"
                       onClick={() => {
                         setActiveConversation(null);
+                        setMessagesToShow(5);
                       }}
                     >
                       Back
