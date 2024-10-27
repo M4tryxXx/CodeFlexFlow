@@ -60,11 +60,11 @@ export default function Messages({ messages_data, conversations }: any) {
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      console.log("Fetching notifications...");
       if (!activeConversation) {
         return;
       }
       try {
+        console.log("Fetching notifications...");
         const data = await getConversation(user.id);
         const updatedConversations = await getConversations(data, user);
         console.log("conversations: ", updatedConversations);
