@@ -118,8 +118,8 @@ export const EditSocialData = z.object({
 });
 
 export const sendMessageSchema = z.object({
-  subject: z.string().min(3),
-  message: z.string().min(3),
+  subject: z.string().optional(),
+  message: z.string().min(1),
   from_user_id: z.string().optional(),
   to_user_id: z.string(),
   from: z.string(),
