@@ -39,7 +39,11 @@ export default function ProfileTable({ user }: any) {
         key === "qualifications" ||
         key === "settings" ||
         key === "notifications" ||
-        key === "skills"
+        key === "skills" ||
+        key === "sent_notifications" || 
+        key === "reset_token_expiry" || 
+        key === "created_at" || 
+        key === "updated_at"
       ) {
         continue;
       }
