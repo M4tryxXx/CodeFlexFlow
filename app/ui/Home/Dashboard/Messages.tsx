@@ -351,17 +351,6 @@ export default function Messages({ messages_data, conversations }: any) {
         to: conversationsState[activeConversation][0].from,
       };
 
-      const mailUser = await getUserFull(
-        conversationsState[activeConversation][0].from_user_id
-      );
-      console.log("from: ", mailUser);
-
-      // const mailData = {
-      //   email: ,
-      //   name: string,
-      //   message: string,
-      //   link: string,
-      // };
       const response = await sendUserMessage(new_message);
       if (!response) {
         setLoading(false);
@@ -373,6 +362,8 @@ export default function Messages({ messages_data, conversations }: any) {
         return;
       }
       setMessage("");
+      setStatus("Message sent!");
+      setLoading(false);
 
       try {
         const data = await getConversation(user.id);
@@ -384,8 +375,41 @@ export default function Messages({ messages_data, conversations }: any) {
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }
-      setStatus("Message sent!");
-      setLoading(false);
+
+      const mailUser = await getUserFull(
+        conversationsState[activeConversation][0].to_user_id
+      );
+
+      console.log("Mail User: ", mailUser);
+
+      const mailData = {
+        email: mailUser?.email,
+        name: mailUser?.username,
+        message: `You have a new message from ${user?.username}!`,
+        link: `https://codeflexflow.vercel.app/home/dashboard/profile/messages?from=${mailUser?.username}`,
+      };
+
+      if (mailUser) {
+        const mailData = {
+          email: mailUser?.email,
+          name: mailUser?.username,
+          message: `You have a new message from ${user?.username}!`,
+          link: `https://codeflexflow.vercel.app/home/dashboard/profile/messages?from=${mailUser?.username}`,
+        };
+
+        const mailResponse = await notificationEmail(
+          mailData.email,
+          mailData.name,
+          mailData.message,
+          mailData.link
+        );
+
+        if (mailResponse) {
+          console.log("Mail sent!");
+        } else {
+          console.log("Mail not sent!");
+        }
+      }
 
       // setTimeout(() => {
       //   setVisible(false);
@@ -400,22 +424,18 @@ export default function Messages({ messages_data, conversations }: any) {
         to: conversationsState[activeConversation][0].to,
       };
 
-      const mailUser = await getUserFull(
-        conversationsState[activeConversation][0].to_user_id
-      );
-
       // console.log(conversationsState[activeConversation][0]);
 
       const response = await sendUserMessage(new_message);
 
-      if (!response) {
-        setLoading(false);
-        setStatus("Something went wrong. Please try again.");
-        // setTimeout(() => {
-        //   setVisible(false);
-        // }, 2000);
-        return null;
-      }
+      // if (!response) {
+      //   setLoading(false);
+      //   setStatus("Something went wrong. Please try again.");
+      //   // setTimeout(() => {
+      //   //   setVisible(false);
+      //   // }, 2000);
+      //   return null;
+      // }
       setMessage("");
       setStatus("Message sent!");
       setLoading(false);
@@ -433,6 +453,12 @@ export default function Messages({ messages_data, conversations }: any) {
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }
+
+      const mailUser = await getUserFull(
+        conversationsState[activeConversation][0].from_user_id
+      );
+
+      console.log("Mail User To: ", mailUser);
 
       if (mailUser) {
         const mailData = {

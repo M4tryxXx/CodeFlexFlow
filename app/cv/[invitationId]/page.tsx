@@ -27,6 +27,7 @@ export default async function CvPage(props: {
   let expires: any;
   if (invite) {
     expires = new Date(invite?.expires_at);
+    updateInviteById(invitationId);
   }
   if (Date.now() > Date.parse(expires)) {
     return (
@@ -45,12 +46,6 @@ export default async function CvPage(props: {
   let user: any;
   if (invite) {
     user = await selectUserCvFull(invite.user_id);
-    const updateResponse = await updateInviteById(invitationId);
-    if (updateResponse) {
-      setTimeout(() => {
-        revalidatePath(`/home/dashboard`);
-      }, 15000);
-    }
   }
 
   if (!invite) {
