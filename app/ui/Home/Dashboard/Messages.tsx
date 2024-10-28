@@ -377,24 +377,17 @@ export default function Messages({ messages_data, conversations }: any) {
       }
 
       const mailUser = await getUserFull(
-        conversationsState[activeConversation][0].to_user_id
+        conversationsState[activeConversation][0].from_user_id
       );
 
       console.log("Mail User: ", mailUser);
-
-      const mailData = {
-        email: mailUser?.email,
-        name: mailUser?.username,
-        message: `You have a new message from ${user?.username}!`,
-        link: `https://codeflexflow.vercel.app/home/dashboard/profile/messages?from=${mailUser?.username}`,
-      };
 
       if (mailUser) {
         const mailData = {
           email: mailUser?.email,
           name: mailUser?.username,
           message: `You have a new message from ${user?.username}!`,
-          link: `https://codeflexflow.vercel.app/home/dashboard/profile/messages?from=${mailUser?.username}`,
+          link: `https://codeflexflow.vercel.app/home/dashboard/profile/messages?from=${user?.username}`,
         };
 
         const mailResponse = await notificationEmail(
@@ -455,7 +448,7 @@ export default function Messages({ messages_data, conversations }: any) {
       }
 
       const mailUser = await getUserFull(
-        conversationsState[activeConversation][0].from_user_id
+        conversationsState[activeConversation][0].to_user_id
       );
 
       console.log("Mail User To: ", mailUser);
@@ -465,7 +458,7 @@ export default function Messages({ messages_data, conversations }: any) {
           email: mailUser?.email,
           name: mailUser?.username,
           message: `You have a new message from ${user?.username}!`,
-          link: `https://codeflexflow.vercel.app/home/dashboard/profile/messages?from=${mailUser?.username}`,
+          link: `https://codeflexflow.vercel.app/home/dashboard/profile/messages?from=${user?.username}`,
         };
 
         const mailResponse = await notificationEmail(
