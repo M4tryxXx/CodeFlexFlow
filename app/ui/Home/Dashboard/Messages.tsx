@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef, use } from "react";
+// import { useRouter } from "next/router";
 import {
   ArrowDownIcon,
   CurrencyBangladeshiIcon,
@@ -19,6 +20,8 @@ import { getConversations } from "@/app/lib/utils";
 import { motion } from "framer-motion";
 
 export default function Messages({ messages_data, conversations }: any) {
+  // const router = useRouter();
+  // const { from } = router.query;
   const { title, messages, user, mark_message, delete_message } = messages_data;
   const [activeUser, setActiveUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -30,6 +33,7 @@ export default function Messages({ messages_data, conversations }: any) {
   const [message, setMessage] = useState<any>("");
   const [conversationsState, setConversationsState] = useState(conversations);
   const [messagesToShow, setMessagesToShow] = useState(5);
+  const [unreadMessages, setUnreadMessages] = useState<any>([]);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -41,7 +45,6 @@ export default function Messages({ messages_data, conversations }: any) {
     }
   };
 
-  
   useEffect(() => {
     setConversationsState(conversations);
   }, [conversations]);
@@ -100,7 +103,7 @@ export default function Messages({ messages_data, conversations }: any) {
         const updatedConversations = await getConversations(data, user);
         // console.log("conversations: ", updatedConversations);
         setConversationsState(updatedConversations);
-        console.log("conversationsState: ", conversationsState);
+        // console.log("conversationsState: ", conversationsState);
         // setSelectedConversation(
         //   formatMessages(conversationsState[activeConversation], user.id)
         // );
@@ -108,7 +111,7 @@ export default function Messages({ messages_data, conversations }: any) {
         console.error("Failed to fetch notifications:", error);
       }
     };
-
+    // console.log(from);
     fetchNotifications(); // Fetch notifications immediately when the page loads
 
     const interval = setInterval(fetchNotifications, 3000); // Fetch notifications every second
@@ -116,129 +119,132 @@ export default function Messages({ messages_data, conversations }: any) {
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [user.id, activeConversation, activeUser]);
 
-
-
   // This function formats the messages to be displayed in the chat window and limits the number of messages to be displayed
-  const formatMessages = (messages: any, id: any, limiter:number) => {
-    let messageToShow:number = 0;
+  const formatMessages = (messages: any, id: any, limiter: number) => {
+    let messageToShow: number = 0;
+    let unreadMessagesTemp: any = [];
 
-    if (messages.length >= limiter){
+    if (messages.length >= limiter) {
       messageToShow = limiter;
     } else {
       messageToShow = messages.length;
     }
 
-    const formattedMessages = messages.map((message: any, index: number) => {
-      console.log("Index: ", index);
+    const formattedMessages = messages
+      .map((message: any, index: number) => {
+        if (message.to_user_id === user.id && !message.read) {
+          unreadMessagesTemp.push(message);
+        }
 
-      if(index === messages.length - 5){
+        if (index === messages.length - 5) {
+          return (
+            <React.Fragment key={message.id + index}>
+              <div
+                className="flex flex-row justify-start items-center sticky bottom-4 m-6"
+                key={index + message.id}
+              >
+                <ArrowDownIcon
+                  className="w-8 font-bold dark:bg-emerald-800  dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-lg shadow-rose-400 dark:shadow-black p-1 "
+                  onClick={() => {
+                    if (messagesEndRef.current) {
+                      messagesEndRef.current.scrollIntoView({
+                        behavior: "smooth",
+                      });
+                    }
+                  }}
+                />
+              </div>
+
+              <motion.div
+                layout
+                initial={{ opacity: 0, scale: 0.1 }}
+                whileInView={{ opacity: 1, scale: 0.95 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 1 }}
+                transition={{
+                  duration: 0.7,
+                  ease: [0, 0.71, 0.2, 1.01],
+                  scale: {
+                    type: "spring",
+                    damping: 15,
+                    stiffness: 100,
+                    restDelta: 0.001,
+                  },
+                }}
+                viewport={{ once: true }}
+                className={`flex flex-row p-2 m-1 ${
+                  id === message.from_user_id ? "justify-start" : "justify-end"
+                }`}
+                key={message.id}
+              >
+                <div
+                  className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
+                    id !== message.from_user_id
+                      ? "dark:bg-gray-700  bg-gray-300 shadow-lg dark:shadow-black shadow-gray-800"
+                      : "dark:bg-blue-800 bg-rose-200 shadow-lg shadow-rose-400 dark:shadow-black"
+                  } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto`}
+                >
+                  <div className="flex flex-row gap-2 justify-start">
+                    <p className="text-sm md:text-lg">{message.message}</p>
+                  </div>
+                  <div className="flex flex-row gap-2 justify-end">
+                    <p className="text-xs dark:text-white font-thin text-black">
+                      {formatDate(message.created_at)}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            </React.Fragment>
+          );
+        }
 
         return (
-        <React.Fragment key={message.id + index}>
-          <div
-          className="flex flex-row justify-start items-center sticky bottom-4 m-6"
-          key={index + message.id}
-        >
-          
-            <ArrowDownIcon className="w-8 font-bold dark:bg-emerald-800  dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-lg shadow-rose-400 dark:shadow-black p-1 " onClick ={() => {
-              if (messagesEndRef.current) {
-                messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-              } 
-            }
-            } />
-         
-        </div>
-
-        <motion.div
-        layout
-        initial={{ opacity: 0, scale: 0.1 }}
-        whileInView={{ opacity: 1, scale: 0.95 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 1 }}
-        transition={{
-          duration: 0.7,
-          ease: [0, 0.71, 0.2, 1.01],
-          scale: {
-            type: "spring",
-            damping: 15,
-            stiffness: 100,
-            restDelta: 0.001,
-          },
-        }}viewport={{once: true}}
-        className={`flex flex-row p-2 m-1 ${
-          id === message.from_user_id ? "justify-start" : "justify-end"
-        }`}
-        key={message.id}
-      >
-        <div
-         className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
-          id !== message.from_user_id
-            ? "dark:bg-gray-700  bg-gray-300 shadow-lg dark:shadow-black shadow-gray-800"
-            : "dark:bg-blue-800 bg-rose-200 shadow-lg shadow-rose-400 dark:shadow-black"
-        } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto`}
-        >
-          <div className="flex flex-row gap-2 justify-start">
-            <p className="text-sm md:text-lg">{message.message}</p>
-          </div>
-          <div className="flex flex-row gap-2 justify-end">
-            <p className="text-xs dark:text-white font-thin text-black">
-              {formatDate(message.created_at)}
-            </p>
-          </div>
-        </div>
-      </motion.div>
-      </React.Fragment>
-         
-        
-        );
-      }
-
-      return (
-        
-        <motion.div
-        layout
-        initial={{ opacity: 0, scale: 0.1 }}
-        whileInView={{ opacity: 1, scale: 0.95 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 1 }}
-        transition={{
-          duration: 0.7,
-          ease: [0, 0.71, 0.2, 1.01],
-          scale: {
-            type: "spring",
-            damping: 15,
-            stiffness: 100,
-            restDelta: 0.001,
-          },
-        }}viewport={{once: true}}
-
-
-          className={`flex flex-row p-2 m-1 ${
-            id === message.from_user_id ? "justify-start" : "justify-end"
-          }`}
-          key={message.id}
-        >
-          <div
-             className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
-              id !== message.from_user_id
-                ? "dark:bg-gray-700  bg-gray-300 shadow-lg dark:shadow-black shadow-gray-800"
-                : "dark:bg-blue-800 bg-rose-200 shadow-lg shadow-rose-400 dark:shadow-black"
-            } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto`}
+          <motion.div
+            layout
+            initial={{ opacity: 0, scale: 0.1 }}
+            whileInView={{ opacity: 1, scale: 0.95 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 1 }}
+            transition={{
+              duration: 0.7,
+              ease: [0, 0.71, 0.2, 1.01],
+              scale: {
+                type: "spring",
+                damping: 15,
+                stiffness: 100,
+                restDelta: 0.001,
+              },
+            }}
+            viewport={{ once: true }}
+            className={`flex flex-row p-2 m-1 ${
+              id === message.from_user_id ? "justify-start" : "justify-end"
+            }`}
+            key={message.id}
           >
-            <div className="flex flex-row gap-2 justify-start">
-              <p className="text-sm md:text-lg">{message.message}</p>
+            <div
+              className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
+                id !== message.from_user_id
+                  ? "dark:bg-gray-700  bg-gray-300 shadow-lg dark:shadow-black shadow-gray-800"
+                  : "dark:bg-blue-800 bg-rose-200 shadow-lg shadow-rose-400 dark:shadow-black"
+              } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto`}
+            >
+              <div className="flex flex-row gap-2 justify-start">
+                <p className="text-sm md:text-lg">{message.message}</p>
+              </div>
+              <div className="flex flex-row gap-2 justify-end">
+                <p className="text-xs dark:text-white font-thin text-black">
+                  {formatDate(message.created_at)}
+                </p>
+              </div>
             </div>
-            <div className="flex flex-row gap-2 justify-end">
-              <p className="text-xs dark:text-white font-thin text-black">
-                {formatDate(message.created_at)}
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      );
-    }).reverse().slice(0, messageToShow).reverse();
+          </motion.div>
+        );
+      })
+      .reverse()
+      .slice(0, messageToShow)
+      .reverse();
 
-    if(messageToShow < messages.length){
+    if (messageToShow < messages.length) {
       formattedMessages.unshift(
         <div
           className="flex flex-row justify-center items-center"
@@ -246,7 +252,7 @@ export default function Messages({ messages_data, conversations }: any) {
         >
           <button
             className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-lg shadow-rose-400 dark:shadow-black"
-            onClick={(e)=>{
+            onClick={(e) => {
               e.preventDefault();
               loadMoreMessages();
             }}
@@ -410,6 +416,7 @@ export default function Messages({ messages_data, conversations }: any) {
                 if (messagesEndRef.current) {
                   messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
                 }
+                console.log("Messages Marked Unread: ", unreadMessages);
               }, 1000);
 
               const textAreaElement = document.getElementById("message");
@@ -527,10 +534,11 @@ export default function Messages({ messages_data, conversations }: any) {
       <div className="-m-1.5 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] h-[50vh] overflow-auto">
-            <div >
+            <div>
               {formatMessages(
                 conversationsState[activeConversation] || [],
-                user.id, messagesToShow
+                user.id,
+                messagesToShow
               )}
               <form
                 onSubmit={async (e) => {

@@ -12,7 +12,7 @@ import {
   delete_message,
 } from "../../../lib/myDb";
 import { mark_message_read, delete_message_read } from "@/app/lib/actions";
-import { Tooltip } from "@nextui-org/react";
+import { Tooltip, user } from "@nextui-org/react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
@@ -63,12 +63,13 @@ export default function Notifications({ user_id }: any) {
 
   // This function is used to handle the click event on the notification so that the user can view the clicked notification in detail and in the same div as the notification dropdown also it marks the notification as read if it is unread
   const handleNotificationClick = async (notification: any) => {
-    setSelectedNotification(notification);
-    if (!notification.read) {
-      await mark_message_read(notification.id);
-      const notificationsUpdate = await getInboxNotifications(user_id);
-      setNotifications(notificationsUpdate);
-    }
+    setSelectedNotification(notification.notifications[0]);
+    console.log("Notification: ", notification.notifications[0]);
+    // if (!notification.read) {
+    //   await mark_message_read(notification.id);
+    //   const notificationsUpdate = await getInboxNotifications(user_id);
+    //   setNotifications(notificationsUpdate);
+    // }
   };
 
   // This function is used to handle the click event on the back button in the notification detail view so that the user can go back to the notifications dropdown
@@ -95,37 +96,62 @@ export default function Notifications({ user_id }: any) {
   );
 
   // This function maps through the unread notifications and creates a list of notifications to be displayed in the notification dropdown
-  const notificationsList = unreadNotificationsList?.map(
-    (notification: any) => {
-      if (!notification.read) {
-        return (
-          <Tooltip
-            key={notification.id}
-            content="Open"
-            placement="bottom-start"
-            className="bg-rose-200 px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-900 border-rose-200 dark:border-yellow-300 dark:border-[0.2mm] dark:shadow-md p-2 hover:cursor-pointer hover:bg-rose-100  my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
-          >
-            <div
-              className="flex flex-row justify-between items-center border-b-2 border-rose-200 dark:border-yellow-300 p-2 hover:cursor-pointer hover:bg-rose-100 dark:hover:bg-emerald-900 my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
-              key={notification.id}
-              style={{ width: "90%" }}
-              onClick={() => handleNotificationClick(notification)}
-            >
-              <p
-                className={`${
-                  notification.read ? "font-light text-sm" : "font-bold text-lg"
-                }`}
-              >
-                {notification.subject}
-              </p>
-              <p>{notification.from}</p>
-            </div>
-          </Tooltip>
-        );
-      } else {
+  const getNotificationsList = (unreadList: any) => {
+    let userList: string[] = [];
+    let usersObj: object[] = [];
+
+    const notificationsList = unreadList.map((notification: any) => {
+      if (
+        userList.find((n) => {
+          return n === notification.from;
+        })
+      ) {
+        if (!notification.read) {
+          usersObj.map((user: any) => {
+            if (user.username === notification.from) {
+              user.count += 1;
+              user.notifications.push(notification);
+            }
+          });
+        }
+        return;
+      } else if (notification.read) {
+        return;
       }
-    }
-  );
+      let user: any = {};
+      user.username = notification.from;
+      user.count = 1;
+      user.notifications = [notification];
+      usersObj.push(user);
+      userList.push(notification.from);
+
+      // return (
+      //   <Tooltip
+      //     key={notification.id}
+      //     content="Open"
+      //     placement="bottom-start"
+      //     className="bg-rose-200 px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-900 border-rose-200 dark:border-yellow-300 dark:border-[0.2mm] dark:shadow-md p-2 hover:cursor-pointer hover:bg-rose-100  my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+      //   >
+      //     <div
+      //       className="flex flex-row justify-between items-center border-b-2 border-rose-200 dark:border-yellow-300 p-2 hover:cursor-pointer hover:bg-rose-100 dark:hover:bg-emerald-900 my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+      //       key={notification.id}
+      //       style={{ width: "90%" }}
+      //       onClick={() => handleNotificationClick(notification)}
+      //     >
+      //       <p
+      //         className={`${
+      //           notification.read ? "font-light text-sm" : "font-bold text-lg"
+      //         }`}
+      //       >
+      //         {notification.from}
+      //       </p>
+      //     </div>
+      //   </Tooltip>
+      // );
+    });
+    //  console.log("Users: ", usersObj);
+    return usersObj;
+  };
 
   // This function maps through the read notifications and creates a list of notifications to be displayed in the notification dropdown
   const readNotifications = readNotificationsList?.map((notification: any) => {
@@ -225,14 +251,21 @@ export default function Notifications({ user_id }: any) {
               />
             </div>
 
-            <h2 className="text-xl font-bold border-b-[0.2mm] border-rose-200 dark:border-yellow-300 my-2">
-              {selectedNotification.subject}
-            </h2>
+            <Link
+              href={{
+                pathname: `/home/dashboard/profile/messages`,
+                query: { from: selectedNotification.from },
+              }}
+              onClick={() => {
+                setVisible(false);
+              }}
+            >
+              <h2 className="text-xl font-bold border-b-[0.2mm] border-rose-200 dark:border-yellow-300 my-2">
+                {selectedNotification.from}
+              </h2>
+            </Link>
             <p>{selectedNotification.message}</p>
-            <div className=" flex flex-row justify-between mt-7 w-[50%]">
-              <p className="font-light text-sm">From:&nbsp;</p>
-              <p>{selectedNotification.from}</p>
-            </div>
+            <div className=" flex flex-row justify-between mt-7 w-[50%]"></div>
           </div>
         ) : (
           <div
@@ -242,38 +275,50 @@ export default function Notifications({ user_id }: any) {
           >
             {notifications?.length > 0 ? (
               <>
-                {notificationsList.length > 0 ? (
+                {getNotificationsList(notifications).length > 0 ? (
                   <>
                     <h2 className="text-lg">New Messages</h2>
                     <div
                       className="flex flex-row justify-between items-center border-b-[.2mm] border-rose-200 dark:border-yellow-300 p-2 my-2"
                       style={{ width: "90%" }}
                     >
-                      <p className="font-light text-sm">Subject</p>
                       <p>From</p>
+                      <p>New</p>
                     </div>
-                    {notificationsList}
+                    {getNotificationsList(notifications).map(
+                      (notification: any) => {
+                        return (
+                          <Tooltip
+                            key={notification.notifications[0].id}
+                            content="Open"
+                            placement="bottom-start"
+                            className="bg-rose-200 px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-900 border-rose-200 dark:border-yellow-300 dark:border-[0.2mm] dark:shadow-md p-2 hover:cursor-pointer hover:bg-rose-100  my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+                          >
+                            <div
+                              className="flex flex-row justify-between items-center border-b-2 border-rose-200 dark:border-yellow-300 p-2 hover:cursor-pointer hover:bg-rose-100 dark:hover:bg-emerald-900 my-2 rounded-md hover:text-rose-900 dark:hover:text-yellow-300 hover:shadow-lg hover:transform hover:scale-105 transition-transform duration-300"
+                              key={notification.id}
+                              style={{ width: "90%" }}
+                              onClick={() =>
+                                handleNotificationClick(notification)
+                              }
+                            >
+                              <p className="font-bold text-lg">
+                                {notification.username}
+                              </p>
+                              <p className="font-bold text-lg">
+                                {notification.count}
+                              </p>
+                            </div>
+                          </Tooltip>
+                        );
+                      }
+                    )}
                   </>
                 ) : (
                   <h2 className="text-lg">No unread notifications</h2>
                 )}
                 <hr className="w-full border-[0.2mm] border-rose-200 dark:border-yellow-300 my-2" />
 
-                {readNotifications.length > 0 ? (
-                  <>
-                    <h2 className="text-lg">Older Messages</h2>
-                    <div
-                      className="flex flex-row justify-between items-center  p-2 my-2"
-                      style={{ width: "90%" }}
-                    >
-                      <p className="font-light text-sm">Subject</p>
-                      <p>From</p>
-                    </div>
-                    {readNotifications}
-                  </>
-                ) : (
-                  <h2 className="text-lg">No older notifications</h2>
-                )}
                 <div className="flex flex-row justify-between items-center p-2 my-2 w-full">
                   <Link
                     href="/home/dashboard/profile/messages"

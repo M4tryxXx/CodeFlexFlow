@@ -27,13 +27,15 @@ const MessageForm = ({ from_user, to_user }: any) => {
 
       
     
-      await sendUserMessage(data);
+     const response = await sendUserMessage(data);
+     if(response){
       setStatus("Message sent!");
       setSubject("");
       setMessage("");
       setLoading(false);
+      return;
+     }
    
-     
       setLoading(false);
       setStatus("Something went wrong. Please try again.");
    
