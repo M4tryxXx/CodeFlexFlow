@@ -570,6 +570,5 @@ export const sendUserMessage = async (data: any) => {
     });
     return null;
   }
-  toast.success("Message sent successfully!", { duration: 5000 });
   return response;
 };

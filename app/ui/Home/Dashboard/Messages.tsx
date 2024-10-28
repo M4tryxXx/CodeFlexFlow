@@ -10,18 +10,21 @@ import {
 import { formatDate } from "@/app/lib/utils";
 import {
   mark_message_read,
+  notificationEmail,
   delete_message_read,
   getMessages,
+  getUserFull,
 } from "@/app/lib/actions";
 import { sendUserMessage } from "@/app/lib/client-actions";
 import toast from "react-hot-toast";
 import { getConversation } from "@/app/lib/myDb";
 import { getConversations } from "@/app/lib/utils";
 import { motion } from "framer-motion";
+import { useSearchParams } from "next/navigation";
 
 export default function Messages({ messages_data, conversations }: any) {
-  // const router = useRouter();
-  // const { from } = router.query;
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
   const { title, messages, user, mark_message, delete_message } = messages_data;
   const [activeUser, setActiveUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
@@ -49,11 +52,15 @@ export default function Messages({ messages_data, conversations }: any) {
     setConversationsState(conversations);
   }, [conversations]);
 
-  // useEffect(() => {
-  //   if (messagesEndRef.current) {
-  //     messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-  //   }
-  // }, [conversationsState]);
+  useEffect(() => {
+    if (from) {
+      async function handleConversationAsync() {
+        await handleConversationSelection(from);
+      }
+      setActiveConversation(from);
+      handleConversationAsync();
+    }
+  }, []);
 
   useEffect(() => {
     const handleVisibilityChange = () => {
@@ -266,12 +273,71 @@ export default function Messages({ messages_data, conversations }: any) {
     return formattedMessages;
   };
 
+  // This function loads more messages when the load more button is clicked
   const loadMoreMessages = () => {
     setMessagesToShow((prev) => prev + 5);
   };
 
+  // This function handles the conversation selection
+  const handleConversationSelection = async (conversation: any) => {
+    if (loading) {
+      return;
+    }
+
+    setStatus("");
+    setLoading(true);
+    setVisible(!visible);
+    // setSelectedConversation(
+    //   formatMessages(conversationsState[conversation], user.id)
+    // );
+
+    setActiveConversation(conversation);
+    setActiveUser(conversation);
+    setTimeout(() => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 1000);
+
+    const textAreaElement = document.getElementById("message");
+    textAreaElement?.focus();
+
+    //
+
+    if (
+      !conversationsState[conversation][
+        conversationsState[conversation].length - 1
+      ].read &&
+      conversationsState[conversation][
+        conversationsState[conversation].length - 1
+      ].to_user_id === user.id
+    ) {
+      await mark_message_read(
+        conversationsState[conversation][
+          conversationsState[conversation].length - 1
+        ].id
+      );
+      // Update the state to mark the message as read
+      const updatedConversations = { ...conversationsState };
+      updatedConversations[conversation][
+        updatedConversations[conversation].length - 1
+      ].read = true;
+      setConversationsState(updatedConversations);
+    }
+
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    setLoading(false);
+  };
+
+  // This function formats the messages to be displayed in the chat window
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (loading) {
+      return;
+    }
     setStatus("Sending message...");
     setLoading(true);
 
@@ -285,6 +351,17 @@ export default function Messages({ messages_data, conversations }: any) {
         to: conversationsState[activeConversation][0].from,
       };
 
+      const mailUser = await getUserFull(
+        conversationsState[activeConversation][0].from_user_id
+      );
+      console.log("from: ", mailUser);
+
+      // const mailData = {
+      //   email: ,
+      //   name: string,
+      //   message: string,
+      //   link: string,
+      // };
       const response = await sendUserMessage(new_message);
       if (!response) {
         setLoading(false);
@@ -298,10 +375,8 @@ export default function Messages({ messages_data, conversations }: any) {
       setMessage("");
 
       try {
-        console.log("Fetching notifications...");
         const data = await getConversation(user.id);
         const updatedConversations = await getConversations(data, user);
-        console.log("conversations: ", updatedConversations);
         setConversationsState(updatedConversations);
         // setSelectedConversation(
         //   formatMessages(conversationsState[activeConversation], user.id)
@@ -324,7 +399,12 @@ export default function Messages({ messages_data, conversations }: any) {
         from: user.username,
         to: conversationsState[activeConversation][0].to,
       };
-      console.log("new_message 2: ", conversationsState[activeConversation]);
+
+      const mailUser = await getUserFull(
+        conversationsState[activeConversation][0].to_user_id
+      );
+
+      // console.log(conversationsState[activeConversation][0]);
 
       const response = await sendUserMessage(new_message);
 
@@ -337,12 +417,15 @@ export default function Messages({ messages_data, conversations }: any) {
         return null;
       }
       setMessage("");
+      setStatus("Message sent!");
+      setLoading(false);
+      setTimeout(() => {
+        setStatus("");
+      }, 3000);
 
       try {
-        console.log("Fetching notifications...");
         const data = await getConversation(user.id);
         const updatedConversations = await getConversations(data, user);
-        console.log("conversations: ", updatedConversations);
         setConversationsState(updatedConversations);
         // setSelectedConversation(
         //   formatMessages(conversationsState[activeConversation], user.id)
@@ -350,12 +433,28 @@ export default function Messages({ messages_data, conversations }: any) {
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }
-      setStatus("Message sent!");
-      setLoading(false);
 
-      // setTimeout(() => {
-      //   setVisible(false);
-      // }, 2000);
+      if (mailUser) {
+        const mailData = {
+          email: mailUser?.email,
+          name: mailUser?.username,
+          message: `You have a new message from ${user?.username}!`,
+          link: `https://codeflexflow.vercel.app/home/dashboard/profile/messages?from=${mailUser?.username}`,
+        };
+
+        const mailResponse = await notificationEmail(
+          mailData.email,
+          mailData.name,
+          mailData.message,
+          mailData.link
+        );
+
+        if (mailResponse) {
+          console.log("Mail sent!");
+        } else {
+          console.log("Mail not sent!");
+        }
+      }
     }
   };
 
@@ -402,55 +501,7 @@ export default function Messages({ messages_data, conversations }: any) {
         <div
           className="flex justify-between items-center w-full"
           onClick={async () => {
-            if (!loading) {
-              setStatus("");
-              setLoading(true);
-              setVisible(!visible);
-              // setSelectedConversation(
-              //   formatMessages(conversationsState[conversation], user.id)
-              // );
-
-              setActiveConversation(conversation);
-              setActiveUser(conversation);
-              setTimeout(() => {
-                if (messagesEndRef.current) {
-                  messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-                }
-                console.log("Messages Marked Unread: ", unreadMessages);
-              }, 1000);
-
-              const textAreaElement = document.getElementById("message");
-              textAreaElement?.focus();
-
-              //
-
-              if (
-                !conversationsState[conversation][
-                  conversationsState[conversation].length - 1
-                ].read &&
-                conversationsState[conversation][
-                  conversationsState[conversation].length - 1
-                ].to_user_id === user.id
-              ) {
-                await mark_message_read(
-                  conversationsState[conversation][
-                    conversationsState[conversation].length - 1
-                  ].id
-                );
-                // Update the state to mark the message as read
-                const updatedConversations = { ...conversationsState };
-                updatedConversations[conversation][
-                  updatedConversations[conversation].length - 1
-                ].read = true;
-                setConversationsState(updatedConversations);
-              }
-
-              if (messagesEndRef.current) {
-                messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-              }
-
-              setLoading(false);
-            }
+            await handleConversationSelection(conversation);
           }}
         >
           <p className="text-xs md:text-lg">{conversation}</p>
@@ -502,26 +553,33 @@ export default function Messages({ messages_data, conversations }: any) {
 
   if (!activeConversation || !activeUser) {
     return (
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-3">
+        <h1 className="text-2xl font-bold mb-4">Messages</h1>
         <div className="-m-1.5 overflow-x-auto">
           <div className="p-1.5 min-w-full inline-block align-middle">
-            <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-10 border-[0.2mm] ">
-              {conversationsListItems.length > 0 ? (
-                <>
-                  <div className="p-1">
-                    <div className="flex justify-between text-xs">
-                      <p>With</p>
-                      <p>Last Message on</p>
-                      <p>Delete</p>
-                    </div>
+            <div className="flex flex-col">
+              <div className="-m-1.5 overflow-x-auto">
+                <div className="p-1.5 min-w-full inline-block align-middle">
+                  <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-10 border-[0.2mm] ">
+                    {conversationsListItems.length > 0 ? (
+                      <>
+                        <div className="p-1">
+                          <div className="flex justify-between text-xs">
+                            <p>With</p>
+                            <p>Last Message on</p>
+                            <p>Delete</p>
+                          </div>
+                        </div>
+                        {conversationsListItems}
+                      </>
+                    ) : (
+                      <div className="flex justify-center items-center">
+                        <p className="text-lg">No messages</p>
+                      </div>
+                    )}
                   </div>
-                  {conversationsListItems}
-                </>
-              ) : (
-                <div className="flex justify-center items-center">
-                  <p className="text-lg">No messages</p>
                 </div>
-              )}
+              </div>
             </div>
           </div>
         </div>
@@ -530,77 +588,90 @@ export default function Messages({ messages_data, conversations }: any) {
   }
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col gap-3">
+      <h1 className="text-2xl font-bold mb-4">{activeConversation}</h1>
       <div className="-m-1.5 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
-          <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] h-[50vh] overflow-auto">
-            <div>
-              {formatMessages(
-                conversationsState[activeConversation] || [],
-                user.id,
-                messagesToShow
-              )}
-              <form
-                onSubmit={async (e) => {
-                  await handleFormSubmit(e);
-                }}
-                className=" m-4"
-              >
-                <div ref={messagesEndRef} className="mt-4" />
-                <div className="flex flex-row gap-2 justify-between">
-                  <div className="relative w-full">
-                    <textarea
-                      placeholder="Type your message here"
-                      className="bg-rose-200 dark:bg-emerald-800 dark:text-yellow-300 text-rose-900 rounded-md md:p-2 p-1 w-[80%] md:w-[50%] focus:outline-[0.2mm] focus:ring-2 focus:ring-rose-500 dark:focus:ring-yellow-300 focus:border-rose-500 dark:focus:border-yellow-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      id="message"
-                      rows={1}
-                    />
+          <div className="flex flex-col">
+            <div className="-m-1.5 overflow-x-auto">
+              <div className="p-1.5 min-w-full inline-block align-middle">
+                <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] h-[50vh] overflow-auto">
+                  <div>
+                    {formatMessages(
+                      conversationsState[activeConversation] || [],
+                      user.id,
+                      messagesToShow
+                    )}
+                    <p className="text-xs dark:text-white font-semibold text-black m-4">
+                      {status ? status : "💬"}
+                    </p>
+                    <form
+                      onSubmit={async (e) => {
+                        await handleFormSubmit(e);
+                      }}
+                      className=" m-4"
+                    >
+                      <div ref={messagesEndRef} className="mt-4" />
+                      <div className="flex flex-row gap-2 justify-between">
+                        <div className="relative w-full">
+                          <textarea
+                            placeholder="Type your message here"
+                            className="dark:bg-blue-950 bg-rose-200 shadow-lg shadow-rose-400 dark:shadow-black md:rounded-2xl rounded-lg  p-2 md:p-6  w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            id="message"
+                            rows={1}
+                          />
+                        </div>
+                      </div>
+                      {message.length >= 1 ? (
+                        <div className="flex flex-row justify-between items-center m-2">
+                          <button
+                            type="submit"
+                            className={` 
+                              
+                              ${
+                                loading
+                                  ? "bg-gray-200 dark:bg-gray-700 dark:text-gray-500 text-rose-900 rounded-md my-2 px-2 py-1 cursor-not-allowed"
+                                  : "rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300 "
+                              }`}
+                            disabled={loading}
+                          >
+                            Send
+                          </button>
+
+                          <button
+                            className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300"
+                            onClick={() => {
+                              setActiveConversation(null);
+                            }}
+                          >
+                            Back
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="flex flex-row justify-between items-center m-2">
+                          <button
+                            className="bg-gray-200 dark:bg-gray-700 dark:text-gray-500 text-rose-900 rounded-md my-2 px-2 py-1 cursor-not-allowed"
+                            disabled
+                          >
+                            Send
+                          </button>
+                          <button
+                            className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-md shadow-rose-400 dark:shadow-black"
+                            onClick={() => {
+                              setActiveConversation(null);
+                              setMessagesToShow(5);
+                            }}
+                          >
+                            Back
+                          </button>
+                        </div>
+                      )}
+                    </form>
+                    <div className="flex flex-row gap-2 justify-end"></div>
                   </div>
                 </div>
-                {message.length >= 1 ? (
-                  <div className="flex flex-row justify-between items-center m-2">
-                    <button
-                      type="submit"
-                      className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300"
-                    >
-                      Send
-                    </button>
-
-                    <button
-                      className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300"
-                      onClick={() => {
-                        setActiveConversation(null);
-                      }}
-                    >
-                      Back
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex flex-row justify-between items-center m-2">
-                    <button
-                      className="bg-gray-200 dark:bg-gray-700 dark:text-gray-500 text-rose-900 rounded-md my-2 px-2 py-1 cursor-not-allowed"
-                      disabled
-                    >
-                      Send
-                    </button>
-                    <button
-                      className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-md shadow-rose-400 dark:shadow-black"
-                      onClick={() => {
-                        setActiveConversation(null);
-                        setMessagesToShow(5);
-                      }}
-                    >
-                      Back
-                    </button>
-                  </div>
-                )}
-              </form>
-              <div className="flex flex-row gap-2 justify-end">
-                <p className="text-xs dark:text-white font-semibold text-black mb-4">
-                  {status}
-                </p>
               </div>
             </div>
           </div>

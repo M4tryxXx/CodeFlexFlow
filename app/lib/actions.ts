@@ -10,6 +10,7 @@ import {
   sendResetPasswordEmail,
   sendInvitationEmail,
   sendContactMeEmail,
+  sendNotificationEmail,
 } from "./mailer";
 import {
   saveUserDb,
@@ -394,6 +395,7 @@ export const sendInvitationLink = async (
   try {
     response = await createInvitation(data);
     await sendInvitationEmail(email, response, user);
+
     if (response && serial) {
       await updateSerial({ id: serial.id + 1 });
     }
@@ -403,7 +405,7 @@ export const sendInvitationLink = async (
   }
 
   revalidatePath("/home/dashboard");
-  redirect("/home/dashboard");
+  // redirect("/home/dashboard");
 };
 
 export const shareInvitationLink = async (
@@ -522,5 +524,20 @@ export const getMessages = async (id: string) => {
     return response;
   } else {
     return null;
+  }
+};
+
+export const notificationEmail = async (
+  email: string,
+  name: string,
+  message: string,
+  link: string
+) => {
+  const response = await sendNotificationEmail(email, name, message, link);
+  if (response !== undefined) {
+    revalidatePath("/home/dashboard/profile/messages");
+    return response;
+  } else {
+    return "Something went wrong";
   }
 };

@@ -28,7 +28,6 @@ export default function InvitationForm({ user }: any) {
   const [share, setShare] = useState(true);
   const [send, setSend] = useState(true);
   const [shareMessage, setShareMessage] = useState("");
-
   let shareOption;
 
   if (typeof window !== "undefined" && navigator.share !== undefined) {

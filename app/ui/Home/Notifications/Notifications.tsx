@@ -30,6 +30,7 @@ export default function Notifications({ user_id }: any) {
       !notificationRef.current.contains(event.target as Node)
     ) {
       setVisible(false);
+      handleBackClick();
     }
   };
 
@@ -64,7 +65,6 @@ export default function Notifications({ user_id }: any) {
   // This function is used to handle the click event on the notification so that the user can view the clicked notification in detail and in the same div as the notification dropdown also it marks the notification as read if it is unread
   const handleNotificationClick = async (notification: any) => {
     setSelectedNotification(notification.notifications[0]);
-    console.log("Notification: ", notification.notifications[0]);
     // if (!notification.read) {
     //   await mark_message_read(notification.id);
     //   const notificationsUpdate = await getInboxNotifications(user_id);
@@ -251,21 +251,27 @@ export default function Notifications({ user_id }: any) {
               />
             </div>
 
-            <Link
-              href={{
-                pathname: `/home/dashboard/profile/messages`,
-                query: { from: selectedNotification.from },
-              }}
-              onClick={() => {
-                setVisible(false);
-              }}
-            >
-              <h2 className="text-xl font-bold border-b-[0.2mm] border-rose-200 dark:border-yellow-300 my-2">
-                {selectedNotification.from}
-              </h2>
-            </Link>
+            <h2 className="text-xl font-bold border-b-[0.2mm] border-rose-200 dark:border-yellow-300 my-2">
+              {selectedNotification.from}
+            </h2>
+
             <p>{selectedNotification.message}</p>
-            <div className=" flex flex-row justify-between mt-7 w-[50%]"></div>
+            <div className=" flex flex-row justify-between mt-7 w-[50%]">
+              <Link
+                href={{
+                  pathname: `/home/dashboard/profile/messages`,
+                  query: { from: selectedNotification.from },
+                }}
+                onClick={() => {
+                  setVisible(false);
+                  handleBackClick();
+                }}
+              >
+                <h2 className="text-base font-bold underline underline-offset-2 my-2 hover:text-blue-900 dark:hover:text-blue-400">
+                  Go to conversation
+                </h2>
+              </Link>
+            </div>
           </div>
         ) : (
           <div

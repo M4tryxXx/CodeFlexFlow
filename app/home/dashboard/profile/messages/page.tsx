@@ -49,17 +49,7 @@ export default async function MessagesPage() {
   //   console.log("currentUser: ", currentUser);
   return (
     <div className="container mx-auto p-4">
-      <div className="flex flex-col gap-3">
-        <h1 className="text-2xl font-bold mb-4">Messages</h1>
-        <div className="-m-1.5 overflow-x-auto">
-          <div className="p-1.5 min-w-full inline-block align-middle">
-            <Messages
-              messages_data={received_data}
-              conversations={conversations}
-            />
-          </div>
-        </div>
-      </div>
+      <Messages messages_data={received_data} conversations={conversations} />
     </div>
   );
 }
