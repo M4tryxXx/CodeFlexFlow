@@ -352,18 +352,21 @@ export default function Messages({ messages_data, conversations }: any) {
       };
 
       const response = await sendUserMessage(new_message);
-      if (!response) {
-        setLoading(false);
-        setStatus("Something went wrong. Please try again.");
-        // setTimeout(() => {
-        //   setVisible(false);
-        // }, 2000);
+      // if (!response) {
+      //   setLoading(false);
+      //   setStatus("Something went wrong. Please try again.");
+      //   // setTimeout(() => {
+      //   //   setVisible(false);
+      //   // }, 2000);
 
-        return;
-      }
+      //   return;
+      // }
       setMessage("");
       setStatus("Message sent!");
       setLoading(false);
+      setTimeout(() => {
+        setStatus("");
+      }, 3000);
 
       try {
         const data = await getConversation(user.id);
