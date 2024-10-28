@@ -383,7 +383,7 @@ export default function Messages({ messages_data, conversations }: any) {
         conversationsState[activeConversation][0].from_user_id
       );
 
-      console.log("Mail User: ", mailUser);
+      // console.log("Mail User: ", mailUser);
 
       if (mailUser) {
         const mailData = {
