@@ -1,4 +1,5 @@
 import { updateInviteById } from "@/app/lib/actions";
+import { revalidatePath } from "next/cache";
 import { selectUserCvFull, getInvitesById } from "@/app/lib/myDb";
 import "react-vertical-timeline-component/style.min.css";
 import ExperienceCv from "@/app/ui/Home/Profile/MyCv/ExperienceCv";
@@ -10,11 +11,10 @@ import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import EarthCanvas from "@/app/ui/Home/Profile/MyCv/Earth";
 import ContactCard from "@/app/ui/Home/Profile/MyCv/Contact";
 import StarsCanvas from "@/app/ui/Home/Profile/MyCv/Stars";
-export default async function CvPage(
-  props: {
-    params: Promise<{ invitationId: string }>;
-  }
-) {
+import { set } from "zod";
+export default async function CvPage(props: {
+  params: Promise<{ invitationId: string }>;
+}) {
   const params = await props.params;
   const { invitationId } = params;
   let contactVisible: boolean = false;
@@ -45,7 +45,12 @@ export default async function CvPage(
   let user: any;
   if (invite) {
     user = await selectUserCvFull(invite.user_id);
-    await updateInviteById(invitationId);
+    const updateResponse = await updateInviteById(invitationId);
+    if (updateResponse) {
+      setTimeout(() => {
+        revalidatePath(`/home/dashboard`);
+      }, 15000);
+    }
   }
 
   if (!invite) {

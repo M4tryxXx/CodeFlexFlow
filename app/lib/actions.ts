@@ -274,9 +274,9 @@ export const updateInviteById = async (id: any) => {
   };
   const response = await updateInvite(data);
   if (response) {
-    revalidatePath("/home/dashboard");
+    return response;
   } else {
-    return "Something went wrong";
+    return null;
   }
 };
 
