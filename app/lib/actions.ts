@@ -80,7 +80,7 @@ export async function authenticate(formData: FormData) {
     }
     throw error;
   }
-
+  // revalidatePath("/home");
   redirect("/home");
 }
 
@@ -155,7 +155,7 @@ export async function registerUser(data: object | any) {
 
   const response = await saveUserDb(data);
 
-  console.log(response);
+  // console.log(response);
   if (response) {
     await sendWelcomeEmail(email, username);
     await sendContactMeEmail(email, username, " Just created an account :)!");
@@ -536,6 +536,32 @@ export const notificationEmail = async (
   const response = await sendNotificationEmail(email, name, message, link);
   if (response !== undefined) {
     revalidatePath("/home/dashboard/profile/messages");
+    return response;
+  } else {
+    return "Something went wrong";
+  }
+};
+
+export const handleUnreadNotificationsList = async (
+  notifications: any,
+  userId: string
+) => {
+  const list = notifications?.filter(
+    (notification: any) =>
+      notification.from_user_id !== userId && notification.read === false
+  );
+
+  if (list.length === 0) {
+    console.log("No unread messages");
+    return;
+  }
+  const user_id = list[0].to_user_id;
+  const message = `You have ${list.length} unread messages \n Marking them as read now!`;
+  // console.log(message);
+  const response = await mark_message(user_id);
+  revalidatePath("/home");
+  if (response) {
+    revalidatePath("/");
     return response;
   } else {
     return "Something went wrong";

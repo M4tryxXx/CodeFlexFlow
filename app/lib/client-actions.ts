@@ -252,7 +252,8 @@ export const loginUserSide = async (
     for (let key in credentials) {
       formData.append(key, credentials[key]);
     }
-    authenticate(formData);
+
+    await authenticate(formData);
 
     updateUserDbOnLogin({
       id: user.id,

@@ -14,6 +14,7 @@ import {
   delete_message_read,
   getMessages,
   getUserFull,
+  handleUnreadNotificationsList,
 } from "@/app/lib/actions";
 import { sendUserMessage } from "@/app/lib/client-actions";
 import toast from "react-hot-toast";
@@ -26,6 +27,8 @@ export default function Messages({ messages_data, conversations }: any) {
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
   const { title, messages, user, mark_message, delete_message } = messages_data;
+  // if (!user) throw new Error("Bad internet connection!");
+
   const [activeUser, setActiveUser] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [activeConversation, setActiveConversation] = useState<any>(null);
@@ -38,6 +41,22 @@ export default function Messages({ messages_data, conversations }: any) {
   const [messagesToShow, setMessagesToShow] = useState(5);
   const [unreadMessages, setUnreadMessages] = useState<any>([]);
 
+  if (!user) {
+    return (
+      <div className="flex flex-col justify-center">
+        <h1>Network Error</h1>
+        <button
+          className="py-2 px-6 dark:bg-emerald-700 dark:hover:bg-emerald-900 bg-rose-600 hover:bg-rose-800 dark:text-yellow-300 text-white"
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
+          Try Again
+        </button>
+        <p>Test</p>
+      </div>
+    );
+  }
   const handleClickOutside = (event: MouseEvent) => {
     if (
       messageRef.current &&
@@ -124,7 +143,7 @@ export default function Messages({ messages_data, conversations }: any) {
     const interval = setInterval(fetchNotifications, 3000); // Fetch notifications every second
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, [user.id, activeConversation, activeUser]);
+  }, [user?.id, activeConversation, activeUser]);
 
   // This function formats the messages to be displayed in the chat window and limits the number of messages to be displayed
   const formatMessages = (messages: any, id: any, limiter: number) => {
@@ -304,32 +323,36 @@ export default function Messages({ messages_data, conversations }: any) {
 
     //
 
-    if (
-      !conversationsState[conversation][
-        conversationsState[conversation].length - 1
-      ].read &&
-      conversationsState[conversation][
-        conversationsState[conversation].length - 1
-      ].to_user_id === user.id
-    ) {
-      await mark_message_read(
-        conversationsState[conversation][
-          conversationsState[conversation].length - 1
-        ].id
-      );
-      // Update the state to mark the message as read
-      const updatedConversations = { ...conversationsState };
-      updatedConversations[conversation][
-        updatedConversations[conversation].length - 1
-      ].read = true;
-      setConversationsState(updatedConversations);
-    }
+    // if (
+    //   !conversationsState[conversation][
+    //     conversationsState[conversation].length - 1
+    //   ].read &&
+    //   conversationsState[conversation][
+    //     conversationsState[conversation].length - 1
+    //   ].to_user_id === user.id
+    // ) {
+    //   await mark_message_read(
+    //     conversationsState[conversation][
+    //       conversationsState[conversation].length - 1
+    //     ].id
+    //   );
+    //   // Update the state to mark the message as read
+    //   const updatedConversations = { ...conversationsState };
+    //   updatedConversations[conversation][
+    //     updatedConversations[conversation].length - 1
+    //   ].read = true;
+    //   setConversationsState(updatedConversations);
+    // }
 
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
 
     setLoading(false);
+    await handleUnreadNotificationsList(
+      conversationsState[conversation],
+      user.id
+    );
   };
 
   // This function formats the messages to be displayed in the chat window
@@ -454,7 +477,7 @@ export default function Messages({ messages_data, conversations }: any) {
         conversationsState[activeConversation][0].to_user_id
       );
 
-      console.log("Mail User To: ", mailUser);
+      // console.log("Mail User To: ", mailUser);
 
       if (mailUser) {
         const mailData = {

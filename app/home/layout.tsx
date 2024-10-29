@@ -2,6 +2,8 @@ import SideNav from "@/app/ui/Home/Dashboard/sidenav";
 import { myStyles } from "../styles";
 import Footer from "@/app/ui/Global/Footer/Footer";
 import { getLoggedUser } from "@/app/lib/actions";
+import { getUserF, preload } from "@/app/lib/get_items";
+import { GetUserFull, preloadUserFull } from "../lib/get_user_full";
 import { auth } from "@/auth";
 
 export default async function DashboardLayout({
@@ -10,7 +12,13 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
+
+  preload(session?.user?.email ?? undefined);
+  preloadUserFull(session?.user?.email ?? undefined);
   const user = await getLoggedUser(session?.user?.email);
+  await GetUserFull(session?.user?.email ?? undefined);
+
+  // console.log("User with get_item: ", user);
   let loading = false;
 
   return (

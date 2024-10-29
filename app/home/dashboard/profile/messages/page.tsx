@@ -1,15 +1,19 @@
 import React from "react";
 import { getLoggedUserFull } from "@/app/lib/actions";
+import { getUserF } from "@/app/lib/get_items";
+import { GetUserFull } from "@/app/lib/get_user_full";
 import Messages from "@/app/ui/Home/Dashboard/Messages";
 import { delete_message, getConversation } from "@/app/lib/myDb";
 import { mark_message_read, getMessages } from "@/app/lib/actions";
 import { auth } from "@/auth";
 import { getConversations } from "@/app/lib/utils";
-import { set } from "zod";
+import { revalidatePath } from "next/cache";
 
 export default async function MessagesPage() {
+  // console.log("currentUser: ", currentUser);
+
   const session = await auth();
-  const currentUser = await getLoggedUserFull(session?.user?.email);
+  let currentUser = await GetUserFull(session?.user?.email ?? undefined);
   const sent_messages = currentUser?.sent_notifications;
   const received_messages = currentUser?.notifications;
   let conversations: any;
@@ -29,11 +33,7 @@ export default async function MessagesPage() {
     delete_message: delete_message,
   };
 
-  if (!currentUser) {
-    return <div>Loading...</div>;
-  }
-
-  allMessages = await getConversation(currentUser.id);
+  allMessages = await getConversation(currentUser?.id ?? "");
   conversations = await getConversations(allMessages, currentUser);
 
   // const startInterval = async () => {

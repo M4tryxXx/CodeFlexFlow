@@ -1,13 +1,14 @@
 import Link from "next/link";
 import clsx from "clsx";
 import { getLoggedUserFull } from "@/app/lib/actions";
+import { GetUserFull } from "@/app/lib/get_user_full";
 import { formatDateYearMonth } from "@/app/lib/utils";
 import Card from "@/app/ui/Global/Card";
 import { auth } from "@/auth";
 
 export default async function QualificationPage() {
   const session = await auth();
-  const session_user_id = await getLoggedUserFull(session?.user?.email);
+  const session_user_id = await GetUserFull(session?.user?.email ?? undefined);
   const qualifications = session_user_id?.qualifications;
   let qualificationContainer: any;
 

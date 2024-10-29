@@ -91,6 +91,7 @@ export const selectUserLogIn = async (
         },
       });
     } else if (username) {
+      console.log("Connecting to the database...");
       user = await prisma.user.findUnique({
         where: {
           username: username,
@@ -156,6 +157,8 @@ export const selectUserAccount = async (
           sent_notifications: true,
         },
       });
+      await prisma.$disconnect();
+      return user;
     } else if (username) {
       user = await prisma.user.findUnique({
         where: {
@@ -167,6 +170,8 @@ export const selectUserAccount = async (
           sent_notifications: true,
         },
       });
+      await prisma.$disconnect();
+      return user;
     } else if (email) {
       user = await prisma.user.findUnique({
         where: {
@@ -178,9 +183,10 @@ export const selectUserAccount = async (
           sent_notifications: true,
         },
       });
+      await prisma.$disconnect();
+      return user;
     }
     await prisma.$disconnect();
-    return user;
   } catch (err) {
     await prisma.$disconnect();
     console.log(err);
@@ -1068,7 +1074,8 @@ export const mark_message = async (id: string) => {
   try {
     const response = await prisma.user_notifications.updateMany({
       where: {
-        id: id,
+        to_user_id: id,
+        read: false,
       },
       data: {
         read: true,

@@ -1,5 +1,6 @@
 import { myStyles } from "../styles";
 import { getLoggedUser } from "../lib/actions";
+import { getUserF, preload } from "../lib/get_items";
 import HomeSideNav from "../ui/Home/HomeSidenav";
 import ExampleCard from "../ui/Home/ExampleCard";
 import Footer from "../ui/Global/Footer/Footer";
@@ -7,7 +8,9 @@ import { auth } from "../../auth";
 
 export default async function HomePage() {
   const session = await auth();
-  const user = await getLoggedUser(session?.user?.email);
+  preload(session?.user?.email ?? undefined);
+  const user = await getUserF(session?.user?.email ?? undefined);
+  // console.log("User with get_item: ", user);
 
   const data = {
     title: "Code Flex Flow",

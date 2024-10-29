@@ -1,6 +1,7 @@
 import SideNavAdmin from "@/app/ui/Admin/SidenavAdmin";
 import { myStyles } from "@/app/styles";
 import { getLoggedUser } from "@/app/lib/actions";
+import { getUserF, preload } from "@/app/lib/get_items";
 import Link from "next/link";
 import { redirectUser } from "@/app/lib/actions";
 import { auth } from "@/auth";
@@ -11,7 +12,7 @@ export default async function AdminLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  const user = (await getLoggedUser(session?.user?.email)) || "";
+  const user = await getUserF(session?.user?.email ?? undefined);
 
   const actionUser = async () => {
     if (!user || user.role !== "admin") {
