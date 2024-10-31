@@ -10,16 +10,7 @@ export default async function AddQualification() {
   const session_user_id = await getUserF(session?.user?.email ?? undefined);
   return (
     <main>
-      <Breadcrumbs
-        breadcrumbs={[
-          { label: "Calificare", href: "/home/dashboard/qualification" },
-          {
-            label: "Adauga Calificare",
-            href: "/home/dashboard/qualification/add",
-            active: true,
-          },
-        ]}
-      />
+      <Breadcrumbs />
       <QualificationForm id={session_user_id?.id || ""} />
     </main>
   );

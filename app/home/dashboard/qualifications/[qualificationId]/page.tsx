@@ -2,11 +2,9 @@ import Breadcrumbs from "@/app/ui/Home/Experience/Breadcrumbs";
 import EditQualificationForm from "@/app/ui/Home/Qualification/Edit-qualification-form";
 import { getQualificationById } from "@/app/lib/myDb";
 
-export default async function Editqualification(
-  props: {
-    params: Promise<{ qualificationId: string }>;
-  }
-) {
+export default async function Editqualification(props: {
+  params: Promise<{ qualificationId: string }>;
+}) {
   const params = await props.params;
   const { qualificationId } = params;
   let qualificationData = null;
@@ -29,16 +27,7 @@ export default async function Editqualification(
 
   return (
     <main>
-      <Breadcrumbs
-        breadcrumbs={[
-          { label: "Qualifications", href: "/home/dashboard/qualification" },
-          {
-            label: "Modifica Calificare",
-            href: `/home/dashboard/qualification/${qualificationId}`,
-            active: true,
-          },
-        ]}
-      />
+      <Breadcrumbs />
       <EditQualificationForm id={qualificationId} data={qualificationData} />
     </main>
   );

@@ -11,16 +11,7 @@ export default async function AddQualification() {
   //(session_user_id);
   return (
     <main>
-      <Breadcrumbs
-        breadcrumbs={[
-          { label: "Calificare", href: "/home/dashboard/qualification" },
-          {
-            label: "Adauga Calificare",
-            href: "/home/dashboard/qualification/add",
-            active: true,
-          },
-        ]}
-      />
+      <Breadcrumbs />
       <QualificationForm id={session_user_id?.id || ""} />
     </main>
   );
