@@ -7,6 +7,7 @@ import { lusitana } from "@/app/ui/fonts";
 import { Tooltip } from "@nextui-org/react";
 import ThemeSwitch from "../../ThemeSwitch";
 import Notifications from "../Notifications/Notifications";
+import Breadcrumbs from "../Experience/Breadcrumbs";
 
 export default function SideNav({ user }: any) {
   return (
@@ -45,6 +46,7 @@ export default function SideNav({ user }: any) {
           <Notifications user_id={user?.id} />
         </div>
       </div>
+      <Breadcrumbs />
     </div>
   );
 }
