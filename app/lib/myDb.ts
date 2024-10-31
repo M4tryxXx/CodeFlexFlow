@@ -807,6 +807,7 @@ export const deleteExperienceById = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    console.log(result);
     return result;
   } catch (err) {
     await prisma.$disconnect();

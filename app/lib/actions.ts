@@ -328,7 +328,7 @@ export const editQualification = async (data: EditEducationType) => {
 export const deleteQualification = async (id: string) => {
   const result = await deleteQualificationById(id);
   revalidatePath("/home/dashboard/qualifications");
-  redirect("/home/dashboard/qualifications");
+  // redirect("/home/dashboard/qualifications");
 };
 
 export const editExperience = async (data: EditExperienceType) => {
@@ -344,7 +344,7 @@ export const editExperience = async (data: EditExperienceType) => {
 export const deleteExperience = async (id: string) => {
   await deleteExperienceById(id);
   revalidatePath("/home/dashboard/experiences");
-  redirect("/home/dashboard/experiences");
+  // redirect("/home/dashboard/experiences");
 };
 
 export const sendPasswordChangeLink = async (email: string) => {

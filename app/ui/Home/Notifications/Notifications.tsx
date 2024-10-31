@@ -187,25 +187,39 @@ export default function Notifications({ user_id }: any) {
   return (
     <>
       <div
-        className="relative flex flex-col h-8 md:h-7 items-center justify-center rounded-md bg-gray-50 p-1 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 cursor-pointer"
+        className="relative flex flex-col h-8 md:h-7 items-center justify-center rounded-md bg-gray-100 p-1 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 cursor-pointer"
         onClick={handleBellClick}
       >
         {/* This component displays the number of new notifications if is not 0 */}
         {unreadNotificationsList && unreadNotificationsList.length > 0 ? (
           <>
-            <BellAlertIcon className="w-10 dark:text-yellow-300 text-rose-500" />
-            <div className="absolute top-0 right-0 bg-inherit text-rose-900 dark:text-yellow-300 dark:bg-inherit rounded-full p-1 text-xs ">
-              {unreadNotificationsList.length}
-            </div>
+            <Tooltip
+              content="Notifications"
+              placement="top"
+              className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-950 border-rose-900 dark:border-yellow-300 border-[.2mm]"
+            >
+              <BellAlertIcon className="w-10 dark:text-yellow-300 text-rose-500" />
+              <div className="absolute top-0 right-0 bg-inherit text-rose-900 dark:text-yellow-300 dark:bg-inherit rounded-full p-1 text-xs ">
+                {unreadNotificationsList.length}
+              </div>
+            </Tooltip>
           </>
         ) : (
-          <BellIcon className="w-10" />
+          <Tooltip
+            content="Notifications"
+            placement="top"
+            className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-950 border-rose-900 dark:border-yellow-300 border-[.2mm]"
+          >
+            <BellIcon className="w-10" />
+          </Tooltip>
         )}
       </div>
       <div
         ref={notificationRef}
         className={`absolute bg-rose-200 text-rose-900 dark:text-yellow-300 dark:bg-emerald-800 w-[400px] h-auto md:w-[600px] md:h-auto flex-col justify-start p-2 rounded-md z-50 transition-all duration-300 ease-in-out right-5 top-40 ${
-          visible ? "max-h-screen opacity-100" : "max-h-0 opacity-0"
+          visible
+            ? "max-h-screen opacity-100"
+            : "max-h-0 opacity-0 -z-100 right-5 -top-1"
         }`}
         style={{ overflow: "scroll" }}
       >

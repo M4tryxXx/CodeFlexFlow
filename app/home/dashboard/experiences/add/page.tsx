@@ -14,18 +14,9 @@ export default async function AddExperience() {
 
   //console.log(user.user.id);
   return (
-    <main>
-      <Breadcrumbs
-        breadcrumbs={[
-          { label: "Experience", href: "/home/dashboard/experiences" },
-          {
-            label: "Adauga Experiente",
-            href: "/home/dashboard/experiences/add",
-            active: true,
-          },
-        ]}
-      />
+    <div>
+      <Breadcrumbs />
       <AddExperienceForm id={session_user_id?.id || ""} />
-    </main>
+    </div>
   );
 }
