@@ -424,9 +424,9 @@ export default function Messages({ messages_data, conversations }: any) {
         );
 
         if (mailResponse) {
-          console.log("Mail sent!");
+          // console.log("Mail sent!");
         } else {
-          console.log("Mail not sent!");
+          // console.log("Mail not sent!");
         }
       }
 
@@ -495,9 +495,9 @@ export default function Messages({ messages_data, conversations }: any) {
         );
 
         if (mailResponse) {
-          console.log("Mail sent!");
+          // console.log("Mail sent!");
         } else {
-          console.log("Mail not sent!");
+          // console.log("Mail not sent!");
         }
       }
     }
