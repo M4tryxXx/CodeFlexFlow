@@ -19,7 +19,7 @@ export default function DeleteQualification({ id }: { id: any }) {
   };
 
   const handleDelete = async () => {
-    console.log(id);
+    // console.log(id);
     setLoading(true);
     await functionDelete(id);
   };

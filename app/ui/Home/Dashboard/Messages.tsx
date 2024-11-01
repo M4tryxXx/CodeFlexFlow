@@ -127,19 +127,20 @@ export default function Messages({ messages_data, conversations }: any) {
         return;
       }
       try {
+        await handleUnreadNotificationsList(
+          conversationsState[activeConversation],
+          user.id
+        );
         const data = await getConversation(user.id);
 
         const updatedConversations = await getConversations(data, user);
         // console.log("conversations: ", updatedConversations);
+
         setConversationsState(updatedConversations);
         // console.log("conversationsState: ", conversationsState);
         // setSelectedConversation(
         //   formatMessages(conversationsState[activeConversation], user.id)
         // );
-        await handleUnreadNotificationsList(
-          updatedConversations[activeConversation],
-          user.id
-        );
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }

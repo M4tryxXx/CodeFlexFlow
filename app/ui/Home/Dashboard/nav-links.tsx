@@ -91,7 +91,7 @@ export default function NavLinks({ role }: any) {
   const subNavRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
-    console.log("event.target", event.target);
+    // console.log("event.target", event.target);
     if (
       (navRef.current && !navRef.current.contains(event.target as Node)) ||
       (subNavRef.current && !subNavRef.current.contains(event.target as Node))

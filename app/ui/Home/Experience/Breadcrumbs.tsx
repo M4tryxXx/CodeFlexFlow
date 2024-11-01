@@ -15,12 +15,12 @@ export default function Breadcrumbs() {
   const pathNameArray = pathName.split("/");
 
   for (let i = 0; i < pathNameArray.length; i++) {
-    console.log(
-      "Current Path: ",
-      pathNameArray[i],
-      "Previous path: ",
-      pathNameArray[i - 1]
-    );
+    // console.log(
+    //   "Current Path: ",
+    //   pathNameArray[i],
+    //   "Previous path: ",
+    //   pathNameArray[i - 1]
+    // );
 
     switch (pathNameArray[i - 1]) {
       case "qualifications":
