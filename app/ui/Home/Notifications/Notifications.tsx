@@ -187,7 +187,7 @@ export default function Notifications({ user_id }: any) {
   return (
     <>
       <div
-        className="relative flex flex-col h-8 md:h-7 items-center justify-center rounded-md bg-gray-100 p-1 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 cursor-pointer"
+        className="relative flex flex-col h-8 w-8 md:w-7 md:h-7 items-center justify-center rounded-md bg-gray-100 p-1 text-md font-medium hover:bg-rose-200 hover:text-rose-900 dark:hover:text-yellow-300 dark:bg-emerald-950 dark:hover:bg-emerald-800 cursor-pointer"
         onClick={handleBellClick}
       >
         {/* This component displays the number of new notifications if is not 0 */}
@@ -198,9 +198,11 @@ export default function Notifications({ user_id }: any) {
               placement="top"
               className="bg-rose-200 rounded-lg px-4 py-2 text-rose-950 dark:text-yellow-300 dark:bg-emerald-950 border-rose-900 dark:border-yellow-300 border-[.2mm]"
             >
-              <BellAlertIcon className="w-10 dark:text-yellow-300 text-rose-500" />
-              <div className="absolute top-0 right-0 bg-inherit text-rose-900 dark:text-yellow-300 dark:bg-inherit rounded-full p-1 text-xs ">
-                {unreadNotificationsList.length}
+              <div className="relative ">
+                <BellAlertIcon className="w-7 dark:text-yellow-300 text-rose-500" />
+                <div className="absolute -top-4 -right-3 bg-rose-500 dark:bg-yellow-300 text-white dark:text-rose-500 w-4 h-4 p-0 rounded-full flex justify-center items-center text-xs">
+                  {unreadNotificationsList.length}
+                </div>
               </div>
             </Tooltip>
           </>

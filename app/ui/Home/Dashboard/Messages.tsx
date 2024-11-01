@@ -220,7 +220,7 @@ export default function Messages({ messages_data, conversations }: any) {
                       message.read ? (
                         <div className="bg-green-600 w-2 h-2 rounded-full"></div> // If the message has been read, we display a green dot to indicate that the message has been read
                       ) : (
-                        <div className="bg-red-600 w-5 h-5 rounded-full"></div>
+                        <div className="bg-red-600 w-2 h-2 rounded-full"></div>
                       )
                     ) : (
                       <div className="bg-inherit w-2 h-2 rounded-full"></div>
