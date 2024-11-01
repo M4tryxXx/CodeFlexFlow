@@ -128,6 +128,7 @@ export default function Messages({ messages_data, conversations }: any) {
       }
       try {
         const data = await getConversation(user.id);
+
         const updatedConversations = await getConversations(data, user);
         // console.log("conversations: ", updatedConversations);
         setConversationsState(updatedConversations);
@@ -135,6 +136,10 @@ export default function Messages({ messages_data, conversations }: any) {
         // setSelectedConversation(
         //   formatMessages(conversationsState[activeConversation], user.id)
         // );
+        await handleUnreadNotificationsList(
+          updatedConversations[activeConversation],
+          user.id
+        );
       } catch (error) {
         console.error("Failed to fetch notifications:", error);
       }
