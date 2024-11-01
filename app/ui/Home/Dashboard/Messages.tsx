@@ -24,6 +24,8 @@ import { getConversation } from "@/app/lib/myDb";
 import { getConversations } from "@/app/lib/utils";
 import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
+import MessageUpdater from "../Notifications/MessageUpdater";
+import Chat from "../Notifications/Chat";
 
 export default function Messages({ messages_data, conversations }: any) {
   const searchParams = useSearchParams();
@@ -621,6 +623,7 @@ export default function Messages({ messages_data, conversations }: any) {
     return (
       <div className="flex flex-col gap-3">
         <h1 className="text-2xl font-bold mb-4">Messages</h1>
+        <MessageUpdater userId={user.id} taskType="getMessages" />
         <div className="-m-1.5 overflow-x-auto">
           <div className="p-1.5 min-w-full inline-block align-middle">
             <div className="flex flex-col">
@@ -664,7 +667,7 @@ export default function Messages({ messages_data, conversations }: any) {
             <div className="-m-1.5 overflow-x-auto">
               <div className="p-1.5 min-w-full inline-block align-middle">
                 <div className=" flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] h-[100%] overflow-auto">
-                  <div>
+                  {/* <div>
                     {formatMessages(
                       conversationsState[activeConversation] || [],
                       user.id,
@@ -738,7 +741,16 @@ export default function Messages({ messages_data, conversations }: any) {
                       )}
                     </form>
                     <div className="flex flex-row gap-2 justify-end"></div>
-                  </div>
+                  </div> */}
+                  <Chat
+                    userId={user.id}
+                    toUserId={
+                      conversationsState[activeConversation][0].from_user_id ===
+                      user.id
+                        ? conversationsState[activeConversation][0].to_user_id
+                        : conversationsState[activeConversation][0].from_user_id
+                    }
+                  />
                 </div>
               </div>
             </div>

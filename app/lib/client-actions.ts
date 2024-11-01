@@ -13,6 +13,7 @@ import {
   updateUserDbPassword,
   handleDeleteAccount,
   sendMessage,
+  getMessages,
 } from "@/app/lib/actions";
 import toast from "react-hot-toast";
 import z from "zod";
@@ -567,6 +568,17 @@ export const sendUserMessage = async (data: any) => {
 
   if (!response) {
     toast.error("Failed to send message, please try again!", {
+      duration: 5000,
+    });
+    return null;
+  }
+  return response;
+};
+
+export const getUserMessagesUserSide = async (userId: string) => {
+  const response = await getMessages(userId);
+  if (!response) {
+    toast.error("Failed to get messages, please try again!", {
       duration: 5000,
     });
     return null;

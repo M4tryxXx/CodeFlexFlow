@@ -7,7 +7,7 @@ import { delete_message, getConversation } from "@/app/lib/myDb";
 import { mark_message_read, getMessages } from "@/app/lib/actions";
 import { auth } from "@/auth";
 import { getConversations } from "@/app/lib/utils";
-import { revalidatePath } from "next/cache";
+import Chat from "@/app/ui/Home/Notifications/Chat";
 
 export default async function MessagesPage() {
   // console.log("currentUser: ", currentUser);
