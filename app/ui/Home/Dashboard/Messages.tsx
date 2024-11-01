@@ -128,6 +128,10 @@ export default function Messages({ messages_data, conversations }: any) {
       }
       try {
         const data = await getConversation(user.id);
+
+        const updatedConversations = await getConversations(data, user);
+        setConversationsState(updatedConversations);
+        // console.log("conversations: ", updatedConversations);
         let unreadMessagesIds: any = [];
         const unreadData = data.filter(
           (msg: any) => msg.to_user_id === user.id && !msg.read
@@ -136,12 +140,10 @@ export default function Messages({ messages_data, conversations }: any) {
           unreadMessagesIds.push(msg.id);
         });
         console.log("UnreadData: ", unreadData);
-        const updatedConversations = await getConversations(data, user);
-        // console.log("conversations: ", updatedConversations);
         if (unreadData.length > 0) {
           await handleUnreadNotificationsList(user.id, unreadMessagesIds);
         }
-        setConversationsState(updatedConversations);
+
         // console.log("conversationsState: ", conversationsState);
         // setSelectedConversation(
         //   formatMessages(conversationsState[activeConversation], user.id)

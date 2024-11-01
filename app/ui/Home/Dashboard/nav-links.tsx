@@ -149,11 +149,11 @@ export default function NavLinks({ role }: any) {
       {/** Drop Down Cotainer in mobile view or nav bar in lg mode */}
       <div
         ref={navRef}
-        className={`absolute bg-gray-100 dark:bg-emerald-800 w-[250px] md:w-[300px] md:h-auto justify-start z-50 transition-all duration-1000 ease-in-out lg:left-0 lg:w-[100%] lg:overflow-visible lg:bg-inherit dark:lg:bg-inherit  overflow-scroll border-[.2mm] border-rose-900 dark:border-yello text-sm md:text-base w-300  shadow-md shadow-black lg:border-none lg:shadow-none p-2 ${
+        className={`absolute bg-gray-100 dark:bg-emerald-800 w-[250px]  justify-start z-50  lg:left-0 lg:w-[100%] lg:overflow-visible lg:bg-inherit dark:lg:bg-inherit  overflow-scroll border-[.2mm] border-rose-900 dark:border-yello text-sm md:text-base w-300  shadow-md shadow-black lg:border-none lg:shadow-none p-2 ${
           navOpen
             ? "flex flex-col h-[600px] opacity-100 left-0 top-10 lg:top-0 "
-            : "h-0 lg:flex lg:flex-row lg:opacity-100 lg:max-h-[50px] left-0 top-10 lg:top-0 opacity-0"
-        }`}
+            : "h-0  lg:flex lg:flex-row lg:opacity-100 lg:max-h-[50px] left-0 top-10 lg:top-0 opacity-0"
+        } transition-all duration-1000 ease-in-out`}
       >
         <div
           className={`${lusitana.className} flex flex-row h-8 md:h-7 items-center justify-end rounded-md bg-inherit p-1 text-md font-medium 
@@ -268,7 +268,15 @@ export default function NavLinks({ role }: any) {
           </div>
         )}
         <div className="flex flex-col lg:hidden">
-          <div className="flex flex-row h-8 md:h-7 items-center justify-start  p-2 md:p-2 text-md font-medium  hover:text-rose-900 dark:text-yellow-300 hover:decoration-2 dark:hover:decoration-yellow-300 hover:underline hover:underline-offset-4 mt-4 mb-2 lg:m-0 lg:mx-1 lg:txt-sm decoration-[.4mm] dark:decoration-yellow-300 underline underline-offset-4 ">
+          <div
+            className={`${
+              lusitana.className
+            } flex flex-row h-8 md:h-7 items-center justify-start  p-2  text-md font-medium  hover:text-rose-900 dark:text-yellow-300 decoration-2 dark:decoration-yellow-300 underline underline-offset-4 ${
+              navOpen ? "m-2 mx-1" : "mt-1 mb-2 mx-1"
+            } lg:m-0 lg:mx-1
+                  hover:border-rose-900
+                   dark:hover:border-yellow-300 lg:txt-sm `}
+          >
             <p className="block lg:txt-sm">More</p>
           </div>
 
