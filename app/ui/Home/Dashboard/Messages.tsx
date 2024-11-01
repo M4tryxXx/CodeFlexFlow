@@ -132,17 +132,17 @@ export default function Messages({ messages_data, conversations }: any) {
         const updatedConversations = await getConversations(data, user);
         setConversationsState(updatedConversations);
         // console.log("conversations: ", updatedConversations);
-        let unreadMessagesIds: any = [];
-        const unreadData = data.filter(
-          (msg: any) => msg.to_user_id === user.id && !msg.read
-        );
-        unreadData.forEach((msg: any) => {
-          unreadMessagesIds.push(msg.id);
-        });
-        console.log("UnreadData: ", unreadData);
-        if (unreadData.length > 0) {
-          await handleUnreadNotificationsList(user.id, unreadMessagesIds);
-        }
+        // let unreadMessagesIds: any = [];
+        // const unreadData = data.filter(
+        //   (msg: any) => msg.to_user_id === user.id && !msg.read
+        // );
+        // unreadData.forEach((msg: any) => {
+        //   unreadMessagesIds.push(msg.id);
+        // });
+        // console.log("UnreadData: ", unreadData);
+        // if (unreadData.length > 0) {
+        //   await handleUnreadNotificationsList(user.id, unreadMessagesIds);
+        // }
 
         // console.log("conversationsState: ", conversationsState);
         // setSelectedConversation(
@@ -666,14 +666,14 @@ export default function Messages({ messages_data, conversations }: any) {
   }
 
   return (
-    <div className="flex flex-col gap-3">
+    <div className="absolute top-0 left-0 flex flex-col gap-3 bg-slate-500 w-[100%] h-[100%]">
       <h1 className="text-2xl font-bold mb-4">{activeConversation}</h1>
       <div className="-m-1.5 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <div className="flex flex-col">
             <div className="-m-1.5 overflow-x-auto">
               <div className="p-1.5 min-w-full inline-block align-middle">
-                <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] h-[50vh] overflow-auto">
+                <div className=" flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] h-[100%] overflow-auto">
                   <div>
                     {formatMessages(
                       conversationsState[activeConversation] || [],
