@@ -131,7 +131,7 @@ export default function Messages({ messages_data, conversations }: any) {
         const updatedConversations = await getConversations(data, user);
         setConversationsState(updatedConversations);
 
-        const unreadMessagesIds = conversationsState[activeConversation]
+        const unreadMessagesIds = updatedConversations[activeConversation]
           .filter((msg: any) => msg.to_user_id === user.id && !msg.read)
           .map((msg: any) => msg.id);
         console.log("Unread Messages: ", unreadMessagesIds);
