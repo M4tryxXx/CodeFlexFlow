@@ -1,4 +1,3 @@
-import Breadcrumbs from "@/app/ui/Home/Experience/Breadcrumbs";
 import EditExperienceForm from "@/app/ui/Home/Experience/Edit-experience-form";
 
 export default async function EditExperiencee(props: {
@@ -8,7 +7,6 @@ export default async function EditExperiencee(props: {
   const { experienceId } = params;
   return (
     <main>
-      <Breadcrumbs />
       <EditExperienceForm id={experienceId} />
     </main>
   );

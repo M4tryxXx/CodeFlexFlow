@@ -51,9 +51,16 @@ export default function Breadcrumbs() {
           pathNameArray[i] = "User Details";
         }
         break;
+      case "view":
+        if (pathNameArray[i].length > 10) {
+          pathNameArray[i] = "User Details";
+        }
+        break;
       case "profile":
         if (pathNameArray[i].length > 10) {
           pathNameArray[i] = "Edit Profile";
+        } else if (pathNameArray[i] === "messages") {
+          pathNameArray[i] = "Messages";
         } else {
           pathNameArray[i] = "Profile";
         }

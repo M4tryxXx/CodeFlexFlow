@@ -1,4 +1,3 @@
-import Breadcrumbs from "@/app/ui/Home/Experience/Breadcrumbs";
 import EditQualificationForm from "@/app/ui/Home/Qualification/Edit-qualification-form";
 import { getQualificationById } from "@/app/lib/myDb";
 
@@ -27,7 +26,6 @@ export default async function Editqualification(props: {
 
   return (
     <main>
-      <Breadcrumbs />
       <EditQualificationForm id={qualificationId} data={qualificationData} />
     </main>
   );

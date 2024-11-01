@@ -1,5 +1,4 @@
 "use server";
-import Breadcrumbs from "@/app/ui/Home/Experience/Breadcrumbs";
 import AddExperienceForm from "@/app/ui/Home/Experience/Create-experience-form";
 import { getLoggedUser } from "@/app/lib/actions";
 import { getUserF } from "@/app/lib/get_items";
@@ -15,7 +14,6 @@ export default async function AddExperience() {
   //console.log(user.user.id);
   return (
     <div>
-      <Breadcrumbs />
       <AddExperienceForm id={session_user_id?.id || ""} />
     </div>
   );
