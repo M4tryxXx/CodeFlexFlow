@@ -5,6 +5,8 @@ import React, { useState, useEffect, useRef, use } from "react";
 import {
   ArrowDownIcon,
   CurrencyBangladeshiIcon,
+  EyeDropperIcon,
+  EyeIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { formatDate } from "@/app/lib/utils";
@@ -213,7 +215,16 @@ export default function Messages({ messages_data, conversations }: any) {
                   <div className="flex flex-row gap-2 justify-start">
                     <p className="text-sm md:text-lg">{message.message}</p>
                   </div>
-                  <div className="flex flex-row gap-2 justify-end">
+                  <div className="flex flex-row gap-2 justify-between">
+                    {message.from_user_id === user.id ? (
+                      message.read ? (
+                        <div className="bg-green-600 w-2 h-2 rounded-full"></div> // If the message has been read, we display a green dot to indicate that the message has been read
+                      ) : (
+                        <div className="bg-red-600 w-5 h-5 rounded-full"></div>
+                      )
+                    ) : (
+                      <div className="bg-inherit w-2 h-2 rounded-full"></div>
+                    )}
                     <p className="text-xs dark:text-white font-thin text-black">
                       {formatDate(message.created_at)}
                     </p>
@@ -257,7 +268,16 @@ export default function Messages({ messages_data, conversations }: any) {
               <div className="flex flex-row gap-2 justify-start">
                 <p className="text-sm md:text-lg">{message.message}</p>
               </div>
-              <div className="flex flex-row gap-2 justify-end">
+              <div className="flex flex-row gap-2 justify-between">
+                {message.from_user_id === user.id ? (
+                  message.read ? (
+                    <div className="bg-green-600 w-2 h-2 rounded-full"></div> // If the message has been read, we display a green dot to indicate that the message has been read
+                  ) : (
+                    <div className="bg-red-600 w-2 h-2 rounded-full"></div>
+                  )
+                ) : (
+                  <div className="bg-inherit w-2 h-2 rounded-full"></div>
+                )}
                 <p className="text-xs dark:text-white font-thin text-black">
                   {formatDate(message.created_at)}
                 </p>
