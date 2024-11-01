@@ -127,15 +127,20 @@ export default function Messages({ messages_data, conversations }: any) {
         return;
       }
       try {
-        await handleUnreadNotificationsList(
-          conversationsState[activeConversation],
-          user.id
-        );
         const data = await getConversation(user.id);
-
+        let unreadMessagesIds: any = [];
+        const unreadData = data.filter(
+          (msg: any) => msg.to_user_id === user.id && !msg.read
+        );
+        unreadData.forEach((msg: any) => {
+          unreadMessagesIds.push(msg.id);
+        });
+        console.log("UnreadData: ", unreadData);
         const updatedConversations = await getConversations(data, user);
         // console.log("conversations: ", updatedConversations);
-
+        if (unreadData.length > 0) {
+          await handleUnreadNotificationsList(user.id, unreadMessagesIds);
+        }
         setConversationsState(updatedConversations);
         // console.log("conversationsState: ", conversationsState);
         // setSelectedConversation(
@@ -375,10 +380,10 @@ export default function Messages({ messages_data, conversations }: any) {
     }
 
     setLoading(false);
-    await handleUnreadNotificationsList(
-      conversationsState[conversation],
-      user.id
-    );
+    // await handleUnreadNotificationsList(
+    //   conversationsState[conversation],
+    //   user.id
+    // );
   };
 
   // This function formats the messages to be displayed in the chat window
@@ -401,15 +406,15 @@ export default function Messages({ messages_data, conversations }: any) {
       };
 
       const response = await sendUserMessage(new_message);
-      // if (!response) {
-      //   setLoading(false);
-      //   setStatus("Something went wrong. Please try again.");
-      //   // setTimeout(() => {
-      //   //   setVisible(false);
-      //   // }, 2000);
+      if (!response) {
+        setLoading(false);
+        setStatus("Something went wrong. Please try again.");
+        // setTimeout(() => {
+        //   setVisible(false);
+        // }, 2000);
 
-      //   return;
-      // }
+        return;
+      }
       setMessage("");
       setStatus("Message sent!");
       setLoading(false);
@@ -473,14 +478,14 @@ export default function Messages({ messages_data, conversations }: any) {
 
       const response = await sendUserMessage(new_message);
 
-      // if (!response) {
-      //   setLoading(false);
-      //   setStatus("Something went wrong. Please try again.");
-      //   // setTimeout(() => {
-      //   //   setVisible(false);
-      //   // }, 2000);
-      //   return null;
-      // }
+      if (!response) {
+        setLoading(false);
+        setStatus("Something went wrong. Please try again.");
+        // setTimeout(() => {
+        //   setVisible(false);
+        // }, 2000);
+        return null;
+      }
       setMessage("");
       setStatus("Message sent!");
       setLoading(false);

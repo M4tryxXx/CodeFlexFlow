@@ -495,8 +495,8 @@ export const sendMessage = async (data: any) => {
   return "Something went wrong";
 };
 
-export const mark_message_read = async (id: string) => {
-  const response = await mark_message(id);
+export const mark_message_read = async (id: string, notification: string[]) => {
+  const response = await mark_message(id, notification);
   if (response) {
     revalidatePath("/home/dashboard/profile/messages");
     revalidatePath("/home/admin/users");
@@ -543,22 +543,17 @@ export const notificationEmail = async (
 };
 
 export const handleUnreadNotificationsList = async (
-  notifications: any,
-  userId: string
+  userId: string,
+  notifications: any
 ) => {
-  const list = notifications?.filter(
-    (notification: any) =>
-      notification.from_user_id !== userId && notification.read === false
-  );
-
-  if (list.length === 0) {
+  if (notifications.length === 0) {
     // console.log("No unread messages");
     return;
   }
-  const user_id = list[0].to_user_id;
-  const message = `You have ${list.length} unread messages \n Marking them as read now!`;
-  // console.log(message);
-  const response = await mark_message(user_id);
+
+  const message = `You have ${notifications.length} unread messages \n Marking them as read now!`;
+  console.log(message);
+  const response = await mark_message(userId, notifications);
   revalidatePath("/home", "layout");
   if (response) {
     revalidatePath("/home", "layout");

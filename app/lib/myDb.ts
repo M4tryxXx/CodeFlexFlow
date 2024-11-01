@@ -1071,11 +1071,14 @@ export const send_message = async (data: any) => {
   }
 };
 
-export const mark_message = async (id: string) => {
+export const mark_message = async (userId: string, messageIds: string[]) => {
   try {
     const response = await prisma.user_notifications.updateMany({
       where: {
-        to_user_id: id,
+        to_user_id: userId,
+        id: {
+          in: messageIds,
+        },
         read: false,
       },
       data: {
