@@ -543,8 +543,8 @@ export const notificationEmail = async (
 };
 
 export const handleUnreadNotificationsList = async (
-  userId: string,
-  notifications: any
+  notifications: any,
+  userId: string
 ) => {
   if (notifications.length === 0) {
     // console.log("No unread messages");
