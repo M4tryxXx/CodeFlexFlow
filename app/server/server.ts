@@ -4,7 +4,12 @@ const { Server } = require("socket.io");
 const httpServer = createServer();
 const ioo = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: [
+      "https://codeflexflow.vercel.app",
+      "http://localhost:3000",
+      "https://codeflexflow.vercel.app:5050",
+      "http://localhost:3000:5050",
+    ],
     methods: ["GET", "POST"],
     allowedHeaders: ["Access-Control-Allow-Origin"],
   },
@@ -33,5 +38,5 @@ ioo.on("connection", (socket: any) => {
 });
 
 httpServer.listen(5050, () => {
-  console.log("Socket.IO server is running on http://localhost:5050");
+  console.log("Socket.IO server is running on https://codeflexflow.vercel.app");
 });

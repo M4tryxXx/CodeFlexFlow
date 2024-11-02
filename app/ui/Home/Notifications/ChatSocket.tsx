@@ -14,7 +14,7 @@ export default function ChatSocket({
   const socket = useRef<SocketIOClient.Socket | null>(null);
 
   useEffect(() => {
-    socket.current = io("http://localhost:5050", {
+    socket.current = io("https://codeflexflow.vercel.app:5050", {
       query: { senderId },
     });
 
