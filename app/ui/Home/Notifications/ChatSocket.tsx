@@ -8,7 +8,7 @@ export default function ChatSocket(senderId: any, receiverId: any) {
   const socket = useRef<SocketIOClient.Socket | null>(null);
 
   useEffect(() => {
-    socket.current = io("http://localhost:8080", {
+    socket.current = io("http://localhost:5000", {
       query: { senderId },
     });
 
