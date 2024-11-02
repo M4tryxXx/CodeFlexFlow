@@ -26,6 +26,7 @@ import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import MessageUpdater from "../Notifications/MessageUpdater";
 import Chat from "../Notifications/Chat";
+import ChatSocket from "../Notifications/ChatSocket";
 
 export default function Messages({ messages_data, conversations }: any) {
   const searchParams = useSearchParams();
@@ -123,32 +124,32 @@ export default function Messages({ messages_data, conversations }: any) {
     };
   }, [activeConversation]);
 
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      if (!activeConversation || !activeUser) {
-        return;
-      }
-      try {
-        const data = await getConversation(user.id);
-        const updatedConversations = await getConversations(data, user);
-        setConversationsState(updatedConversations);
+  // useEffect(() => {
+  //   const fetchNotifications = async () => {
+  //     if (!activeConversation || !activeUser) {
+  //       return;
+  //     }
+  //     try {
+  //       const data = await getConversation(user.id);
+  //       const updatedConversations = await getConversations(data, user);
+  //       setConversationsState(updatedConversations);
 
-        const unreadMessagesIds = updatedConversations[activeConversation]
-          .filter((msg: any) => msg.to_user_id === user.id && !msg.read)
-          .map((msg: any) => msg.id);
-        console.log("Unread Messages: ", unreadMessagesIds);
-        await handleUnreadNotificationsList(unreadMessagesIds, user.id);
-      } catch (error) {
-        console.error("Failed to fetch notifications:", error);
-      }
-    };
-    // console.log(from);
-    fetchNotifications(); // Fetch notifications immediately when the page loads
+  //       const unreadMessagesIds = updatedConversations[activeConversation]
+  //         .filter((msg: any) => msg.to_user_id === user.id && !msg.read)
+  //         .map((msg: any) => msg.id);
+  //       console.log("Unread Messages: ", unreadMessagesIds);
+  //       await handleUnreadNotificationsList(unreadMessagesIds, user.id);
+  //     } catch (error) {
+  //       console.error("Failed to fetch notifications:", error);
+  //     }
+  //   };
+  //   // console.log(from);
+  //   fetchNotifications(); // Fetch notifications immediately when the page loads
 
-    const interval = setInterval(fetchNotifications, 3000); // Fetch notifications every second
+  //   const interval = setInterval(fetchNotifications, 3000); // Fetch notifications every second
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, [user?.id, activeConversation, activeUser]);
+  //   return () => clearInterval(interval); // Cleanup interval on component unmount
+  // }, [user?.id, activeConversation, activeUser]);
 
   // This function formats the messages to be displayed in the chat window and limits the number of messages to be displayed
   const formatMessages = (messages: any, id: any, limiter: number) => {
@@ -742,9 +743,10 @@ export default function Messages({ messages_data, conversations }: any) {
                     </form>
                     <div className="flex flex-row gap-2 justify-end"></div>
                   </div> */}
-                  <Chat
-                    userId={user.id}
-                    toUserId={
+
+                  <ChatSocket
+                    senderId={user.id}
+                    receiverId={
                       conversationsState[activeConversation][0].from_user_id ===
                       user.id
                         ? conversationsState[activeConversation][0].to_user_id

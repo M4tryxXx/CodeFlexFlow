@@ -1,29 +1,26 @@
-const WebSocket_2 = require("ws");
+const { createServer } = require("http");
+const { Server } = require("socket.io");
 
-const wss = new WebSocket_2.Server({ port: 8080 });
+const httpServer = createServer();
+const ioo = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000",
+  },
+});
 
-const clients = new Map();
+ioo.on("connection", async (socket: any) => {
+  console.log("User connected");
 
-wss.on("connection", (ws: any, req: any) => {
-  const userId = req.url.split("?userId=")[1];
-  clients.set(userId, ws);
-
-  console.log(`User ${userId} connected`);
-
-  ws.on("message", (message: any) => {
-    const parsedMessage = JSON.parse(message);
-    const { toUserId, content } = parsedMessage;
-
-    const recipientWs = clients.get(toUserId);
-    if (recipientWs && recipientWs.readyState === WebSocket.OPEN) {
-      recipientWs.send(JSON.stringify({ fromUserId: userId, content }));
-    }
+  socket.on("message", (message: any) => {
+    console.log(`Received message: ${message}`);
+    socket.send(`You sent: ${message}`);
   });
 
-  ws.on("close", () => {
-    clients.delete(userId);
-    console.log(`User ${userId} disconnected`);
+  socket.on("disconnect", () => {
+    console.log("User disconnected");
   });
 });
 
-console.log("WebSocket server is running on ws://localhost:8080");
+httpServer.listen(8080, () => {
+  console.log("WebSocket server is running on ws://localhost:3000");
+});
