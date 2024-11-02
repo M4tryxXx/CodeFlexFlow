@@ -5,22 +5,33 @@ const httpServer = createServer();
 const ioo = new Server(httpServer, {
   cors: {
     origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Access-Control-Allow-Origin"],
   },
 });
 
-ioo.on("connection", async (socket: any) => {
-  console.log("User connected");
+const clients = new Map<string, any>();
+
+ioo.on("connection", (socket: any) => {
+  const senderId = socket.handshake.query.senderId;
+  clients.set(senderId, socket);
+
+  console.log(`User ${senderId} connected`);
 
   socket.on("message", (message: any) => {
-    console.log(`Received message: ${message}`);
-    socket.send(`You sent: ${message}`);
+    const { toUserId, fromUserId, content } = message;
+    const recipientSocket = clients.get(toUserId);
+    if (recipientSocket) {
+      recipientSocket.emit("message", { fromUserId: fromUserId, content });
+    }
   });
 
   socket.on("disconnect", () => {
-    console.log("User disconnected");
+    clients.delete(senderId);
+    console.log(`User ${senderId} disconnected`);
   });
 });
 
-httpServer.listen(8080, () => {
-  console.log("WebSocket server is running on ws://localhost:3000");
+httpServer.listen(5050, () => {
+  console.log("Socket.IO server is running on http://localhost:5050");
 });

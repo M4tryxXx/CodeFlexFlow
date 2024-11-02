@@ -43,8 +43,12 @@ export default function Messages({ messages_data, conversations }: any) {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [message, setMessage] = useState<any>("");
   const [conversationsState, setConversationsState] = useState(conversations);
+  const [destinationUser, setDestinationUser] = useState<any>(null);
   const [messagesToShow, setMessagesToShow] = useState(5);
   const [unreadMessages, setUnreadMessages] = useState<any>([]);
+  if (activeConversation) {
+    console.log(conversationsState[activeConversation][0]);
+  }
 
   if (!user) {
     return (
@@ -344,7 +348,11 @@ export default function Messages({ messages_data, conversations }: any) {
 
     const textAreaElement = document.getElementById("message");
     textAreaElement?.focus();
-
+    if (conversationsState[conversation][0].from_user_id !== user.id) {
+      setDestinationUser(conversationsState[conversation][0].from_user_id);
+    } else {
+      setDestinationUser(conversationsState[conversation][0].to_user_id);
+    }
     //
 
     // if (
@@ -744,15 +752,12 @@ export default function Messages({ messages_data, conversations }: any) {
                     <div className="flex flex-row gap-2 justify-end"></div>
                   </div> */}
 
-                  <ChatSocket
-                    senderId={user.id}
-                    receiverId={
-                      conversationsState[activeConversation][0].from_user_id ===
-                      user.id
-                        ? conversationsState[activeConversation][0].to_user_id
-                        : conversationsState[activeConversation][0].from_user_id
-                    }
-                  />
+                  {activeConversation && (
+                    <ChatSocket
+                      senderId={user.id}
+                      receiverId={destinationUser}
+                    />
+                  )}
                 </div>
               </div>
             </div>

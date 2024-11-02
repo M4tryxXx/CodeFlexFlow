@@ -2,7 +2,7 @@ const WebSocket_2 = require("ws");
 
 const wss = new WebSocket_2.Server({ port: 8080 });
 
-const clients = new Map();
+const clientss = new Map();
 
 wss.on("connection", (ws: any, req: any) => {
   const userId = req.url.split("?userId=")[1];
