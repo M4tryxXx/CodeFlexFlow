@@ -21,7 +21,7 @@ export default function SideNav({ user }: any) {
         </div>
       </Link>
       <div className="static flex flex-row justify-between">
-        <NavLinks role={user?.role} />
+        <NavLinks user={user} />
         <div className="flex flex-row gap-1">
           <ThemeSwitch />
           <form
@@ -43,7 +43,7 @@ export default function SideNav({ user }: any) {
               </button>
             </Tooltip>
           </form>
-          <Notifications user_id={user?.id} />
+          <Notifications user={user} />
         </div>
       </div>
       <Breadcrumbs />

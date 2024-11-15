@@ -1,14 +1,11 @@
 import Link from "next/link";
 import clsx from "clsx";
-import { getLoggedUserFull } from "@/app/lib/actions";
-import { GetUserFull } from "@/app/lib/get_user_full";
 import { formatDateYearMonth } from "@/app/lib/utils";
 import Card from "@/app/ui/Global/Card";
-import { auth } from "@/auth";
+import { UserData } from "@/app/lib/get_user_full";
 
 export default async function Page() {
-  const session = await auth();
-  const session_user_id = await GetUserFull(session?.user?.email ?? undefined);
+  const session_user_id = await UserData();
   const experiences = session_user_id?.experiences;
 
   let experienceContainer: any;

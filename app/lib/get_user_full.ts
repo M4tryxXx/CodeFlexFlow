@@ -1,14 +1,13 @@
+"use server";
 import { cache } from "react";
-import "server-only";
-import { getLoggedUserFull } from "./actions";
+import { getLoggedUserFull, getUserFull, userData } from "./actions";
 
-export const preloadUserFull = (id: string | undefined) => {
+export const preloadUserFull = async (id: string | undefined) => {
   if (id) {
-    void GetUserFull(id);
+    void GetUserFull(undefined, id);
   }
 };
 
-export const GetUserFull = cache(async (id: string | undefined) => {
-  const currentUser = await getLoggedUserFull(id);
-  return currentUser;
-});
+export const GetUserFull = cache(getUserFull);
+export const GetLoggedUserFull = cache(getLoggedUserFull);
+export const UserData = cache(userData);

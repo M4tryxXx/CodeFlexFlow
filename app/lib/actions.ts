@@ -552,11 +552,11 @@ export const handleUnreadNotificationsList = async (
   }
 
   const message = `You have ${notifications.length} unread messages \n Marking them as read now!`;
-  console.log(message);
+  // console.log(message);
   const response = await mark_message(userId, notifications);
-  revalidatePath("/home", "layout");
+  revalidatePath("/home");
   if (response) {
-    revalidatePath("/home", "layout");
+    revalidatePath("/home");
     return response;
   } else {
     return "Something went wrong";

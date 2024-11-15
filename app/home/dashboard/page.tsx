@@ -5,6 +5,7 @@ import { userData } from "@/app/lib/actions";
 import LoadIndicator from "@/app/ui/Home/Dashboard/LoadIndex";
 import { Link } from "@nextui-org/react";
 import { firstToCapital } from "../../lib/utils";
+import { randomUUID } from "crypto";
 
 export default async function dashPage() {
   const user = await userData();
@@ -133,7 +134,7 @@ export default async function dashPage() {
               <InvitationForm user={user} />
             </div>
           ) : (
-            <>
+            <div key={randomUUID()}>
               <LoadIndicator number={listItems.length} />
 
               <h3 className="text-xl font-bold mb-4 text-gray-800 dark:text-gray-200 opacity-75">
@@ -159,7 +160,7 @@ export default async function dashPage() {
                 Missing fields:
               </h5>
               <ul className="w-full">{listItems}</ul>
-            </>
+            </div>
           )}
           <hr className="w-full border-[2px] border-gray-200 dark:border-emerald-800 rounded-md my-4" />
         </div>

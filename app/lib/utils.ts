@@ -210,20 +210,101 @@ export const formatDate = (date: Date) => {
     hour: "2-digit",
     minute: "2-digit",
   };
-  return new Intl.DateTimeFormat("en-UK", options).format(date);
+  const inputDate = new Date(date);
+  let dateToReaturn = inputDate.getDate().toString();
+  let month = inputDate.getMonth().toString();
+  let year = inputDate.getFullYear().toString();
+  let dayOfWeek = inputDate.getDay().toString();
+  let hours = inputDate.getHours().toString();
+  let minutes = inputDate.getMinutes().toString();
+
+  switch (month) {
+    case "0":
+      month = "Jan";
+      break;
+    case "1":
+      month = "Feb";
+      break;
+    case "2":
+      month = "Mar";
+      break;
+    case "3":
+      month = "Apr";
+      break;
+    case "4":
+      month = "May";
+      break;
+    case "5":
+      month = "Jun";
+      break;
+    case "6":
+      month = "Jul";
+      break;
+    case "7":
+      month = "Aug";
+      break;
+    case "8":
+      month = "Sep";
+      break;
+    case "9":
+      month = "Oct";
+      break;
+    case "10":
+      month = "Nov";
+      break;
+    case "11":
+      month = "Dec";
+      break;
+  }
+
+  switch (dayOfWeek) {
+    case "0":
+      dayOfWeek = "Sun";
+      break;
+    case "1":
+      dayOfWeek = "Mon";
+      break;
+    case "2":
+      dayOfWeek = "Tue";
+      break;
+    case "3":
+      dayOfWeek = "Wed";
+      break;
+    case "4":
+      dayOfWeek = "Thu";
+      break;
+    case "5":
+      dayOfWeek = "Fri";
+      break;
+    case "6":
+      dayOfWeek = "Sat";
+      break;
+  }
+
+  if (hours.length < 2) {
+    hours = "0" + hours;
+  }
+  if (minutes.length < 2) {
+    minutes = "0" + minutes;
+  }
+
+  dateToReaturn = `${dayOfWeek} ${dateToReaturn} ${month} ${year} at ${hours}:${minutes}`;
+
+  return dateToReaturn;
 };
 
-export const getConversations = async (messages: any, currentUser: any) => {
+export const getConversations = (messages: any, currentUser: any) => {
   let conversations: any = {};
   if (messages && messages.length > 0) {
     messages.forEach((message: any) => {
-      if (message.from_user_id == currentUser.id) {
+      // console.log(message);
+      if (message.from_user_id === currentUser.id) {
         if (conversations[message.to]) {
           conversations[message.to].push(message);
         } else {
           conversations[message.to] = [message];
         }
-      } else if (message.to_user_id == currentUser.id) {
+      } else if (message.to_user_id === currentUser.id) {
         if (conversations[message.from]) {
           conversations[message.from].push(message);
         } else {

@@ -1,29 +1,25 @@
 import React from "react";
-import { getLoggedUserFull } from "@/app/lib/actions";
-import { getUserF } from "@/app/lib/get_items";
-import { GetUserFull } from "@/app/lib/get_user_full";
 import Messages from "@/app/ui/Home/Dashboard/Messages";
 import { delete_message, getConversation } from "@/app/lib/myDb";
 import { mark_message_read, getMessages } from "@/app/lib/actions";
-import { auth } from "@/auth";
 import { getConversations } from "@/app/lib/utils";
-import Chat from "@/app/ui/Home/Notifications/Chat";
+import { UserData } from "@/app/lib/get_user_full";
+import { userData } from "@/app/lib/actions";
 
 export default async function MessagesPage() {
+  let currentUser = await UserData();
   // console.log("currentUser: ", currentUser);
-
-  const session = await auth();
-  let currentUser = await GetUserFull(session?.user?.email ?? undefined);
+  // console.log("currentUser: ", currentUser);
   const sent_messages = currentUser?.sent_notifications;
   const received_messages = currentUser?.notifications;
   let conversations: any;
   let allMessages: any;
 
-  const sent_data = {
-    title: "Sent Messages",
-    messages: sent_messages,
-    user: currentUser,
-  };
+  // const sent_data = {
+  //   title: "Sent Messages",
+  //   messages: sent_messages,
+  //   user: currentUser,
+  // };
 
   const received_data = {
     title: "Received Messages",
@@ -32,21 +28,15 @@ export default async function MessagesPage() {
     mark_message: mark_message_read,
     delete_message: delete_message,
   };
+  allMessages = sent_messages.concat(received_messages);
+  allMessages = allMessages.sort(
+    (a: any, b: any) =>
+      new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+  );
 
-  allMessages = await getConversation(currentUser?.id ?? "");
-  conversations = await getConversations(allMessages, currentUser);
+  conversations = getConversations(allMessages, currentUser);
+  // console.log("conversations: ", conversations);
 
-  // const startInterval = async () => {
-  //   setInterval(async () => {
-  //     console.log("Refreshing messages...");
-  //     allMessages = await getConversation(currentUser.id);
-  //     conversations = await getConversations(allMessages, currentUser);
-  //   }, 10000);
-  // };
-
-  // startInterval();
-
-  //   console.log("currentUser: ", currentUser);
   return (
     <div className="container mx-auto p-4">
       <Messages messages_data={received_data} conversations={conversations} />

@@ -13,6 +13,9 @@ import {
   CreateEducationType,
 } from "./types";
 
+// Set debug to true to see the log messages in the console
+const debug = true;
+
 /**
  * Account querries
  *
@@ -26,6 +29,15 @@ import {
  */
 
 export const saveUserDb = async (data: CreateUserType) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query saveUserDb in myDb line 31... "
+    );
+  }
   try {
     const response = await prisma.user.create({
       data: data,
@@ -51,10 +63,20 @@ export const saveUserDb = async (data: CreateUserType) => {
     });
 
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -74,9 +96,22 @@ export const selectUserLogIn = async (
   email?: string,
   username?: string
 ) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query selectUserLogIn in myDb line 93... "
+    );
+  }
+
   try {
     let user;
     if (id) {
+      if (debug) {
+        console.log("selectUserLogIn id: ...");
+      }
       user = await prisma.user.findUnique({
         where: {
           id: id,
@@ -91,7 +126,9 @@ export const selectUserLogIn = async (
         },
       });
     } else if (username) {
-      console.log("Connecting to the database...");
+      if (debug) {
+        console.log("selectUserLogIn username: ...");
+      }
       user = await prisma.user.findUnique({
         where: {
           username: username,
@@ -106,6 +143,9 @@ export const selectUserLogIn = async (
         },
       });
     } else if (email) {
+      if (debug) {
+        console.log("selectUserLogIn email: ...");
+      }
       user = await prisma.user.findUnique({
         where: {
           email: email,
@@ -121,10 +161,21 @@ export const selectUserLogIn = async (
       });
     }
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return user;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
+    return null;
   }
 };
 
@@ -144,9 +195,19 @@ export const selectUserAccount = async (
   email?: string,
   username?: string
 ) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query selectUserAccount in myDb line 192... "
+    );
+  }
   try {
     let user;
     if (id) {
+      if (debug) console.log("selectUserAccount: id: ", id);
       user = await prisma.user.findUnique({
         where: {
           id: id,
@@ -158,8 +219,14 @@ export const selectUserAccount = async (
         },
       });
       await prisma.$disconnect();
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request completed in ${duration} ms`);
+      }
       return user;
     } else if (username) {
+      if (debug) console.log("selectUserAccount: username: ", username);
       user = await prisma.user.findUnique({
         where: {
           username: username,
@@ -171,8 +238,14 @@ export const selectUserAccount = async (
         },
       });
       await prisma.$disconnect();
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request completed in ${duration} ms`);
+      }
       return user;
     } else if (email) {
+      if (debug) console.log("selectUserAccount: email: ", email);
       user = await prisma.user.findUnique({
         where: {
           email: email,
@@ -184,12 +257,22 @@ export const selectUserAccount = async (
         },
       });
       await prisma.$disconnect();
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request completed in ${duration} ms`);
+      }
       return user;
     }
     await prisma.$disconnect();
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -207,8 +290,19 @@ export const selectUserFull = async (
   email?: string,
   username?: string
 ) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query selectUserFull in myDb line 287... "
+    );
+  }
   try {
     if (id) {
+      if (debug) console.log("selectUserFull: id: ", id);
+
       let user = await prisma.user.findUnique({
         where: {
           id: id,
@@ -226,17 +320,23 @@ export const selectUserFull = async (
         },
       });
       await prisma.$disconnect();
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request completed in ${duration} ms`);
+      }
 
       return user;
     } else if (username) {
+      if (debug) console.log("selectUserFull: username: ", username);
       let user = await prisma.user.findUnique({
         where: {
           username: username,
         },
         include: {
           settings: true,
-          notifications: { orderBy: { created_at: "desc" } },
-          sent_notifications: { orderBy: { created_at: "desc" } },
+          notifications: true,
+          sent_notifications: true,
           personal_info: true,
           qualifications: { orderBy: { start_date: "desc" } },
           experiences: { orderBy: { start_date: "desc" } },
@@ -246,8 +346,14 @@ export const selectUserFull = async (
         },
       });
       await prisma.$disconnect();
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request completed in ${duration} ms`);
+      }
       return user;
     } else if (email) {
+      if (debug) console.log("selectUserFull: email: ", email);
       let user = await prisma.user.findUnique({
         where: {
           email: email,
@@ -265,17 +371,36 @@ export const selectUserFull = async (
         },
       });
       await prisma.$disconnect();
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request completed in ${duration} ms`);
+      }
       return user;
     }
     await prisma.$disconnect();
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
 
 export const selectUsersFull = async () => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with request selectUsersFull in myDb line 392... "
+    );
+  }
   try {
     let user = await prisma.user.findMany({
       include: {
@@ -288,11 +413,20 @@ export const selectUsersFull = async () => {
       },
     });
     await prisma.$disconnect();
-
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return user;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -305,6 +439,15 @@ export const selectUsersFull = async () => {
  */
 
 export const selectUserCvFull = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query selectUserCvFull in myDb line 439... "
+    );
+  }
   try {
     let user = await prisma.user.findUnique({
       where: {
@@ -319,10 +462,20 @@ export const selectUserCvFull = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return user;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -337,6 +490,15 @@ export const selectUserCvFull = async (id: string) => {
  *
  */
 export const selectAllUsers = async () => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query selectAllUsers in myDb line 490... "
+    );
+  }
   try {
     const allUsers = await prisma.user.findMany({
       select: {
@@ -349,12 +511,22 @@ export const selectAllUsers = async () => {
     });
     if (allUsers) {
       await prisma.$disconnect();
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request completed in ${duration} ms`);
+      }
       return allUsers;
     }
     await prisma.$disconnect();
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return "Something went wrong!";
   }
 };
@@ -372,6 +544,15 @@ export const selectAllUsers = async () => {
  *
  */
 export const selectUserPasswordToken = async (token: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query selectUserPasswordToken in myDb line 544... "
+    );
+  }
   try {
     const user = await prisma.user.findUnique({
       where: {
@@ -388,10 +569,21 @@ export const selectUserPasswordToken = async (token: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return user;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
+    return null;
   }
 };
 /**
@@ -410,7 +602,17 @@ export const updateUser = async (
   account?: UserType,
   social?: SocialType
 ) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query updateUser in myDb line 598... "
+    );
+  }
   if (personalInfo) {
+    if (debug) console.log("Updating personal info: ", personalInfo);
     try {
       const response = await prisma.user_personal_info.update({
         where: {
@@ -419,6 +621,11 @@ export const updateUser = async (
         data: personalInfo,
       });
       await prisma.$disconnect();
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request completed in ${duration} ms`);
+      }
       return response;
     } catch (err) {
       await prisma.$disconnect();
@@ -426,6 +633,7 @@ export const updateUser = async (
       return null;
     }
   } else if (account) {
+    if (debug) console.log("Updating account: ", account);
     try {
       const response = await prisma.user.update({
         where: {
@@ -434,6 +642,11 @@ export const updateUser = async (
         data: account,
       });
       await prisma.$disconnect();
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request completed in ${duration} ms`);
+      }
       return response;
     } catch (err) {
       await prisma.$disconnect();
@@ -441,6 +654,7 @@ export const updateUser = async (
       return null;
     }
   } else if (social) {
+    if (debug) console.log("Updating social: ", social);
     try {
       const response = await prisma.user_socials.update({
         where: {
@@ -449,10 +663,20 @@ export const updateUser = async (
         data: social,
       });
       await prisma.$disconnect();
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request completed in ${duration} ms`);
+      }
       return response;
     } catch (err) {
       await prisma.$disconnect();
-      //console.log(err);
+      if (debug) {
+        const endingRequest = Date.now(); // Record the end time
+        const duration = endingRequest - startingRequest; // Calculate the duration
+        console.log(`Request failed in ${duration} ms`);
+        console.log(err);
+      }
       return null;
     }
   }
@@ -467,6 +691,15 @@ export const updateUser = async (
  *
  */
 export const updateUserDbOnLogin = async (data: UserType) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query updateUserDbOnLogin in myDb line 691... "
+    );
+  }
   const { id } = data;
   try {
     await prisma.user.update({
@@ -476,9 +709,19 @@ export const updateUserDbOnLogin = async (data: UserType) => {
       data: data,
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -491,6 +734,15 @@ export const updateUserDbOnLogin = async (data: UserType) => {
  *
  */
 export const deleteUserById = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query deleteUserById in myDb line 734... "
+    );
+  }
   try {
     await prisma.user.delete({
       where: {
@@ -498,9 +750,19 @@ export const deleteUserById = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return "Something went wrong! ";
   }
 };
@@ -524,15 +786,34 @@ export const deleteUserById = async (id: string) => {
  */
 
 export const createInvite = async (data: InviteType) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query createInvite in myDb line 786... "
+    );
+  }
   try {
     const response = await prisma.user_invites.create({
       data: data,
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -546,6 +827,15 @@ export const createInvite = async (data: InviteType) => {
  */
 
 export const deleteInvite = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query deleteInvite in myDb line 827... "
+    );
+  }
   try {
     await prisma.user_invites.deleteMany({
       where: {
@@ -553,9 +843,19 @@ export const deleteInvite = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return "Something went wrong! ";
   }
 };
@@ -569,6 +869,15 @@ export const deleteInvite = async (id: string) => {
  */
 
 export const updateInvite = async (data: UpdateInviteType) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query updateInvite in myDb line 869... "
+    );
+  }
   const { id } = data;
   try {
     const response = await prisma.user_invites.update({
@@ -578,10 +887,20 @@ export const updateInvite = async (data: UpdateInviteType) => {
       data: data,
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -595,6 +914,16 @@ export const updateInvite = async (data: UpdateInviteType) => {
  */
 
 export const inviteSerial = async () => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query inviteSerial in myDb line 914... "
+    );
+  }
+
   try {
     const response = await prisma.invite_id.findUnique({
       where: {
@@ -602,10 +931,20 @@ export const inviteSerial = async () => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     throw "Something went wrong!";
   }
 };
@@ -620,6 +959,15 @@ export const inviteSerial = async () => {
  */
 
 export const updateSerial = async (data: any) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query updateSerial in myDb line 958... "
+    );
+  }
   try {
     const response = await prisma.invite_id.update({
       where: {
@@ -628,10 +976,20 @@ export const updateSerial = async (data: any) => {
       data: data,
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -647,6 +1005,15 @@ export const updateSerial = async (data: any) => {
  *
  */
 export const getInvitesByuser_id = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query getInvitesByuser_id in myDb line 1004... "
+    );
+  }
   try {
     const result = await prisma.user_invites.findMany({
       where: {
@@ -656,10 +1023,20 @@ export const getInvitesByuser_id = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -675,6 +1052,15 @@ export const getInvitesByuser_id = async (id: string) => {
  */
 
 export const getInvitesById = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query getInvitesById in myDb line 1051... "
+    );
+  }
   try {
     const result = await prisma.user_invites.findUnique({
       where: {
@@ -682,10 +1068,20 @@ export const getInvitesById = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -703,6 +1099,15 @@ export const getInvitesById = async (id: string) => {
  */
 
 export const selectQualifications = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query selectQualifications in myDb line 1098... "
+    );
+  }
   try {
     const result = await prisma.user_qualifications.findMany({
       where: {
@@ -712,10 +1117,20 @@ export const selectQualifications = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -729,15 +1144,34 @@ export const selectQualifications = async (id: string) => {
  */
 
 export const saveQualification = async (data: CreateEducationType) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query saveQualification in myDb line 1143... "
+    );
+  }
   try {
     const result = await prisma.user_qualifications.create({
       data: data,
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -751,6 +1185,15 @@ export const saveQualification = async (data: CreateEducationType) => {
  */
 
 export const updateQualification = async (data: EditEducationType) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query updateQualification in myDb line 1183... "
+    );
+  }
   const { id } = data;
   try {
     const response = await prisma.user_qualifications.update({
@@ -760,10 +1203,21 @@ export const updateQualification = async (data: EditEducationType) => {
       data: data,
     });
     await prisma.$disconnect();
+
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -777,6 +1231,15 @@ export const updateQualification = async (data: EditEducationType) => {
  */
 
 export const deleteQualificationById = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query deleteQualificationById in myDb line 1229... "
+    );
+  }
   try {
     const result = await prisma.user_qualifications.delete({
       where: {
@@ -784,9 +1247,20 @@ export const deleteQualificationById = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return result;
   } catch (err) {
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -800,6 +1274,15 @@ export const deleteQualificationById = async (id: string) => {
  */
 
 export const deleteExperienceById = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query deleteExperienceById in myDb line 1272... "
+    );
+  }
   try {
     const result = await prisma.user_experiences.delete({
       where: {
@@ -807,11 +1290,20 @@ export const deleteExperienceById = async (id: string) => {
       },
     });
     await prisma.$disconnect();
-    console.log(result);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -825,13 +1317,32 @@ export const deleteExperienceById = async (id: string) => {
  */
 
 export const getAllQualifications = async () => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query getAllQualifications in myDb line 1315... "
+    );
+  }
   try {
     const data = await prisma.user_qualifications.findMany();
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return data;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -846,15 +1357,34 @@ export const getAllQualifications = async () => {
  */
 
 export const saveExperience = async (data: any) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query saveExperience in myDb line 1355... "
+    );
+  }
   try {
     const response = await prisma.user_experiences.create({
       data: data,
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -868,6 +1398,15 @@ export const saveExperience = async (data: any) => {
  */
 
 export const updateExperience = async (data: any) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query updateExperience in myDb line 1394... "
+    );
+  }
   const { id } = data;
   try {
     const response = await prisma.user_experiences.update({
@@ -877,10 +1416,20 @@ export const updateExperience = async (data: any) => {
       data: data,
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -894,6 +1443,15 @@ export const updateExperience = async (data: any) => {
  */
 
 export const getExperienceById = async (id: any) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query getExperienceById in myDb line 1437... "
+    );
+  }
   try {
     const result = await prisma.user_experiences.findMany({
       where: {
@@ -903,10 +1461,20 @@ export const getExperienceById = async (id: any) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -919,13 +1487,32 @@ export const getExperienceById = async (id: any) => {
  */
 
 export const getAllExperience = async () => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query getAllExperience in myDb line 1479... "
+    );
+  }
   try {
     const data = await prisma.user_experiences.findMany();
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return data;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -940,15 +1527,34 @@ export const getAllExperience = async () => {
  */
 
 export const createInvitation = async (data: any) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query createInvitation in myDb line 1517... "
+    );
+  }
   try {
     const response = await prisma.user_invites.create({
       data: data,
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
@@ -962,18 +1568,46 @@ export const createInvitation = async (data: any) => {
  */
 
 export const getAllInvites = async () => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query getAllInvites in myDb line 1556... "
+    );
+  }
   try {
     const allInvites = await prisma.user_invites.findMany();
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return allInvites;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return "Something went wrong!";
   }
 };
 
 export const updateUserLast = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query updateUserLast in myDb line 1585... "
+    );
+  }
   try {
     await prisma.user_personal_info.create({
       data: {
@@ -990,15 +1624,35 @@ export const updateUserLast = async (id: string) => {
         user_id: id,
       },
     });
+    await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
+    return null;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
+    return null;
   }
-
-  await prisma.$disconnect();
 };
 
 export const getQualificationById = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query getQualificationById in myDb line 1628... "
+    );
+  }
   try {
     const result = await prisma.user_qualifications.findUnique({
       where: {
@@ -1006,15 +1660,34 @@ export const getQualificationById = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
 
 export const getInboxNotifications = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query getInboxNotifications in myDb line 1663... "
+    );
+  }
   try {
     const result = await prisma.user_notifications.findMany({
       where: {
@@ -1022,15 +1695,34 @@ export const getInboxNotifications = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return [];
   }
 };
 
 export const getConversation = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query getConversation in myDb line 1698... "
+    );
+  }
   try {
     const result = await prisma.user_notifications.findMany({
       where: {
@@ -1049,29 +1741,67 @@ export const getConversation = async (id: string) => {
     });
 
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return result;
   } catch (err) {
     await prisma.$disconnect();
-    //console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return [];
   }
 };
 
 export const send_message = async (data: any) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query send_message in myDb line 1744... "
+    );
+  }
   try {
     const response = await prisma.user_notifications.create({
       data: data,
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
 
 export const mark_message = async (userId: string, messageIds: string[]) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query mark_message in myDb line 1777... "
+    );
+  }
   try {
     const response = await prisma.user_notifications.updateMany({
       where: {
@@ -1086,15 +1816,34 @@ export const mark_message = async (userId: string, messageIds: string[]) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };
 
 export const delete_message = async (id: string) => {
+  const startingRequest = Date.now(); // Record the start time
+  if (debug) {
+    const startTime = new Date(startingRequest);
+    const formattedTime = `${startTime.getHours()}:${startTime.getMinutes()}:${startTime.getSeconds()}.${startTime.getMilliseconds()}`;
+    console.log(
+      formattedTime,
+      " : Connecting to the database with query delete_message in myDb line 1819...  "
+    );
+  }
   try {
     const response = await prisma.user_notifications.delete({
       where: {
@@ -1102,10 +1851,20 @@ export const delete_message = async (id: string) => {
       },
     });
     await prisma.$disconnect();
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request completed in ${duration} ms`);
+    }
     return response;
   } catch (err) {
     await prisma.$disconnect();
-    console.log(err);
+    if (debug) {
+      const endingRequest = Date.now(); // Record the end time
+      const duration = endingRequest - startingRequest; // Calculate the duration
+      console.log(`Request failed in ${duration} ms`);
+      console.log(err);
+    }
     return null;
   }
 };

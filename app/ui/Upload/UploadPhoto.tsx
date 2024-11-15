@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 
 const UploadPhoto: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -40,6 +41,7 @@ const UploadPhoto: React.FC = () => {
         setFile(null);
         if (xhr.response) {
           const response = JSON.parse(xhr.responseText);
+          console.log(response);
           setUploadedFile(response.httpfilepath);
         }
       } else {
@@ -75,7 +77,7 @@ const UploadPhoto: React.FC = () => {
             id="file"
             name="file"
             onChange={handleFileChange}
-            className="mt-1 p-2 w-full border rounded bg-gray-700 text-white"
+            className="mt-1 p-2 w-full border rounded bg-gray-700 text-white h-20 "
             required
           />
         </div>
@@ -101,8 +103,15 @@ const UploadPhoto: React.FC = () => {
         </div>
       )}
       {uploadedFile && (
-        <div className="mt-4">
-          <img src={uploadedFile} alt="Uploaded file" className="w-32 h-32" />
+        <div className="mt-4 w-full">
+          <Link href={uploadedFile} target="_blank">
+            <p className="text-blue-500 hover:underline">View uploaded file</p>
+          </Link>
+          <img
+            src={uploadedFile}
+            alt="Uploaded file"
+            className="w-auto h-64 mx-auto"
+          />
         </div>
       )}
     </div>

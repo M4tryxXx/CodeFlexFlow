@@ -10,7 +10,9 @@ function sanitizeFilename(filename: string): string {
 
 export async function POST(request: NextRequest, res: any) {
   const formData = await request.formData();
+  console.log(formData);
   const file = formData.get("file") as File | null;
+  console.log(file);
   if (!file) {
     return NextResponse.json(
       { error: "File blob is required." },
@@ -50,7 +52,7 @@ export async function POST(request: NextRequest, res: any) {
     await writeFile(`${uploadDir}/${filename}`, new Uint8Array(buffer));
 
     const finalFilePath =
-      "http://localhost:3001/images/" + `${relativeUploadDir}/${filename}`;
+      "http://192.168.0.127:3000/images/" + `${relativeUploadDir}/${filename}`;
     return NextResponse.json(
       { done: "ok", filename: filename, httpfilepath: finalFilePath },
       { status: 200 }

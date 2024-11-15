@@ -16,13 +16,13 @@ import { Tooltip, user } from "@nextui-org/react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 
-export default function Notifications({ user_id }: any) {
+export default function Notifications({ user }: any) {
   // Creating state variables to manage the visibility of the notification dropdown and the selected notification
   const [visible, setVisible] = useState(false);
   const [selectedNotification, setSelectedNotification] = useState<any>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
-  const [notifications, setNotifications] = useState<any>([]);
-
+  const [notifications, setNotifications] = useState<any>(user.notifications);
+  // console.log("User: ", user);
   // This function is used to close the notification dropdown when the user clicks outside the notification dropdown
   const handleClickOutside = (event: MouseEvent) => {
     if (
@@ -35,22 +35,49 @@ export default function Notifications({ user_id }: any) {
   };
 
   // This function fetches the notifications from the database and updates the notifications state variable
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const data = await getInboxNotifications(user_id);
-        setNotifications(data);
-      } catch (error) {
-        console.error("Failed to fetch notifications:", error);
-      }
-    };
 
-    fetchNotifications(); // Fetch notifications immediately when the page loads
+  // useEffect(() => {
+  //   const worker = new Worker(
+  //     new URL("../../../../public/workers/worker.ts", import.meta.url)
+  //   );
 
-    const interval = setInterval(fetchNotifications, 60000); // Fetch notifications every 30 seconds
+  //   worker.onmessage = (event) => {
+  //     const { success, data, error } = event.data;
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, [user_id]);
+  //     if (success) {
+  //       console.log("Task completed successfully:", data);
+  //       setNotifications(data);
+  //     } else {
+  //       console.error("Failed to complete task:", error);
+  //     }
+  //   };
+
+  //   worker.postMessage({
+  //     type: "getMessages",
+  //     userId: user_id,
+  //   });
+
+  //   return () => {
+  //     worker.terminate();
+  //   };
+  // }, [user_id]);
+
+  // useEffect(() => {
+  //   const fetchNotifications = async () => {
+  //     try {
+  //       const data = await getInboxNotifications(user_id);
+  //       setNotifications(data);
+  //     } catch (error) {
+  //       console.error("Failed to fetch notifications:", error);
+  //     }
+  //   };
+
+  //   fetchNotifications(); // Fetch notifications immediately when the page loads
+
+  //   const interval = setInterval(fetchNotifications, 60000); // Fetch notifications every 30 seconds
+
+  //   return () => clearInterval(interval); // Cleanup interval on component unmount
+  // }, [user_id]);
 
   // console.log("Notifications: ", notifications);
 
@@ -149,7 +176,7 @@ export default function Notifications({ user_id }: any) {
       //   </Tooltip>
       // );
     });
-    //  console.log("Users: ", usersObj);
+    // console.log("Users: ", usersObj);
     return usersObj;
   };
 
@@ -221,7 +248,7 @@ export default function Notifications({ user_id }: any) {
         className={`absolute bg-rose-200 text-rose-900 dark:text-yellow-300 dark:bg-emerald-800 w-[400px] h-auto md:w-[600px] md:h-auto flex-col justify-start p-2 rounded-md z-50 transition-all duration-300 ease-in-out right-5 top-40 ${
           visible
             ? "max-h-screen opacity-100"
-            : "max-h-0 opacity-0 -z-100 right-5 -top-20"
+            : "max-h-0 opacity-0 -z-100 right-5 -top-5 "
         }`}
         style={{ overflow: "scroll" }}
       >
@@ -254,7 +281,7 @@ export default function Notifications({ user_id }: any) {
                     await delete_message_read(selectedNotification.id);
                     setSelectedNotification(null);
                     const notificationsUpdate = await getInboxNotifications(
-                      user_id
+                      user.id
                     );
                     setNotifications(notificationsUpdate);
                     toast.success("Message deleted successfully");
@@ -365,7 +392,7 @@ export default function Notifications({ user_id }: any) {
                           });
                           setSelectedNotification(null);
                           const notificationsUpdate =
-                            await getInboxNotifications(user_id);
+                            await getInboxNotifications(user.id);
                           setNotifications(notificationsUpdate);
                           toast.success("Messages deleted successfully");
                         } catch (error) {
