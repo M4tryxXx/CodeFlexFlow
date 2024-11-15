@@ -6,7 +6,7 @@ const clientss = new Map();
 
 wss.on("connection", (ws: any, req: any) => {
   const userId = req.url.split("?userId=")[1];
-  clients.set(userId, ws);
+  clientss.set(userId, ws);
 
   console.log(`User ${userId} connected`);
 
@@ -14,14 +14,14 @@ wss.on("connection", (ws: any, req: any) => {
     const parsedMessage = JSON.parse(message);
     const { toUserId, content } = parsedMessage;
 
-    const recipientWs = clients.get(toUserId);
+    const recipientWs = clientss.get(toUserId);
     if (recipientWs && recipientWs.readyState === WebSocket.OPEN) {
       recipientWs.send(JSON.stringify({ fromUserId: userId, content }));
     }
   });
 
   ws.on("close", () => {
-    clients.delete(userId);
+    clientss.delete(userId);
     console.log(`User ${userId} disconnected`);
   });
 });
