@@ -486,9 +486,9 @@ export async function sendContactEmail(formData: FormData) {
 
 export const sendMessage = async (data: any) => {
   const response = await send_message(data);
+  revalidatePath("/home/dashboard/profile/messages");
+  revalidatePath("/home", "layout");
   if (response) {
-    revalidatePath("/home/dashboard/profile/messages");
-    revalidatePath("/home/admin/users");
     return response;
   }
 
@@ -497,6 +497,8 @@ export const sendMessage = async (data: any) => {
 
 export const mark_message_read = async (id: string, notification: string[]) => {
   const response = await mark_message(id, notification);
+  revalidatePath("/home/dashboard/profile/messages");
+  revalidatePath("/home");
   if (response) {
     revalidatePath("/home/dashboard/profile/messages");
     revalidatePath("/home/admin/users");
@@ -547,14 +549,16 @@ export const handleUnreadNotificationsList = async (
   userId: string
 ) => {
   if (notifications.length === 0) {
-    // console.log("No unread messages");
+    console.log("No unread messages");
     return;
   }
 
   const message = `You have ${notifications.length} unread messages \n Marking them as read now!`;
-  // console.log(message);
+  console.log(message);
   const response = await mark_message(userId, notifications);
   revalidatePath("/home");
+  revalidatePath("/home/dashboard/profile/messages");
+  revalidatePath("/home", "layout");
   if (response) {
     revalidatePath("/home");
     return response;

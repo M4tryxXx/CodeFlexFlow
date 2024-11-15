@@ -410,9 +410,9 @@ export default function Messages({ messages_data, conversations }: any) {
 
   // This function handles the conversation selection
   const handleConversationSelection = async (conversation: any) => {
-    if (loading) {
-      return;
-    }
+    // if (loading) {
+    //   return;
+    // }
 
     setStatus("");
     setLoading(true);
@@ -630,7 +630,7 @@ export default function Messages({ messages_data, conversations }: any) {
             ? // if the last message is from the user, we check if it has been read by the other user
               conversationsState[conversation][
                 conversationsState[conversation].length - 1
-              ].read.read
+              ].read
               ? // if the last message has been read, we set the background color to gray
                 "bg-gray-50 dark:bg-emerald-800 font-light"
               : // if the last message has not been read, we set the background color to rose and the text color to yellow so we know yellow text is message received and unread
@@ -638,7 +638,7 @@ export default function Messages({ messages_data, conversations }: any) {
             : //
             conversationsState[conversation][
                 conversationsState[conversation].length - 1
-              ].read.read
+              ].read
             ? // if the last message is not from the user, we check if it has been read by the user and set the background color to gray if it has been read
               "bg-gray-50 dark:bg-emerald-800 font-light"
             : // if the last message has not been read, we set the background color to rose and the text color to blue so we know blue text is message sent and unread

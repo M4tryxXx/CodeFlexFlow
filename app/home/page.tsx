@@ -3,13 +3,14 @@ import HomeSideNav from "../ui/Home/HomeSidenav";
 import ExampleCard from "../ui/Home/ExampleCard";
 import Footer from "../ui/Global/Footer/Footer";
 import { UserData } from "../lib/get_user_full";
+import { userData } from "../lib/actions";
 import UserDataObj from "../lib/userClass";
 
-console.log("This is the home page outer component!");
+// console.log("This is the home page outer component!");
 
 export default async function HomePage() {
-  const user = await UserData();
-  console.log("This is the home page inner component!");
+  const user = await userData();
+  // console.log("This is the home page inner component!");
 
   const data = {
     title: "Code Flex Flow",
