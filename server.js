@@ -1,12 +1,13 @@
 const { createServer } = require("http");
 const next = require("next");
 const { Server } = require("socket.io");
+const { prototype } = require("stream");
 
 const dev = process.env.NODE_ENV !== "production";
-const hostname = "192.168.0.127";
-const port = 3000;
+const hostname = "codeflexflow.vercel.app";
+const port = process.env.PORT || 3000;
 // when using middleware `hostname` and `port` must be provided below
-const app = next({ dev, hostname, port });
+const app = next({ dev, hostname, prototype });
 const handler = app.getRequestHandler();
 const clients = new Map();
 const chats = new Map();
