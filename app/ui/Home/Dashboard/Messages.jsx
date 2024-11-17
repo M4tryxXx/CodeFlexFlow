@@ -138,7 +138,7 @@ export default function Messages({ messages_data, conversations }) {
   const initializeSocketConnection = useCallback(() => {
     if (!socket.current) {
       console.log("Initializing socket connection...");
-      socket.current = io("https://codeflexflow.vercel.app", {
+      socket.current = io("ws://codeflexflow.onrender.com", {
         query: { senderId: user.id, username: user.username },
       });
 
