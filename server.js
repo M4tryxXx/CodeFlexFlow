@@ -4,7 +4,7 @@ const { Server } = require("socket.io");
 const { prototype } = require("stream");
 
 const dev = process.env.NODE_ENV !== "production";
-const hostname = "codeflexflow.vercel.app";
+const hostname = "codeflexflow.onrender.com";
 const port = process.env.PORT || 3000;
 // when using middleware `hostname` and `port` must be provided below
 const app = next({ dev, hostname, prototype });
