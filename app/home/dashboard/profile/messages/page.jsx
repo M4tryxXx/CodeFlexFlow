@@ -38,7 +38,7 @@ export default async function MessagesPage() {
   // console.log("conversations: ", conversations);
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto p-4 h-auto">
       <Messages messages_data={received_data} conversations={conversations} />
     </div>
   );

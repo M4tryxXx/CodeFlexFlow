@@ -18,7 +18,8 @@ import { redirectUser } from "../../../../lib/actions";
 import UploadPhoto from "../../../Upload/UploadPhoto";
 
 export default function EditProfileForm({ user }) {
-  const { email, username, avatar, id } = user;
+  console.log(user);
+  const { email, username, avatar, id } = user || {};
 
   const {
     user_id,
@@ -33,10 +34,10 @@ export default function EditProfileForm({ user }) {
     discord,
     tiktok,
     snapchat,
-  } = user.social_media;
+  } = user?.social_media || {};
 
   const { first_name, last_name, age, city, state, country, zip, bio, phone } =
-    user.personal_info;
+    user?.personal_info || {};
 
   const [emailState, setEmailState] = useState(email ? email : "");
   const [firstNameState, setFirstNameState] = useState(first_name);

@@ -172,7 +172,7 @@ export default function Messages({ messages_data, conversations }) {
   const initializeSocketConnection = useCallback(() => {
     if (!socket.current) {
       console.log("Initializing socket connection...");
-      socket.current = io("http://172.20.10.2:3000", {
+      socket.current = io("https://codeflexflow.onrender.com", {
         query: { senderId: user.id, username: user.username },
       });
 

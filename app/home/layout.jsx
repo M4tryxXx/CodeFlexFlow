@@ -4,9 +4,9 @@ import Footer from "../ui/Global/Footer/Footer";
 import { UserData } from "../lib/get_user_full";
 import { userData } from "../lib/actions";
 
-const user = await userData();
-
 export default async function DashboardLayout({ children }) {
+  const user = await userData();
+
   let loading = false;
 
   return (
@@ -15,7 +15,7 @@ export default async function DashboardLayout({ children }) {
         <div className="w-full flex-none">
           <SideNav user={user} />
         </div>
-        <div className="flex grow h-full w-[95%] max-w-[1300px] flex-col mx-auto my-4 px-3 py-4 dark:bg-indigo-950 dark:bg-opacity-50  bg-gray-50  rounded-md">
+        <div className="flex grow h-auto w-[95%] max-w-[1300px] flex-col mx-auto my-4 px-3 py-4 dark:bg-indigo-950 dark:bg-opacity-50  bg-gray-50  rounded-md">
           {!loading ? (
             children
           ) : (

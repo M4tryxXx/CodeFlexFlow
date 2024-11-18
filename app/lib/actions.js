@@ -435,7 +435,7 @@ export const userData = async () => {
   }
   const currentUser = await selectUserFull(undefined, userEmail);
   if (!currentUser) {
-    throw new Error("User not found");
+    return null;
   }
 
   return currentUser;
@@ -476,11 +476,10 @@ export const sendMessage = async (data) => {
 
 export const mark_message_read = async (id, notification) => {
   const response = await mark_message(id, notification);
-  revalidatePath("/home/dashboard/profile/messages");
-  revalidatePath("/home");
   if (response) {
     revalidatePath("/home/dashboard/profile/messages");
-    revalidatePath("/home/admin/users");
+    revalidatePath("/home");
+    return response;
   } else {
     return "Something went wrong";
   }
@@ -490,7 +489,7 @@ export const delete_message_read = async (id) => {
   const response = await delete_message(id);
   if (response) {
     revalidatePath("/home/dashboard/profile/messages");
-    revalidatePath("/home/admin/users");
+    revalidatePath("/home");
     return response;
   } else {
     return "Something went wrong";
@@ -501,7 +500,7 @@ export const getMessages = async (id) => {
   const response = await getConversation(id);
   if (response) {
     revalidatePath("/home/dashboard/profile/messages");
-    revalidatePath("/home/admin/users");
+    revalidatePath("/home");
     return response;
   } else {
     return null;
@@ -527,11 +526,11 @@ export const handleUnreadNotificationsList = async (notifications, userId) => {
   const message = `You have ${notifications.length} unread messages \n Marking them as read now!`;
   console.log(message);
   const response = await mark_message(userId, notifications);
+  revalidatePath("/home");
+  revalidatePath("/home/dashboard/profile/messages");
+  revalidatePath("/home", "layout");
 
   if (response) {
-    revalidatePath("/home");
-    revalidatePath("/home/dashboard/profile/messages");
-    revalidatePath("/home", "layout");
     return response;
   } else {
     return "Something went wrong";
