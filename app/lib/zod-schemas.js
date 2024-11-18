@@ -124,4 +124,6 @@ export const sendMessageSchema = z.object({
   to_user_id: z.string(),
   from: z.string(),
   to: z.string(),
+  read: z.boolean().optional(),
+  created_at: z.string(),
 });

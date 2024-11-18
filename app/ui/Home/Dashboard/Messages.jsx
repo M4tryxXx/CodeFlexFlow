@@ -24,6 +24,7 @@ import { motion } from "framer-motion";
 import { useSearchParams } from "next/navigation";
 import io from "socket.io-client";
 import { createId } from "@paralleldrive/cuid2";
+import { set } from "zod";
 
 export default function Messages({ messages_data, conversations }) {
   const searchParams = useSearchParams();
@@ -36,17 +37,21 @@ export default function Messages({ messages_data, conversations }) {
   const [visible, setVisible] = useState(false);
   const [status, setStatus] = useState("");
   const [connected, setConnected] = useState(false);
+  const [connectedUsers, setConnectedUsers] = useState([]);
 
   const messagesEndRef = useRef(null);
   const [message, setMessage] = useState("");
   const [conversationsState, setConversationsState] = useState(conversations);
   const [mutableConversations, setMutableConversations] = useState(null);
-  const [messagesToShow, setMessagesToShow] = useState(5);
+  const [messagesToShow, setMessagesToShow] = useState(10);
   const [usersCount, setUsersCount] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const [userJoinedChat, setUserJoinedChat] = useState(false);
   const [selMessages, setSelMessages] = useState(null);
+  const [overflow, setOverflow] = useState(null);
+  const [iosHV, setIosHV] = useState(0);
 
+  console.log(usersCount);
   // Components references
   const messageRef = useRef(null);
   const lastMessageRef = useRef(null);
@@ -54,8 +59,37 @@ export default function Messages({ messages_data, conversations }) {
   // Declare a reference to the socket
   const socket = useRef(null);
   const socketInitialized = useRef(false);
-  let tempActiveConversation = null;
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (/iPhone/i.test(navigator.userAgent)) {
+        const newHeight = window.visualViewport.height || window.innerHeight;
+        setIosHV(newHeight);
+      } else {
+        setIosHV(window.innerHeight);
+      }
+    };
+
+    // Initial setting of the viewport height
+    handleResize();
+
+    // Add event listener for resize
+    window.visualViewport.addEventListener("resize", handleResize);
+
+    // Cleanup event listener on component unmount
+    return () => {
+      window.visualViewport.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const newHeight = window.visualViewport.height || window.innerHeight;
+      setIosHV(newHeight);
+    }
+  }, []);
+
+  // console.log(usersCount);
   // Handle the click outside the message box to close the chat container
   // This function checks if a click event occurred outside the message box and closes the chat container if true
   const handleClickOutside = (event) => {
@@ -138,13 +172,16 @@ export default function Messages({ messages_data, conversations }) {
   const initializeSocketConnection = useCallback(() => {
     if (!socket.current) {
       console.log("Initializing socket connection...");
-      socket.current = io("https://codeflexflow.onrender.com", {
+      socket.current = io("http://172.20.10.2:3000", {
         query: { senderId: user.id, username: user.username },
       });
 
       socket.current.on("connect", () => {
         console.log("Connected to the server!");
         socket.current.emit("onlineUsers");
+        socket.current.emit("getConnectedUsers");
+        console.log("getting connected users!");
+        // socket.current.emit("getConnectedUsers");
         setStatus("connected");
       });
     }
@@ -197,6 +234,20 @@ export default function Messages({ messages_data, conversations }) {
 
       if (activeConversation === username) {
         setSelMessages((prev) => [...prev, content]);
+        setConversationsState((prev) => {
+          // Create a new state object to avoid mutating the state directly
+          const newState = { ...prev };
+
+          // Check if the user already exists in the state
+          newState[activeConversation] = {
+            // If the user exists, update the messages array with the new message
+            ...prev[activeConversation],
+            Messages: [...prev[activeConversation].Messages, content],
+          };
+
+          // Return the new state object with the updated messages array for the user in the state object array of users and messages objects
+          return newState;
+        });
       } else {
         setConversationsState((prev) => {
           // Create a new state object to avoid mutating the state directly
@@ -289,14 +340,14 @@ export default function Messages({ messages_data, conversations }) {
       }
     );
 
-    // Event
-    socket?.current?.on("onlineUsers", (onlineUsers) => {
-      // console.log("Online Users: ", onlineUsers);
-      setUsersCount(onlineUsers);
+    socket.current.on("connectedUsers", (users) => {
+      console.log("users: ", users);
+      setConnectedUsers(users);
     });
 
     return () => {
       if (socket.current) {
+        socket.current.off("connectedUsers");
         socket.current.off("onlineUsers");
         socket.current.off("userStatus");
         socket.current.off("message");
@@ -309,39 +360,36 @@ export default function Messages({ messages_data, conversations }) {
     visible,
     mutableConversations,
     usersCount,
+    connectedUsers,
   ]);
 
-  useEffect(() => {
-    socket?.current?.emit("onlineUsers");
+  // useEffect(() => {
+  //   console.log("querrying connected users!");
+  //   socket.current.emit("getConnectedUsers");
 
-    return () => {
-      if (socket.current) {
-        socket.current.off("onlineUsers");
-      }
-    };
-  }, [usersCount]);
+  //   return () => {
+  //     if (socket.current) {
+  //       socket.current.off("connectedUsers");
+  //     }
+  //   };
+  // }, [user]);
 
   useEffect(() => {
     if (socket.current) {
-      socket.current.on("typing", ({ fromUserId }) => {
+      socket.current.on("typing", ({ fromUser, to }) => {
+        console.log("Typing event received!", to);
         if (selMessages && selMessages.length > 0) {
-          if (
-            (fromUserId === selMessages[0].from_user_id) !== user.id
-              ? selMessages[0].from_user_id
-              : selMessages[0].to_user_id
-          ) {
+          if (to === user.id && activeConversation === fromUser) {
             setIsTyping(true);
+          } else {
+            setIsTyping(false);
           }
         }
       });
 
-      socket.current.on("stopTyping", ({ fromUserId }) => {
+      socket.current.on("stopTyping", ({ fromUser, to }) => {
         if (selMessages && selMessages.length > 0) {
-          if (
-            (fromUserId === selMessages[0].from_user_id) !== user.id
-              ? selMessages[0].from_user_id
-              : selMessages[0].to_user_id
-          ) {
+          if (to === user.id && activeConversation === fromUser) {
             setIsTyping(false);
           }
         }
@@ -389,11 +437,11 @@ export default function Messages({ messages_data, conversations }) {
           unreadMessagesTemp.push(message);
         }
 
-        if (index === messages.length - 5) {
+        if (index === messages.length - 10) {
           return (
             <React.Fragment key={message.id}>
               <div
-                className="flex flex-row justify-start items-center sticky bottom-4 m-6"
+                className="flex flex-row justify-start items-center sticky bottom-44 m-6 max-w-full"
                 key={index + message.created_at}
               >
                 <ArrowDownIcon
@@ -409,10 +457,11 @@ export default function Messages({ messages_data, conversations }) {
               </div>
 
               <motion.div
+                key={message.id}
                 layout
                 initial={{ opacity: 0, scale: 0.1 }}
                 animate={{ opacity: 1, scale: 0.95 }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1 }}
                 whileTap={{ scale: 1 }}
                 transition={{
                   duration: 0.7,
@@ -424,11 +473,9 @@ export default function Messages({ messages_data, conversations }) {
                     restDelta: 0.001,
                   },
                 }}
-                viewport={{ once: true }}
-                className={`flex flex-row p-2 m-1 ${
+                className={`flex flex-row p-2 m-1 max-w-full ${
                   id === message.from_user_id ? "justify-start" : "justify-end"
                 }`}
-                key={message.id}
               >
                 <div
                   className={`flex flex-col md:rounded-2xl rounded-lg  p-2 md:p-6 ${
@@ -438,7 +485,7 @@ export default function Messages({ messages_data, conversations }) {
                   } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto`}
                 >
                   <div className="flex flex-row gap-2 justify-start">
-                    <p className="text-sm md:text-lg">{message.message}</p>
+                    <p className="text-lg md:text-2xl ">{message.message}</p>
                   </div>
                   <div className="flex flex-row gap-2 justify-end">
                     <p className="text-xs dark:text-white font-thin text-black">
@@ -456,8 +503,8 @@ export default function Messages({ messages_data, conversations }) {
             key={message.id}
             layout
             initial={{ opacity: 0, scale: 0.1 }}
-            animate={{ opacity: 1, scale: 1 }}
-            whileHover={{ scale: 1.05 }}
+            animate={{ opacity: 1, scale: 0.95 }}
+            whileHover={{ scale: 1 }}
             whileTap={{ scale: 1 }}
             transition={{
               duration: 0.7,
@@ -469,8 +516,7 @@ export default function Messages({ messages_data, conversations }) {
                 restDelta: 0.001,
               },
             }}
-            viewport={{ once: true }}
-            className={`flex flex-row p-2 m-1 ${
+            className={`flex flex-row py-2  m-1 max-w-full mx-2 ${
               id === message.from_user_id ? "justify-start" : "justify-end"
             }`}
           >
@@ -482,7 +528,7 @@ export default function Messages({ messages_data, conversations }) {
               } w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto`}
             >
               <div className="flex flex-row gap-2 justify-start">
-                <p className="text-sm md:text-lg">{message.message}</p>
+                <p className="text-lg md:text-2xl">{message.message}</p>
               </div>
               <div className="flex flex-row gap-2 justify-end">
                 <p className="text-xs dark:text-white font-thin text-black">
@@ -521,7 +567,7 @@ export default function Messages({ messages_data, conversations }) {
 
   // This function loads more messages when the load more button is clicked
   const loadMoreMessages = () => {
-    setMessagesToShow((prev) => prev + 5);
+    setMessagesToShow((prev) => prev + 10);
   };
   // This function handles the selection of a conversation, sets the active conversation, joins the chat, and updates the unread notifications list.
 
@@ -529,6 +575,8 @@ export default function Messages({ messages_data, conversations }) {
     // if (loading) {
     //   return;
     // }
+
+    setOverflow("clip");
 
     setStatus("");
     setLoading(true);
@@ -539,7 +587,6 @@ export default function Messages({ messages_data, conversations }) {
     // console.log("id is: ", id);
 
     setActiveConversation(conversation);
-    tempActiveConversation = conversation;
 
     // console.log("Conversation: ", conversation);
     setSelMessages(conversationsState[conversation].Messages);
@@ -579,6 +626,11 @@ export default function Messages({ messages_data, conversations }) {
     }
     // setStatus("Sending message...");
     // setLoading(true);
+    let messageRead = false;
+
+    if (activeConversation === activeUser) {
+      messageRead = true;
+    }
 
     const new_message = {
       id: createId(),
@@ -590,7 +642,10 @@ export default function Messages({ messages_data, conversations }) {
       from: user.username,
       to: activeConversation,
       created_at: new Date().toISOString(),
+      read: messageRead,
     };
+
+    // Send the message to the server and emit the privateMessage event to the server for the live chat
     socket?.current?.emit("privateMessage", {
       receiverId: conversationsState[activeConversation].to_user_id,
       user_name: user.username,
@@ -598,9 +653,24 @@ export default function Messages({ messages_data, conversations }) {
     });
 
     setSelMessages((prev) => [...prev, new_message]);
+    setConversationsState((prev) => {
+      // Create a new state object to avoid mutating the state directly
+      const newState = { ...prev };
+
+      // Check if the user already exists in the state
+      newState[activeConversation] = {
+        // If the user exists, update the messages array with the new message
+        ...prev[activeConversation],
+        Messages: [...prev[activeConversation].Messages, new_message],
+      };
+
+      // Return the new state object with the updated messages array for the user in the state object array of users and messages objects
+      return newState;
+    });
 
     setMessage("");
 
+    // Send the message to db
     const response = await sendUserMessage(new_message);
 
     const mailUser = await getUserFull(
@@ -614,7 +684,7 @@ export default function Messages({ messages_data, conversations }) {
         email: mailUser?.email,
         name: mailUser?.username,
         message: `You have a new message from ${user?.username}!`,
-        link: `https://codeflexflow.vercel.app/home/dashboard/profile/messages?from=${user?.username}`,
+        link: `https://codeflexflow./home/dashboard/profile/messages?from=${user?.username}`,
       };
 
       const mailResponse = await notificationEmail(
@@ -743,166 +813,192 @@ export default function Messages({ messages_data, conversations }) {
     );
   });
 
-  if (!activeConversation) {
-    return (
-      <div className="flex flex-col gap-3">
-        <h1 className="text-2xl font-bold mb-4">Messages</h1>
-        <p>Online Users: {usersCount}</p>{" "}
-        <button
-          className={`bg-rose-300  dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900  dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-lg shadow-rose-400 dark:shadow-black ${
-            status === "connected"
-              ? " dark:bg-green-700  "
-              : " dark:bg-rose-500 "
-          }`}
-        >
-          {status === "connected" ? "Connected" : "Disconnected"}
-        </button>
-        <div className="-m-1.5 overflow-x-auto">
-          <div className="p-1.5 min-w-full inline-block align-middle">
-            <div className="flex flex-col">
-              <div className="-m-1.5 overflow-x-auto">
-                <div className="p-1.5 min-w-full inline-block align-middle">
-                  <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-10 border-[0.2mm] ">
-                    {conversationsListItems.length > 0 ? (
-                      <>
-                        <div className="p-1">
-                          <div className="flex justify-between text-xs">
-                            <p>With</p>
-                            <p>Last Message on</p>
-                            <p>Delete</p>
-                          </div>
-                        </div>
-                        {conversationsListItems}
-                      </>
-                    ) : (
-                      <div className="flex justify-center items-center">
-                        <p className="text-lg">No messages</p>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="flex flex-col gap-3">
-      <h1 className="text-2xl font-bold mb-4">{activeConversation}</h1>
-
-      {activeConversation && (
-        <p>
-          {activeConversation} is{" "}
-          {activeUser === activeConversation ? "in chat!" : "online"}
-        </p>
-      )}
-      {userJoinedChat && <p>{activeUser} joined the chat</p>}
+    <div className={`flex flex-col gap-3`}>
+      <h1 className="text-2xl font-bold mb-4">Messages</h1>
+      <p>Online Users: {usersCount}</p>{" "}
+      <div className="flex flex-row gap-2 justify-end">
+        {/* {usersCount.forEach((user) => {
+          return (
+            <p className="text-xs dark:text-white font-semibold text-black mx-4">
+              {user.username} is online
+            </p>
+          );
+        })} */}
+      </div>
+      <button
+        className={`bg-rose-300  dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900  dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-lg shadow-rose-400 dark:shadow-black ${
+          status === "connected" ? " dark:bg-green-700  " : " dark:bg-rose-500 "
+        }`}
+      >
+        {status === "connected" ? "Connected" : "Disconnected"}
+      </button>
+      <p>Connected Users:</p>
+      <ul>
+        {connectedUsers.map((user) => (
+          <li key={user.userId}>{user.username}</li>
+        ))}
+      </ul>
       <div className="-m-1.5 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <div className="flex flex-col">
             <div className="-m-1.5 overflow-x-auto">
               <div className="p-1.5 min-w-full inline-block align-middle">
-                <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md md:p-10 border-[0.2mm] h-[50vh] overflow-auto">
-                  <div>
-                    {formatMessages(selMessages || [], user.id, messagesToShow)}
-                    <div ref={lastMessageRef} />
-                    <p className="text-xs dark:text-white font-semibold text-black m-4">
-                      {isTyping && activeUser
-                        ? activeUser + " is typing..."
-                        : "💬"}
-                    </p>
-                    <form
-                      onSubmit={async (e) => {
-                        handleFormSubmit(e);
-                      }}
-                      className=" m-4"
-                    >
-                      <div ref={messagesEndRef} className="mt-4" />
-                      <div className="flex flex-row gap-2 justify-between">
-                        <div className="relative w-full">
-                          <textarea
-                            placeholder="Type your message here"
-                            className="dark:bg-blue-950 bg-rose-200 shadow-lg shadow-rose-400 dark:shadow-black md:rounded-2xl rounded-lg  p-2 md:p-6  w-[85%] md:w-[50%] gap-6 md:gap-10 h-auto"
-                            value={message}
-                            onChange={(e) => {
-                              setMessage(e.target.value);
-                              handleTyping();
-                            }}
-                            id="message"
-                            rows={1}
-                          />
+                <div className="flex flex-col gap-2 bg-gray-50 dark:bg-gray-800 rounded-lg shadow-md p-10 border-[0.2mm] ">
+                  {conversationsListItems.length > 0 ? (
+                    <>
+                      <div className="p-1">
+                        <div className="flex justify-between text-xs">
+                          <p>With</p>
+                          <p>Last Message on</p>
+                          <p>Delete</p>
                         </div>
                       </div>
-                      {message.length >= 1 ? (
-                        <div className="flex flex-row justify-between items-center m-2">
-                          <button
-                            type="submit"
-                            className={` 
+                      {conversationsListItems}
+                    </>
+                  ) : (
+                    <div className="flex justify-center items-center">
+                      <p className="text-lg">No messages</p>
+                    </div>
+                  )}
+                </div>
+                {activeConversation && (
+                  <div className="flex flex-col gap-3 relative">
+                    <div className="-m-1.5 overflow-x-auto">
+                      <div className="p-1.5 min-w-full inline-block align-middle">
+                        <div className="flex flex-col">
+                          <div className="-m-1.5 overflow-x-auto">
+                            <div className="  inline-block align-middle">
+                              <div
+                                className={`   fixed transition-all ease-in-out duration-500 bottom-0 left-0 w-[100vw] flex flex-col gap-2 bg-gray-500 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md border-[0.2mm] h-[100dvh] overflow-auto `}
+                                // style={{ height: `${iosHV}px` }}
+                              >
+                                <h1 className="text-2xl font-bold mb-4">
+                                  {activeConversation}
+                                </h1>
+                                <div>
+                                  {formatMessages(
+                                    selMessages || [],
+                                    user.id,
+                                    messagesToShow
+                                  )}
+                                  <div ref={lastMessageRef} />
+
+                                  <form
+                                    onSubmit={async (e) => {
+                                      handleFormSubmit(e);
+                                    }}
+                                    className=" mt-4 sticky bottom-4 bg-gradient-to-b from-black to-blue mb-0 p-2 rounded-xl mx-2"
+                                  >
+                                    <div
+                                      ref={messagesEndRef}
+                                      className="mt-4"
+                                    />
+                                    <div className="flex flex-col gap-2 justify-between">
+                                      <div className="flex flex-row justify-between">
+                                        <p className="text-xs dark:text-white font-semibold text-black mx-4">
+                                          {isTyping && activeUser
+                                            ? activeUser + " is typing..."
+                                            : "💬"}
+                                        </p>
+                                        <p className="text-xs dark:text-white font-semibold text-black mx-4">
+                                          {activeConversation} is{" "}
+                                          {activeUser === activeConversation
+                                            ? "in chat!"
+                                            : connectedUsers.find((user) => {
+                                                return (
+                                                  user.username ===
+                                                  activeConversation
+                                                );
+                                              })
+                                            ? "online!"
+                                            : "offline!"}
+                                        </p>
+                                      </div>
+                                      <div className=" w-full">
+                                        <div className="relative m-2">
+                                          {message.length >= 1 ? (
+                                            <div className="absolute top-0 right-4 flex flex-row justify-between items-center m-2">
+                                              <button
+                                                type="submit"
+                                                className={` 
                               
                               ${
                                 loading
                                   ? "bg-gray-200 dark:bg-gray-700 dark:text-gray-500 text-rose-900 rounded-md my-2 px-2 py-1 cursor-not-allowed"
                                   : "rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300 "
                               }`}
-                            disabled={loading}
-                          >
-                            Send
-                          </button>
+                                                disabled={loading}
+                                              >
+                                                Send
+                                              </button>
+                                            </div>
+                                          ) : (
+                                            <div className="absolute -top-0.5 md:top-1 right-2 flex flex-row justify-between items-center m-2 ">
+                                              <button
+                                                className=" bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-md shadow-rose-400 dark:shadow-black"
+                                                onClick={() => {
+                                                  setActiveConversation(null);
+                                                  setOverflow(null);
+                                                  if (socket.current) {
+                                                    setStatus("connected");
+                                                  }
+                                                  setMessagesToShow(5);
+                                                  socket?.current?.emit(
+                                                    "leaveChat",
+                                                    conversationsState[
+                                                      activeConversation
+                                                    ].to_user_id
+                                                  );
+                                                }}
+                                              >
+                                                Back
+                                              </button>
+                                            </div>
+                                          )}
+                                          <textarea
+                                            placeholder="Start typing..."
+                                            className="dark:bg-blue-950 bg-rose-200 shadow-lg shadow-rose-400 dark:shadow-black md:rounded-2xl rounded-lg  p-4 md:p-6  w-full text-lg  gap-6 md:gap-10 h-auto"
+                                            value={message}
+                                            onChange={(e) => {
+                                              setMessage(e.target.value);
+                                              socket?.current?.emit(
+                                                "typing",
+                                                selMessages[0].from_user_id !==
+                                                  user.id
+                                                  ? selMessages[0].from_user_id
+                                                  : selMessages[0].to_user_id
+                                              );
 
-                          <button
-                            className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-sm hover:shadow-md shadow-rose-600 dark:shadow-yellow-300"
-                            onClick={() => {
-                              setActiveConversation(null);
-                              tempActiveConversation = null;
-                              if (socket.current) {
-                                setStatus("connected");
-                              }
-                              setMessagesToShow(5);
-                              socket?.current?.emit(
-                                "leaveChat",
-                                conversationsState[activeConversation]
-                                  .to_user_id
-                              );
-                            }}
-                          >
-                            Back
-                          </button>
+                                              setTimeout(() => {
+                                                socket?.current?.emit(
+                                                  "stopTyping",
+                                                  selMessages[0]
+                                                    .from_user_id !== user.id
+                                                    ? selMessages[0]
+                                                        .from_user_id
+                                                    : selMessages[0].to_user_id
+                                                );
+                                              }, 2000);
+                                              // handleTyping();
+                                            }}
+                                            id="message"
+                                            rows={1}
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </form>
+                                  <div className="flex flex-row gap-2 justify-end"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                      ) : (
-                        <div className="flex flex-row justify-between items-center m-2">
-                          <button
-                            className="bg-gray-200 dark:bg-gray-700 dark:text-gray-500 text-rose-900 rounded-md my-2 px-2 py-1 cursor-not-allowed"
-                            disabled
-                          >
-                            Send
-                          </button>
-                          <button
-                            className="bg-rose-300 dark:bg-emerald-900 dark:text-yellow-300 text-rose-900 rounded-md my-2 px-2 py-1 hover:bg-rose-400 hover:text-rose-900 dark:hover:bg-emerald-950 dark:hover:text-yellow-300 transition-transform duration-300 border-[0.2mm] dark:border-yellow-300 border-rose-300 shadow-md hover:shadow-md shadow-rose-400 dark:shadow-black"
-                            onClick={() => {
-                              setActiveConversation(null);
-                              tempActiveConversation = null;
-                              if (socket.current) {
-                                setStatus("connected");
-                              }
-                              setMessagesToShow(5);
-                              socket?.current?.emit(
-                                "leaveChat",
-                                conversationsState[activeConversation]
-                                  .to_user_id
-                              );
-                            }}
-                          >
-                            Back
-                          </button>
-                        </div>
-                      )}
-                    </form>
-                    <div className="flex flex-row gap-2 justify-end"></div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

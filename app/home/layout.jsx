@@ -4,9 +4,9 @@ import Footer from "../ui/Global/Footer/Footer";
 import { UserData } from "../lib/get_user_full";
 import { userData } from "../lib/actions";
 
-export default async function DashboardLayout({ children }) {
-  const user = await userData();
+const user = await userData();
 
+export default async function DashboardLayout({ children }) {
   let loading = false;
 
   return (

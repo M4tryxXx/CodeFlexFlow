@@ -7,7 +7,7 @@ import { UserData } from "../../../../lib/get_user_full";
 import { userData } from "../../../../lib/actions";
 
 export default async function MessagesPage() {
-  let currentUser = await UserData();
+  let currentUser = await userData();
   // console.log("currentUser: ", currentUser);
   // console.log("currentUser: ", currentUser);
   const sent_messages = currentUser?.sent_notifications;

@@ -1,16 +1,15 @@
+const { user } = require("@nextui-org/react");
 const { createServer } = require("http");
 const next = require("next");
 const { Server } = require("socket.io");
-const { prototype } = require("stream");
 
 const dev = process.env.NODE_ENV !== "production";
-const hostname = "codeflexflow.onrender.com";
-const port = process.env.PORT || 3000;
+const hostname = "172.20.10.2";
+const port = 3000;
 // when using middleware `hostname` and `port` must be provided below
-const app = next({ dev, hostname, prototype });
+const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
 const clients = new Map();
-const chats = new Map();
 let onlineUsers = 0;
 
 app.prepare().then(() => {
@@ -38,13 +37,32 @@ app.prepare().then(() => {
       inChat: true,
     });
 
+    const connectedUsers = Array.from(clients?.values())
+      .filter((client) => client.online)
+      .map((client) => ({
+        userId: client.socket.id,
+        username: client.user_name,
+      }));
+    socket.broadcast.emit("connectedUsers", connectedUsers);
+    // Broadcast the list of online users to all clients
+
     socket.broadcast.emit("onlineUsers", onlineUsers);
 
     // Handle request for user status
     socket.on("checkUserStatus", (receiverId) => {
       const recipient = clients.get(receiverId);
       // console.log(`User ${receiverId} is online: ${recipient.isOnline}`);
-      // console.log("recipient", recipient);
+      if (!recipient) {
+        socket.emit("userStatus", {
+          userId: receiverId,
+          user_name: "Unknown",
+          online: false,
+          inChat: false,
+          chatKey: "",
+        });
+
+        return;
+      }
       socket.emit("userStatus", {
         userId: receiverId,
         user_name: recipient.user_name,
@@ -74,14 +92,20 @@ app.prepare().then(() => {
     socket.on("typing", (receiverId) => {
       const recipient = clients.get(receiverId);
       if (recipient && recipient.online) {
-        recipient.socket.emit("typing", { fromUserId: senderId });
+        recipient.socket.emit("typing", {
+          fromUser: user_name,
+          to: receiverId,
+        });
       }
     });
 
     socket.on("stopTyping", (receiverId) => {
       const recipient = clients.get(receiverId);
       if (recipient && recipient.online) {
-        recipient.socket.emit("stopTyping", { fromUserId: senderId });
+        recipient.socket.emit("stopTyping", {
+          fromUser: user_name,
+          to: receiverId,
+        });
       }
     });
 
@@ -120,6 +144,19 @@ app.prepare().then(() => {
       });
     });
 
+    socket.on("getConnectedUsers", () => {
+      console.log("clients", clients);
+
+      const connectedUsers = Array.from(clients?.values())
+        .filter((client) => client.online)
+        .map((client) => ({
+          userId: client.socket.id,
+          username: client.user_name,
+        }));
+      console.log("connectedUsers", connectedUsers);
+      socket.emit("connectedUsers", connectedUsers);
+    });
+
     socket.on("disconnect", () => {
       clients.set(senderId, {
         user_name,
@@ -130,7 +167,16 @@ app.prepare().then(() => {
       });
       // console.log(`User ${senderId} disconnected`);
       onlineUsers--;
+      // Broadcast the updated list of online users to all clients
+      const connectedUsers = Array.from(clients?.values())
+        .filter((client) => client.online)
+        .map((client) => ({
+          userId: client.socket.id,
+          username: client.user_name,
+        }));
+
       socket.broadcast.emit("onlineUsers", onlineUsers);
+      socket.broadcast.emit("connectedUsers", connectedUsers);
       // Notify other users that this user is offline
 
       socket.broadcast.emit("userLogged", {
@@ -149,6 +195,6 @@ app.prepare().then(() => {
       process.exit(1);
     })
     .listen(port, () => {
-      console.log(`> Ready on http://${hostname}:${port}`);
+      console.log(`> Ready on https://${hostname}:${port}`);
     });
 });
