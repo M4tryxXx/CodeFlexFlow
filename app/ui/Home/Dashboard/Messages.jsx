@@ -870,7 +870,7 @@ export default function Messages({ messages_data, conversations }) {
                           <div className="-m-1.5 overflow-x-auto">
                             <div className="  inline-block align-middle">
                               <div
-                                className={`   fixed transition-all ease-in-out duration-500 bottom-0 left-0 w-[100vw] flex flex-col gap-2 bg-gray-500 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md border-[0.2mm] h-[100dvh] overflow-auto `}
+                                className={`   fixed transition-all ease-in-out duration-500 bottom-0 left-0 w-[100vw] flex flex-col gap-2 bg-gray-500 dark:bg-gray-800 md:rounded-lg rounded-md shadow-md h-[100dvh] overflow-auto `}
                                 // style={{ height: `${iosHV}px` }}
                               >
                                 <h1 className="text-2xl font-bold mb-4">
