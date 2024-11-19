@@ -125,5 +125,5 @@ export const sendMessageSchema = z.object({
   from: z.string(),
   to: z.string(),
   read: z.boolean().optional(),
-  created_at: z.string(),
+  created_at: z.string().optional(),
 });
